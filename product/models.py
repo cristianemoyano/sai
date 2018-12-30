@@ -77,6 +77,7 @@ class Product(models.Model):
     product_category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
     product_type = models.ForeignKey(ProductType, on_delete=models.CASCADE)
     product_status = models.ForeignKey(ProductStatus, on_delete=models.CASCADE)
+    image_url = models.CharField(max_length=200)
     created_date = models.DateTimeField(default=timezone.now)
     modified_date = models.DateTimeField(blank=True, null=True)
 
