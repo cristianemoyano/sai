@@ -21,7 +21,6 @@ class ProductStore(models.Model):
 class ProductCategory(models.Model):
     name = models.CharField(max_length=200)
     code = models.CharField(max_length=200)
-    parameter = models.IntegerField()
     description = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
     modified_date = models.DateTimeField(blank=True, null=True)
