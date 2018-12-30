@@ -11,6 +11,9 @@ superuser:
 run:
 	python3 manage.py runserver
 
+loaddata:
+	python3 manage.py loaddata product/migrations/0001_product.json
+
 deploy:
 	git checkout master
 	git pull origin master

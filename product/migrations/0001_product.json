@@ -1,0 +1,118 @@
+[
+	{
+		"model": "product.ProductType",
+		"pk": 1,
+		"fields": {
+			"name": "X1 - Alta rotación",
+			"code": "X1",
+			"parameter": 10,
+			"description": "X1 - Alta rotación - nunca debe faltar"
+		}
+	},
+	{
+		"model": "product.ProductType",
+		"pk": 2,
+		"fields": {
+			"name": "X2 - Alta rotación",
+			"code": "X2",
+			"parameter": 8,
+			"description": "X2 - Alta rotación - nunca debe faltar"
+		}
+	},
+	{
+		"model": "product.ProductType",
+		"pk": 3,
+		"fields": {
+			"name": "X3 - Media rotación",
+			"code": "X3",
+			"parameter": 5,
+			"description": "X3 - Media rotación"
+		}
+	},
+	{
+		"model": "product.ProductType",
+		"pk": 4,
+		"fields": {
+			"name": "X4 - Media rotación",
+			"code": "X4",
+			"parameter": 4,
+			"description": "X4 - Media rotación"
+		}
+	},
+	{
+		"model": "product.ProductType",
+		"pk": 5,
+		"fields": {
+			"name": "X5 - Baja rotación",
+			"code": "X5",
+			"parameter": 1,
+			"description": "X1 - Baja rotación - 1 venta cada 3 meses"
+		}
+	},
+	{
+		"model": "product.ProductType",
+		"pk": 6,
+		"fields": {
+			"name": "X6 - Baja rotación",
+			"code": "X6",
+			"parameter": 0,
+			"description": "X6 - Baja rotación - Ventas exclusivas a pedido - 1 venta cada 6 meses"
+		}
+  },
+  {
+		"model": "product.ProductStore",
+		"pk": 1,
+		"fields": {
+			"name": "D1 - E1 - C1",
+			"code": "D1-E1-C1",
+			"description": "Depósito 1 - Estante 1 - Caja 1"
+		}
+  },
+  {
+		"model": "product.ProductCategory",
+		"pk": 1,
+		"fields": {
+			"name": "Sensores",
+			"code": "sensor",
+			"description": "Sensores"
+		}
+  },
+  {
+		"model": "product.ProductStatus",
+		"pk": 1,
+		"fields": {
+			"name": "Disponible",
+			"code": "available",
+			"description": "Producto en stock"
+		}
+  },
+  {
+		"model": "product.ProductStatus",
+		"pk": 2,
+		"fields": {
+			"name": "No Disponible",
+			"code": "not_available",
+			"description": "No hay disponibilidad del producto"
+		}
+  },
+  {
+		"model": "product.Currency",
+		"pk": 1,
+		"fields": {
+			"name": "Peso Argentino",
+			"symbol": "$",
+      "code": "ARS",
+      "description": "Peso Argentino"
+		}
+  },
+  {
+		"model": "product.Currency",
+		"pk": 2,
+		"fields": {
+			"name": "Dólar Estadounidense",
+			"symbol": "$",
+      "code": "USD",
+      "description": "Dólar Estadounidense"
+		}
+	}
+]
