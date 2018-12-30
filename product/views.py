@@ -11,32 +11,41 @@ from .models import (
     Product,
     ProductCategory,
 )
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
+from django.contrib.auth.models import Permission
+
+class GroupRequiredMixin(object):
+    """
+        group_required - list of strings, required param
+    """
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            raise PermissionDenied
+        else:
+            permissions = Permission.objects.filter(user=request.user)
+            if not request.user.has_perm(permissions):
+                raise PermissionDenied
+        return super(GroupRequiredMixin, self).dispatch(request, *args, **kwargs)
 
 
+@login_required
 def dashboard(request):
     return render(request, 'product/dashboard.html', {})
 
 # Product CRUD
 
-class ProductList(ListView):
+class ProductList(LoginRequiredMixin, ListView):
+    model = Product
+    paginate_by = 10
+
+
+class ProductView(LoginRequiredMixin, DetailView):
     model = Product
 
 
-class ProductView(DetailView):
-    model = Product
-
-
-class ProductCreate(CreateView):
-    model = Product
-    success_url = reverse_lazy('product_list')
-    form_class = ProductForm
-
-    def form_valid(self, form):
-        form.instance.user_id = self.request.user.id
-        return super().form_valid(form)
-
-
-class ProductUpdate(UpdateView):
+class ProductCreate(LoginRequiredMixin, CreateView):
     model = Product
     success_url = reverse_lazy('product_list')
     form_class = ProductForm
@@ -46,7 +55,17 @@ class ProductUpdate(UpdateView):
         return super().form_valid(form)
 
 
-class ProductDelete(DeleteView):
+class ProductUpdate(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
+    model = Product
+    success_url = reverse_lazy('product_list')
+    form_class = ProductForm
+
+    def form_valid(self, form):
+        form.instance.user_id = self.request.user.id
+        return super().form_valid(form)
+
+
+class ProductDelete(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('product_list')
 
@@ -54,15 +73,16 @@ class ProductDelete(DeleteView):
 
 # ProductCategory CRUD
 
-class ProductCategoryList(ListView):
+class ProductCategoryList(LoginRequiredMixin, ListView):
     model = ProductCategory
+    paginate_by = 10
 
 
 class ProductCategoryView(DetailView):
     model = ProductCategory
 
 
-class ProductCategoryCreate(CreateView):
+class ProductCategoryCreate(LoginRequiredMixin, CreateView):
     model = ProductCategory
     success_url = reverse_lazy('product_category_list')
     form_class = ProductCategoryForm
@@ -72,7 +92,7 @@ class ProductCategoryCreate(CreateView):
         return super().form_valid(form)
 
 
-class ProductCategoryUpdate(UpdateView):
+class ProductCategoryUpdate(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
     model = ProductCategory
     success_url = reverse_lazy('product_category_list')
     form_class = ProductCategoryForm
@@ -82,7 +102,7 @@ class ProductCategoryUpdate(UpdateView):
         return super().form_valid(form)
 
 
-class ProductCategoryDelete(DeleteView):
+class ProductCategoryDelete(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
     model = ProductCategory
     success_url = reverse_lazy('product_category_list')
 

@@ -26,6 +26,8 @@ h-superuser:
 	heroku run python3 manage.py createsuperuser
 h-logs:
 	heroku logs --tail
+h-loaddata:
+	heroku run python3 manage.py loaddata product/migrations/0001_product.json
 
 new_release:
 	git checkout master
