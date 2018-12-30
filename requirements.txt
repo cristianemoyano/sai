@@ -11,12 +11,15 @@ coverage==4.5.1
 coveralls==1.5.0
 cryptography==2.3.1
 decorator==4.3.0
+dj-database-url==0.5.0
 Django==2.0.9
+django-postgres-copy==2.3.7
 docopt==0.6.2
 enum34==1.1.6
 eventbrite==3.3.3
 Flask==1.0.2
 funcsigs==1.0.2
+gunicorn==19.9.0
 idna==2.7
 ipaddress==1.0.22
 ipdb==0.11
@@ -42,6 +45,7 @@ Pygments==2.2.0
 pyOpenSSL==18.0.0
 pytest==3.8.2
 python-dateutil==2.7.3
+python-decouple==3.1
 python-dotenv==0.9.1
 pytz==2018.7
 requests==2.20.0
@@ -52,3 +56,4 @@ traitlets==4.3.2
 urllib3==1.23
 wcwidth==0.1.7
 Werkzeug==0.14.1
+whitenoise==4.1.2
