@@ -15,10 +15,20 @@ from .models import (
     ProductStore,
     Price,
 )
+from purchases.models import (
+    Provider,
+    Purchase,
+)
+from sales.models import (
+    Customer,
+    Order,
+)
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.models import Permission
+
+from django.db.models import Sum
 
 class GroupRequiredMixin(object):
     """
@@ -36,7 +46,34 @@ class GroupRequiredMixin(object):
 
 @login_required
 def dashboard(request):
-    return render(request, 'product/dashboard.html', {})
+    products = Product.objects.all().count()
+    providers = Provider.objects.all().count()
+    customers = Customer.objects.all().count()
+    purchases = Purchase.objects.all().count()
+    orders = Order.objects.all().count()
+    orders_sum = Order.objects.aggregate(Sum('paid_amount'))
+    purchases_sum = Purchase.objects.aggregate(Sum('paid_amount'))
+    
+    purchases_amount = purchases_sum.get('paid_amount__sum')
+    orders_amount = orders_sum.get('paid_amount__sum')
+
+    if not purchases_amount:
+        purchases_amount = 0
+    if not orders_amount:
+        orders_amount = 0
+
+    context = {
+        'products': products,
+        'providers': providers,
+        'customers': customers,
+        'purchases': purchases,
+        'orders': orders,
+        'orders_amount': orders_amount,
+        'purchases_amount': purchases_amount
+    }
+
+
+    return render(request, 'product/dashboard.html', context)
 
 # Product CRUD
 

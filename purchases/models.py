@@ -53,7 +53,7 @@ class Provider(models.Model):
         self.save()
 
     def __str__(self):
-        return self.name
+        return self.first_name + ' ' + self.last_name
 
 
 class Purchase(models.Model):
@@ -77,7 +77,7 @@ class Purchase(models.Model):
         self.save()
 
     def __str__(self):
-        return self.user
+        return self.provider.__str__()
 
 
 class PurchaseItem(models.Model):
