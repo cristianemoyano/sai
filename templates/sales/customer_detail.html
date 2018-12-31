@@ -1,0 +1,61 @@
+{% extends 'base2.html' %}
+{% block content %}
+<!-- HEADER -->
+<div class="header">
+        <div class="container-fluid">
+    
+          <!-- Body -->
+          <div class="header-body">
+            <div class="row align-items-end">
+              <div class="col">
+                
+                <!-- Pretitle -->
+                <h6 class="header-pretitle">
+                    Detalle
+                </h6>
+    
+                <!-- Title -->
+                <h1 class="header-title">
+                  Cliente: {{object.id}}
+                </h1>
+    
+              </div>
+              <a class="btn btn-danger" href="{% url "customer_list" %}">< Volver</a>
+              <div class="col-auto">
+                  
+                
+    
+    
+              </div>
+            </div> <!-- / .row -->
+          </div> <!-- / .header-body -->
+    
+        </div>
+      </div> <!-- / .header -->
+    
+        <!-- CARDS -->
+        <div class="container-fluid">
+            <div class="row">
+              <div class="col-12 col-lg-6 col-xl">
+
+<h2>Cliente: {{object}}</h2>
+<h2>Móvil: {{object.mobile_number}}</h2>
+<h2>Tel. de trabajo: {{object.work_number}}</h2>
+<h2>Email: {{object.email}}</h2>
+<h2>Empresa: {{object.company}}</h2>
+<h2>Página WEB: {{object.web_url}}</h2>
+<h2>País: {{object.country}}</h2>
+<h2>Provincia: {{object.region}}</h2>
+<h2>Ciudad: {{object.city}}</h2>
+<h2>Cód. Postal: {{object.zip_code}}</h2>
+<h2>Dirección 1: {{object.street_address_1}}</h2>
+<h2>Dirección 2: {{object.street_address_2}}</h2>
+<h2>Observaciones en la dirección: {{object.address_note}}</h2>
+<h2>Nota adicional: {{object.additional_notes}}</h2>
+<h2>Ingreso: {{object.created_date}}</h2>
+
+
+</div>
+</div>
+</div>
+{% endblock %}

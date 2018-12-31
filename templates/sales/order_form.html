@@ -1,0 +1,59 @@
+{% extends 'base2.html' %}
+{% block content %}
+<!-- HEADER -->
+<div class="header">
+        <div class="container-fluid">
+    
+          <!-- Body -->
+          <div class="header-body">
+            <div class="row align-items-end">
+              <div class="col">
+                
+                <!-- Pretitle -->
+                <h6 class="header-pretitle">
+                    Listado
+                </h6>
+    
+                <!-- Title -->
+                <h1 class="header-title">
+                  Órden
+                </h1>
+    
+              </div>
+              <a class="btn btn-danger" href="{% url "order_list" %}">< Volver</a>
+              <div class="col-auto">
+                  
+                
+    
+    
+              </div>
+            </div> <!-- / .row -->
+          </div> <!-- / .header-body -->
+    
+        </div>
+      </div> <!-- / .header -->
+    
+        <!-- CARDS -->
+        <div class="container-fluid">
+            <div class="row">
+              <div class="col-12 col-lg-6 col-xl">
+                    <div class="form-group">
+
+<form method="post">{% csrf_token %}
+    {% for field in form %}
+    <div class="form-group">
+        {{ field.errors }}
+        {{ field.label_tag }} {{ field }}
+        {% if field.help_text %}
+        <p class="help">{{ field.help_text|safe }}</p>
+        {% endif %}
+    </div>
+    {% endfor %}
+    <input class="btn btn-danger" type="submit" value="Agregar" />
+</form>
+</div>
+</div>
+</div> 
+</div>
+
+{% endblock %}

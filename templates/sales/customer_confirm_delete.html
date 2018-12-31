@@ -1,0 +1,45 @@
+{% extends 'base2.html' %}
+{% block content %}
+<!-- HEADER -->
+<div class="header">
+        <div class="container-fluid">
+    
+          <!-- Body -->
+          <div class="header-body">
+            <div class="row align-items-end">
+              <div class="col">
+                
+                <!-- Pretitle -->
+                <h6 class="header-pretitle">
+                    Listado
+                </h6>
+    
+                <!-- Title -->
+                <h1 class="header-title">
+                  Eliminar a: "{{ object }}"
+                </h1>
+    
+              </div>
+              <a class="btn btn-danger" href="{% url "customer_list" %}">< Volver</a>
+              <div class="col-auto">
+                  
+                
+    
+    
+              </div>
+            </div> <!-- / .row -->
+          </div> <!-- / .header-body -->
+    
+        </div>
+      </div> <!-- / .header -->
+    
+        <!-- CARDS -->
+        <div class="container-fluid">
+            <div class="row">
+              <div class="col-12 col-lg-6 col-xl">
+<form method="post">{% csrf_token %}
+    <h1>¿ Estás seguro que quieres eliminar a  "{{ object }}" ?</h1>
+    <a class="btn btn-primary" href="{% url "customer_list" %}">No, volver</a></Volver>
+    <input class="btn btn-danger" type="submit" value="Sí, eliminar" />
+</form>
+{% endblock %}

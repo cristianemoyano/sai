@@ -25,23 +25,9 @@ from sales.models import (
 )
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import PermissionDenied
-from django.contrib.auth.models import Permission
 
 from django.db.models import Sum
-
-class GroupRequiredMixin(object):
-    """
-        group_required - list of strings, required param
-    """
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            raise PermissionDenied
-        else:
-            permissions = Permission.objects.filter(user=request.user)
-            if not request.user.has_perm(permissions):
-                raise PermissionDenied
-        return super(GroupRequiredMixin, self).dispatch(request, *args, **kwargs)
+from main.auth import GroupRequiredMixin
 
 
 @login_required
