@@ -1,0 +1,40 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="SAI - Sistema de Administración Integral">
+    <meta name="author" content="Cristian Moyano">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Libs CSS -->
+
+    <link rel="stylesheet" href="https://dashkit.goodthemes.co/assets/fonts/feather/feather.min.css">
+    
+    <link rel="stylesheet" href="{% static "css/signin.css" %}">
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="https://dashkit.goodthemes.co/assets/css/theme.min.css" id="stylesheetLight">	
+ 
+    <link rel="stylesheet" href="https://dashkit.goodthemes.co/assets/css/theme-dark.min.css" id="stylesheetDark">
+
+    <title>SAI</title>
+    
+  </head>
+  <body>
+
+    <!-- MAIN CONTENT
+    ================================================== -->
+    <div class="main-content"> 
+            {% block content %}
+            {% endblock %}
+    </div> <!-- / .main-content -->
+
+    <!-- JAVASCRIPT
+    ================================================== -->
+    <!-- Libs JS -->
+    <script src="{% static "js/jquery.min.js" %}"></script>
+    <script src="{% static "js/bootstrap.bundle.min.js" %}"></script>
+  </body>
+</html>
