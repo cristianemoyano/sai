@@ -23,4 +23,11 @@ urlpatterns = [
     path('store/view/<int:pk>', views.ProductStoreView.as_view(), name='product_store_view'),
     path('store/edit/<int:pk>', views.ProductStoreUpdate.as_view(), name='product_store_edit'),
     path('store/delete/<int:pk>', views.ProductStoreDelete.as_view(), name='product_store_delete'),
+    # Price
+    path('price', views.PriceList.as_view(), name='product_price_list'),
+    path('price/view/<int:pk>', views.PriceView.as_view(), name='product_price_view'),
+    path('price/new', views.PriceCreate.as_view(), name='product_price_new'),
+    path('price/view/<int:pk>', views.PriceView.as_view(), name='product_price_view'),
+    path('price/edit/<int:pk>', views.PriceUpdate.as_view(), name='product_price_edit'),
+    path('price/delete/<int:pk>', views.PriceDelete.as_view(), name='product_price_delete'),
 ]

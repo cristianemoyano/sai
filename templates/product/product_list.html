@@ -42,6 +42,10 @@
                               <thead class="thead-light">
                                   <tr>
                                   <th>Nombre</th>
+                                  <th>En stock</th>
+                                  <th>Depóstivo/Ubicación</th>
+                                  <th>Categoría</th>
+                                  <th>Estado</th>
                                   <th>Acciones</th>
                                   </tr>
                               </thead>
@@ -49,6 +53,10 @@
                                   {% for product in object_list %}
                                   <tr>
                                   <td>{{ product.name }}</td>
+                                  <td>{{ product.stock }}</td>
+                                  <td>{{ product.product_store }}</td>
+                                  <td>{{ product.product_category }}</td>
+                                  <td>{{ product.product_status }}</td>
                                   <td>
                                       <a class="btn btn-sm btn-primary" href="{% url "product_view" product.id %}">Ver</a>
                                       <a class="btn btn-sm btn-primary" href="{% url "product_edit" product.id %}">Editar</a>
@@ -59,27 +67,32 @@
                               </tbody>
                           </table>
                           </div> 
-          {% if is_paginated %}
-            <ul class="pagination">
-              {% if page_obj.has_previous %}
-                <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
-              {% else %}
-                <li class="disabled"><span>&laquo;</span></li>
-              {% endif %}
-              {% for i in paginator.page_range %}
-                {% if page_obj.number == i %}
-                  <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-                {% else %}
-                  <li><a href="?page={{ i }}">{{ i }}</a></li>
-                {% endif %}
-              {% endfor %}
-              {% if page_obj.has_next %}
-                <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
-              {% else %}
-                <li class="disabled"><span>&raquo;</span></li>
-              {% endif %}
-            </ul>
-          {% endif %}
+          
+                          
+                          <nav aria-label="Page navigation example">
+                              {% if is_paginated %}
+                                <ul class="pagination">
+                                  {% if page_obj.has_previous %}
+                                  <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                                  {% else %}
+                                    <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                                  {% endif %}
+                                  {% for i in paginator.page_range %}
+                                    {% if page_obj.number == i %}
+                                    <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+                                    {% else %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                                    {% endif %}
+                                  {% endfor %}
+                                  {% if page_obj.has_next %}
+                                  <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                                  {% else %}
+                                  <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                                  {% endif %}
+                                </ul>
+                              {% endif %}
+                              </nav>
+
     </div>
     </div> 
     </div>

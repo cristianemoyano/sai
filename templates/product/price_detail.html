@@ -1,0 +1,50 @@
+{% extends 'base2.html' %}
+{% block content %}
+<!-- HEADER -->
+<div class="header">
+        <div class="container-fluid">
+    
+          <!-- Body -->
+          <div class="header-body">
+            <div class="row align-items-end">
+              <div class="col">
+                
+                <!-- Pretitle -->
+                <h6 class="header-pretitle">
+                    Detalle
+                </h6>
+    
+                <!-- Title -->
+                <h1 class="header-title">
+                  Detalle del precio: {{object.name}}
+                </h1>
+    
+              </div>
+              <a class="btn btn-danger" href="{% url "product_price_list" %}">< Volver</a>
+              <div class="col-auto">
+                  
+                
+    
+    
+              </div>
+            </div> <!-- / .row -->
+          </div> <!-- / .header-body -->
+    
+        </div>
+      </div> <!-- / .header -->
+    
+        <!-- CARDS -->
+        <div class="container-fluid">
+            <div class="row">
+              <div class="col-12 col-lg-6 col-xl">
+<h2>Producto: {{object.product.name}}</h2>
+<h2>Costo: {{ object.currency.code }}{{ object.currency.symbol }} {{ object.cost_price }}</h2>
+<h2>Precio de lista: {{ object.currency.code }}{{ object.currency.symbol }} {{ object.list_price }}</h2>
+<h2>Precio A: {{ object.currency.code }}{{ object.currency.symbol }} {{ object.price_a }}</h2>
+<h2>Precio B: {{ object.currency.code }}{{ object.currency.symbol }} {{ object.price_b }}</h2>
+<h2>Precio C: {{ object.currency.code }}{{ object.currency.symbol }} {{ object.price_c }}</h2>
+<h2>Fecha de creación: {{ object.created_date }} </h2>
+</div>
+</div>
+</div>
+{% endblock %}

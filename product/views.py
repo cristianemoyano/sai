@@ -4,6 +4,7 @@ from .forms import (
     ProductForm,
     ProductCategoryForm,
     ProductStoreForm,
+    PriceForm,
 )
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
@@ -12,6 +13,7 @@ from .models import (
     Product,
     ProductCategory,
     ProductStore,
+    Price,
 )
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
@@ -89,9 +91,6 @@ class ProductCategoryCreate(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('product_category_list')
     form_class = ProductCategoryForm
 
-    def form_valid(self, form):
-        form.instance.user_id = self.request.user.id
-        return super().form_valid(form)
 
 
 class ProductCategoryUpdate(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
@@ -126,10 +125,6 @@ class ProductStoreCreate(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('product_store_list')
     form_class = ProductStoreForm
 
-    def form_valid(self, form):
-        form.instance.user_id = self.request.user.id
-        return super().form_valid(form)
-
 
 class ProductStoreUpdate(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
     model = ProductStore
@@ -146,3 +141,40 @@ class ProductStoreDelete(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('product_store_list')
 
 # END ProductStore CRUD
+
+# Price CRUD
+
+class PriceList(LoginRequiredMixin, ListView):
+    model = Price
+    paginate_by = 10
+
+
+class PriceView(DetailView):
+    model = Price
+
+
+class PriceCreate(LoginRequiredMixin, CreateView):
+    model = Price
+    success_url = reverse_lazy('product_price_list')
+    form_class = PriceForm
+
+    def form_valid(self, form):
+        form.instance.user_id = self.request.user.id
+        return super().form_valid(form)
+
+
+class PriceUpdate(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
+    model = Price
+    success_url = reverse_lazy('product_price_list')
+    form_class = PriceForm
+
+    def form_valid(self, form):
+        form.instance.user_id = self.request.user.id
+        return super().form_valid(form)
+
+
+class PriceDelete(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
+    model = Price
+    success_url = reverse_lazy('product_price_list')
+
+# END Price CRUD

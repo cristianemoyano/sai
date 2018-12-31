@@ -3,6 +3,8 @@ from django import forms
 from .models import (
     Product,
     ProductCategory,
+    ProductStore,
+    Price,
 )
 
 class ProductForm(forms.ModelForm):
@@ -36,9 +38,23 @@ class ProductCategoryForm(forms.ModelForm):
 class ProductStoreForm(forms.ModelForm):
 
     class Meta:
-        model = ProductCategory
+        model = ProductStore
         fields = [
             'name',
             'code',
             'description',
+        ]
+
+class PriceForm(forms.ModelForm):
+
+    class Meta:
+        model = Price
+        fields = [
+            'product',
+            'currency',
+            'cost_price',
+            'list_price',
+            'price_a',
+            'price_b',
+            'price_c',
         ]
