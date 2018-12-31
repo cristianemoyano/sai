@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Product</h1>
+
+<table border="1">
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Actions</th>
+    </tr>
+</thead>
+<tbody>
+    {% for product_category in object_list %}
+    <tr>
+    <td>{{ product_category.name }}</td>
+    <td>
+        <a href="{% url "product_category_view" product_category.id %}">view</a>
+        <a href="{% url "product_category_edit" product_category.id %}">edit</a>
+        <a href="{% url "product_category_delete" product_category.id %}">delete</a>
+    </td>
+    </tr>
+    {% endfor %}
+</tbody>
+</table>
+{% if is_paginated %}
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+      <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in paginator.page_range %}
+      {% if page_obj.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+      <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+
+<a href="{% url "product_category_new" %}">New</a>
+{% endblock %}

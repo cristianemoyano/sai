@@ -1,3 +1,5 @@
+{% extends 'base.html' %}
+{% block content %}
 <h1>Product Details</h1>
 <h2>Name: {{object.name}}</h2>
 <h2>reference_code: {{object.reference_code}}</h2>
@@ -10,3 +12,4 @@
 <h2>product_type: {{object.product_type}}</h2>
 <h2>product_status: {{object.product_status}}</h2>
 <h2>product_status: {{object.image_url}}</h2>
+{% endblock %}

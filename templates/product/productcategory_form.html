@@ -1,4 +1,6 @@
-<h1>Product Edit</h1>
+{% extends 'base.html' %}
+{% block content %}
+<h1>Product Category Edit</h1>
 <form method="post">{% csrf_token %}
     {% for field in form %}
     <div class="fieldWrapper">
@@ -11,3 +13,4 @@
     {% endfor %}
     <input type="submit" value="Submit" />
 </form>
+{% endblock %}
