@@ -107,7 +107,7 @@ class Customer(models.Model):
         self.save()
 
     def __str__(self):
-        return self.name
+        return self.first_name + ' ' + self.last_name
 
 
 class Order(models.Model):
@@ -131,7 +131,7 @@ class Order(models.Model):
         self.save()
 
     def __str__(self):
-        return self.user
+        return self.customer.__str__()
 
 
 class OrderItem(models.Model):
