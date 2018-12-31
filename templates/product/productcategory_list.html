@@ -1,12 +1,48 @@
-{% extends 'base.html' %}
+{% extends 'base2.html' %}
 {% block content %}
-<h1>Product</h1>
+<!-- HEADER -->
+<div class="header">
+    <div class="container-fluid">
 
-<table border="1">
-<thead>
+      <!-- Body -->
+      <div class="header-body">
+        <div class="row align-items-end">
+          <div class="col">
+            
+            <!-- Pretitle -->
+            <h6 class="header-pretitle">
+                Listado
+            </h6>
+
+            <!-- Title -->
+            <h1 class="header-title">
+              Categorías
+            </h1>
+
+          </div>
+          <a class="btn btn-danger" href="{% url "product_category_new" %}">Agregar Categoría</a>
+          <div class="col-auto">
+              
+            
+
+
+          </div>
+        </div> <!-- / .row -->
+      </div> <!-- / .header-body -->
+
+    </div>
+  </div> <!-- / .header -->
+
+    <!-- CARDS -->
+    <div class="container-fluid">
+        <div class="row">
+          <div class="col-12 col-lg-6 col-xl">
+              <div class="table-responsive">
+                  <table class="table table-bordered table-sm">
+                      <thead class="thead-light">
     <tr>
-    <th>Name</th>
-    <th>Actions</th>
+    <th>Nombre</th>
+    <th>Acciones</th>
     </tr>
 </thead>
 <tbody>
@@ -14,9 +50,9 @@
     <tr>
     <td>{{ product_category.name }}</td>
     <td>
-        <a href="{% url "product_category_view" product_category.id %}">view</a>
-        <a href="{% url "product_category_edit" product_category.id %}">edit</a>
-        <a href="{% url "product_category_delete" product_category.id %}">delete</a>
+        <a class="btn btn-sm btn-primary" href="{% url "product_category_view" product_category.id %}">view</a>
+        <a class="btn btn-sm btn-primary" href="{% url "product_category_edit" product_category.id %}">edit</a>
+        <a class="btn btn-sm btn-danger" href="{% url "product_category_delete" product_category.id %}">delete</a>
     </td>
     </tr>
     {% endfor %}
@@ -44,5 +80,7 @@
   </ul>
 {% endif %}
 
-<a href="{% url "product_category_new" %}">New</a>
+</div>
+</div>
+</div>
 {% endblock %}

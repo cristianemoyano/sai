@@ -1,9 +1,55 @@
-{% extends 'base.html' %}
+{% extends 'base_login.html' %}
 {% block content %}
-<h2>Login</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Login</button>
-</form>
+<!-- HEADER -->
+<div class="header">
+    <div class="container-fluid">
+
+      <!-- Body -->
+      <div class="header-body">
+        <div class="row align-items-end">
+          <div class="col">
+            
+
+
+            <!-- Title -->
+            <h1 class="header-title">
+              <center>SAI</center>
+              <br>
+            </h1>
+            <!-- Pretitle -->
+            <h6 class="header-pretitle">
+            Sistema de Administración Integral
+            </h6>
+          </div>
+        </div> <!-- / .row -->
+      </div> <!-- / .header-body -->
+
+    </div>
+  </div> <!-- / .header -->
+
+    <!-- CARDS -->
+    <div class="container-fluid">
+        <div class="row">
+          <div class="col-12 col-lg-6 col-xl">
+
+
+              <form method="post" class="form-signin">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Usuario</label>
+                    <input type="text" class="form-control" id="id_username" name="username" placeholder="Usuario" required>
+                    <small id="emailHelp" class="form-text text-muted">Ingrese su usuario.</small>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Contraseña</label>
+                    <input type="password" class="form-control" id="id_password"  name="password" placeholder="Contraseña" required>
+                    <small id="emailHelp" class="form-text text-muted">Ingrese su contraseña.</small>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Iniciar</button>
+                </form>
+          </div>
+        </div>
+    </div>
+
+    
 {% endblock %}
