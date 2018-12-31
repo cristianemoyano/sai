@@ -11,16 +11,16 @@
                 
                 <!-- Pretitle -->
                 <h6 class="header-pretitle">
-                    Formulario
+                    Detalle
                 </h6>
     
                 <!-- Title -->
                 <h1 class="header-title">
-                  Categoría
+                  Eliminar depósito: {{object.name}}
                 </h1>
     
               </div>
-              <a class="btn btn-danger" href="{% url "product_category_list" %}">< Volver</a>
+              <a class="btn btn-danger" href="{% url "product_store_list" %}">< Volver</a>
               <div class="col-auto">
                   
                 
@@ -38,18 +38,8 @@
             <div class="row">
               <div class="col-12 col-lg-6 col-xl">
 <form method="post">{% csrf_token %}
-    {% for field in form %}
-    <div class="form-group">
-        {{ field.errors }}
-        {{ field.label_tag }} {{ field }}
-        {% if field.help_text %}
-        <p class="help">{{ field.help_text|safe }}</p>
-        {% endif %}
-    </div>
-    {% endfor %}
-    <input class="btn btn-primary" type="submit" value="Cargar" />
+    <h1>¿Estás seguro que deseas eliminar al depósito "{{ object }}" ?</h1>
+    <a class="btn btn-primary" href="{% url "product_store_list" %}">No, volver</a></Volver>
+    <input class="btn btn-danger" type="submit" value="Sí, eliminar" />
 </form>
-</div>
-</div>
-</div>
 {% endblock %}
