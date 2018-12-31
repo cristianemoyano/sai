@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Productos</h1>
+            <!-- <div class="btn-toolbar mb-2 mb-md-0">
+                <div class="btn-group mr-2">
+                <button class="btn btn-sm btn-outline-secondary">Share</button>
+                <button class="btn btn-sm btn-outline-secondary">Export</button>
+                </div>
+                <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
+                <span data-feather="calendar"></span>
+                This week
+                </button>
+            </div> -->
+            </div>
+
+    
+              <h2>Lista</h2>
+              <div class="table-responsive">
+                <table class="table table-bordered table-sm">
+                    <thead class="thead-dark">
+                        <tr>
+                        <th>Name</th>
+                        <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in object_list %}
+                        <tr>
+                        <td>{{ product.name }}</td>
+                        <td>
+                            <a href="{% url "product_view" product.id %}">view</a>
+                            <a href="{% url "product_edit" product.id %}">edit</a>
+                            <a href="{% url "product_delete" product.id %}">delete</a>
+                        </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                </div> 
+{% if is_paginated %}
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+      <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in paginator.page_range %}
+      {% if page_obj.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+      <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+
+<a href="{% url "product_new" %}">New</a>
+{% endblock %}
