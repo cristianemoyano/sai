@@ -3,6 +3,7 @@ from django.views.generic import ListView, DetailView
 from .forms import (
     ProductForm,
     ProductCategoryForm,
+    ProductStoreForm,
 )
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
@@ -10,6 +11,7 @@ from django.urls import reverse_lazy
 from .models import (
     Product,
     ProductCategory,
+    ProductStore,
 )
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
@@ -107,3 +109,40 @@ class ProductCategoryDelete(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('product_category_list')
 
 # END ProductCategory CRUD
+
+# ProductStore CRUD
+
+class ProductStoreList(LoginRequiredMixin, ListView):
+    model = ProductStore
+    paginate_by = 10
+
+
+class ProductStoreView(DetailView):
+    model = ProductStore
+
+
+class ProductStoreCreate(LoginRequiredMixin, CreateView):
+    model = ProductStore
+    success_url = reverse_lazy('product_store_list')
+    form_class = ProductStoreForm
+
+    def form_valid(self, form):
+        form.instance.user_id = self.request.user.id
+        return super().form_valid(form)
+
+
+class ProductStoreUpdate(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
+    model = ProductStore
+    success_url = reverse_lazy('product_store_list')
+    form_class = ProductStoreForm
+
+    def form_valid(self, form):
+        form.instance.user_id = self.request.user.id
+        return super().form_valid(form)
+
+
+class ProductStoreDelete(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
+    model = ProductStore
+    success_url = reverse_lazy('product_store_list')
+
+# END ProductStore CRUD

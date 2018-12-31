@@ -11,16 +11,16 @@
                 
                 <!-- Pretitle -->
                 <h6 class="header-pretitle">
-                    Formulario
+                    Detalle
                 </h6>
     
                 <!-- Title -->
                 <h1 class="header-title">
-                  Categoría
+                  Detalle del depósito: {{object.name}}
                 </h1>
     
               </div>
-              <a class="btn btn-danger" href="{% url "product_category_list" %}">< Volver</a>
+              <a class="btn btn-danger" href="{% url "product_store_list" %}">< Volver</a>
               <div class="col-auto">
                   
                 
@@ -37,18 +37,9 @@
         <div class="container-fluid">
             <div class="row">
               <div class="col-12 col-lg-6 col-xl">
-<form method="post">{% csrf_token %}
-    {% for field in form %}
-    <div class="form-group">
-        {{ field.errors }}
-        {{ field.label_tag }} {{ field }}
-        {% if field.help_text %}
-        <p class="help">{{ field.help_text|safe }}</p>
-        {% endif %}
-    </div>
-    {% endfor %}
-    <input class="btn btn-primary" type="submit" value="Cargar" />
-</form>
+<h2>Nombre: {{object.name}}</h2>
+<h2>Código: {{object.code}}</h2>
+<h2>Descripción: {{object.description}}</h2>
 </div>
 </div>
 </div>

@@ -32,3 +32,13 @@ class ProductCategoryForm(forms.ModelForm):
             'code',
             'description',
         ]
+
+class ProductStoreForm(forms.ModelForm):
+
+    class Meta:
+        model = ProductCategory
+        fields = [
+            'name',
+            'code',
+            'description',
+        ]

@@ -16,11 +16,11 @@
 
             <!-- Title -->
             <h1 class="header-title">
-              Categorías
+              Depósitos
             </h1>
 
           </div>
-          <a class="btn btn-danger" href="{% url "product_category_new" %}">Agregar Categoría</a>
+          <a class="btn btn-danger" href="{% url "product_store_new" %}">Agregar Depósito</a>
           <div class="col-auto">
               
             
@@ -46,13 +46,13 @@
     </tr>
 </thead>
 <tbody>
-    {% for product_category in object_list %}
+    {% for product_store in object_list %}
     <tr>
-    <td>{{ product_category.name }}</td>
+    <td>{{ product_store.name }}</td>
     <td>
-        <a class="btn btn-sm btn-primary" href="{% url "product_category_view" product_category.id %}">Ver</a>
-        <a class="btn btn-sm btn-primary" href="{% url "product_category_edit" product_category.id %}">Editar</a>
-        <a class="btn btn-sm btn-danger" href="{% url "product_category_delete" product_category.id %}">Eliminar</a>
+        <a class="btn btn-sm btn-primary" href="{% url "product_store_view" product_store.id %}">Ver</a>
+        <a class="btn btn-sm btn-primary" href="{% url "product_store_edit" product_store.id %}">Editar</a>
+        <a class="btn btn-sm btn-danger" href="{% url "product_store_delete" product_store.id %}">Eliminar</a>
     </td>
     </tr>
     {% endfor %}
