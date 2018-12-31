@@ -1,0 +1,55 @@
+{% extends 'base2.html' %}
+{% block content %}
+<!-- HEADER -->
+<div class="header">
+        <div class="container-fluid">
+    
+          <!-- Body -->
+          <div class="header-body">
+            <div class="row align-items-end">
+              <div class="col">
+                
+                <!-- Pretitle -->
+                <h6 class="header-pretitle">
+                    Detalle
+                </h6>
+    
+                <!-- Title -->
+                <h1 class="header-title">
+                  Detalle de la Orden: {{object.id}}
+                </h1>
+    
+              </div>
+              <a class="btn btn-danger" href="{% url "order_list" %}">< Volver</a>
+              <div class="col-auto">
+                  
+                
+    
+    
+              </div>
+            </div> <!-- / .row -->
+          </div> <!-- / .header-body -->
+    
+        </div>
+      </div> <!-- / .header -->
+    
+        <!-- CARDS -->
+        <div class="container-fluid">
+            <div class="row">
+              <div class="col-12 col-lg-6 col-xl">
+
+<h2>Cliente: {{object.customer}}</h2>
+<h2>Notas adicionales: {{object.additional_notes}}</h2>
+<h2>Importe bruto: {{object.gross_amount}}</h2>
+<h2>Impuestos: {{object.tax}}</h2>
+<h2>Descuento: {{object.discount}}</h2>
+<h2>Envío: {{object.shipping}}</h2>
+<h2>Monto pagado: {{object.paid_amount}}</h2>
+<h2>Estado: {{object.status}}</h2>
+<h2>Método de pago: {{object.payment_method}}</h2>
+<h2>Moneda: {{object.currency}}</h2>
+<h2>URL de la factura: {{object.invoice_url}}</h2>
+</div>
+</div>
+</div>
+{% endblock %}

@@ -131,7 +131,7 @@ class Order(models.Model):
         self.save()
 
     def __str__(self):
-        return self.customer.__str__()
+        return '#' + str(self.id)
 
 
 class OrderItem(models.Model):
