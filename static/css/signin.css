@@ -47,3 +47,157 @@ body {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+#A_1 {
+  color: rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  display: inline-block;
+  height: fixed;
+  text-decoration: none;
+  text-rendering: optimizeLegibility;
+  width: fixed;
+  perspective-origin: 65.9375px 17px;
+  transform-origin: 65.9375px 17px;
+  background: rgba(255, 255, 255, 0.972549) none repeat scroll 0% 0% / auto padding-box border-box;
+  border: 1.33333337306976px solid rgb(240, 240, 240);
+  border-radius: 3px 3px 3px 3px;
+  font: normal normal normal normal 13px/22px medium-ui-font, medium-content-sans-serif-font, 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Geneva, Verdana, sans-serif;
+  margin: 0px 8px 8px 0px;
+  outline: rgba(0, 0, 0, 0.6) none 0px;
+  padding: 5px 10px;
+}/*#A_1*/
+.sidebar .tags--postTags {
+  margin-top: 18px;
+  margin-bottom: 40px;
+}
+.tags {
+  font-size: 12px;
+  font-family: "medium-ui-font","medium-content-sans-serif-font","Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Verdana,sans-serif;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  font-style: normal;
+}
+.tags--postTags.tags--light>a, .tags--postTags.tags--light .tag-button {
+  color: rgba(0,0,0,0.6);
+  background: rgba(255,255,255,0.97);
+}
+.tags--postTags>a, .tags--postTags>.button, .tags--postTags .tag-button {
+  font-family: "medium-ui-font","medium-content-sans-serif-font","Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Verdana,sans-serif;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  font-style: normal;
+  color: rgba(0,0,0,0.44);
+  font-size: 13px;
+  letter-spacing: 0;
+  text-decoration: none;
+  background: #fafafa;
+  border-radius: 3px;
+  border: 1px solid #f0f0f0;
+  padding: 5px 10px;
+}
+.tags--postTags>a, .tags--postTags>.button, .tags--postTags .tag-token {
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+.tags>a, .tags .tag-button {
+  color: #fff;
+  background: rgba(255,255,255,0.35);
+  border-radius: 10px;
+  padding: 0 9px;
+  line-height: 22px;
+}
+.tags>a, .tags .tag-token {
+  display: inline-block;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+.link {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+a, button, input {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+a {
+  background-color: transparent;
+}
+user agent stylesheeta:-webkit-any-link {
+  color: -webkit-link;
+  text-decoration: underline;
+  cursor: auto;
+}
+Inherited from 
+.tags {
+  font-size: 12px;
+  font-family: "medium-ui-font","medium-content-sans-serif-font","Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Verdana,sans-serif;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.tags--postTags.tags--light>a, .tags--postTags.tags--light .tag-button {
+  color: rgba(0,0,0,0.6);
+  background: rgba(255,255,255,0.97);
+}
+.tags--postTags>a, .tags--postTags>.button, .tags--postTags .tag-button {
+  font-family: "medium-ui-font","medium-content-sans-serif-font","Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Verdana,sans-serif;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  font-style: normal;
+  color: rgba(0,0,0,0.44);
+  font-size: 13px;
+  letter-spacing: 0;
+  text-decoration: none;
+  background: #fafafa;
+  border-radius: 3px;
+  border: 1px solid #f0f0f0;
+  padding: 5px 10px;
+}
+.tags--postTags>a, .tags--postTags>.button, .tags--postTags .tag-token {
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+.tags>a, .tags .tag-button {
+  color: #fff;
+  background: rgba(255,255,255,0.35);
+  border-radius: 10px;
+  padding: 0 9px;
+  line-height: 22px;
+}
+.tags>a, .tags .tag-token {
+  display: inline-block;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+.link {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+a, button, input {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+a {
+  background-color: transparent;
+}
+user agent stylesheeta:-webkit-any-link {
+  color: -webkit-link;
+  text-decoration: underline;
+  cursor: auto;
+}
+Inherited from 
+.tags {
+  font-size: 12px;
+  font-family: "medium-ui-font","medium-content-sans-serif-font","Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Verdana,sans-serif;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  font-style: normal;
+}
