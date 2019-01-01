@@ -13,6 +13,8 @@ run:
 
 loaddata:
 	python3 manage.py loaddata product/migrations/0001_product.json
+	python3 manage.py loaddata sales/migrations/0001_sales.json
+	python3 manage.py loaddata purchases/migrations/0001_purchases.json
 
 deploy:
 	git checkout master
@@ -28,6 +30,8 @@ h-logs:
 	heroku logs --tail
 h-loaddata:
 	heroku run python3 manage.py loaddata product/migrations/0001_product.json
+	heroku run python3 manage.py loaddata sales/migrations/0001_sales.json
+	heroku run python3 manage.py loaddata purchases/migrations/0001_purchases.json
 
 new_release:
 	git checkout master

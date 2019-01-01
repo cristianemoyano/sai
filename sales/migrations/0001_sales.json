@@ -1,0 +1,92 @@
+[
+	{
+		"model": "sales.OrderStatus",
+		"pk": 1,
+		"fields": {
+			"name": "Pagada",
+			"code": "PAID",
+			"description": "Orden finalizada y Pagada correctamente"
+		}
+	},
+	{
+		"model": "sales.OrderStatus",
+		"pk": 2,
+		"fields": {
+			"name": "Pendiente",
+			"code": "PENDING",
+			"description": "Orden cargada pero Pendiente de pago"
+		}
+	},
+	{
+		"model": "sales.OrderStatus",
+		"pk": 3,
+		"fields": {
+			"name": "Cancelada",
+			"code": "CANCELLED",
+			"description": "Orden cancelada"
+		}
+	},
+	{
+		"model": "sales.PaymentMethod",
+		"pk": 1,
+		"fields": {
+			"name": "En Efectivo",
+			"code": "CASH",
+			"description": "Pago en Efectivo"
+		}
+	},
+	{
+		"model": "sales.PaymentMethod",
+		"pk": 2,
+		"fields": {
+			"name": "Transferencia Bancaria",
+			"code": "TRANSFER",
+			"description": "Pago por transferencia Bancaria"
+		}
+	},
+	{
+		"model": "sales.PaymentMethod",
+		"pk": 3,
+		"fields": {
+			"name": "Tarjeta de Crédito",
+			"code": "CREDIT_CARD",
+			"description": "Pago con Tarjeta de crédito"
+		}
+	},
+	{
+		"model": "sales.PaymentMethod",
+		"pk": 4,
+		"fields": {
+			"name": "Mercado Pago",
+			"code": "MERCADO_PAGO",
+			"description": "Pago a través de Mercado Pago"
+		}
+	},
+	{
+		"model": "sales.Country",
+		"pk": 1,
+		"fields": {
+			"name": "Argentina",
+			"code": "AR",
+			"description": "Argentina"
+		}
+	},
+	{
+		"model": "sales.Region",
+		"pk": 1,
+		"fields": {
+			"name": "Mendoza",
+			"code": "MZA",
+			"description": "Mendoza"
+		}
+	},
+	{
+		"model": "sales.City",
+		"pk": 1,
+		"fields": {
+			"name": "Mendoza",
+			"code": "MZA",
+			"description": "Mendoza"
+		}
+	}
+]

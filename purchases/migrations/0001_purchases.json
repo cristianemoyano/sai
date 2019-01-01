@@ -1,0 +1,29 @@
+[
+	{
+		"model": "purchases.PurchaseStatus",
+		"pk": 1,
+		"fields": {
+			"name": "Pagada",
+			"code": "PAID",
+			"description": "Compra finalizada y Pagada correctamente"
+		}
+	},
+	{
+		"model": "purchases.PurchaseStatus",
+		"pk": 2,
+		"fields": {
+			"name": "Pendiente",
+			"code": "PENDING",
+			"description": "Compra cargada pero Pendiente de pago"
+		}
+	},
+	{
+		"model": "purchases.PurchaseStatus",
+		"pk": 3,
+		"fields": {
+			"name": "Cancelada",
+			"code": "CANCELLED",
+			"description": "Compra cancelada"
+		}
+	}
+]
