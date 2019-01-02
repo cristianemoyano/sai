@@ -77,7 +77,7 @@ class Purchase(models.Model):
         self.save()
 
     def __str__(self):
-        return self.provider.__str__()
+        return '#' + str(self.id)
 
 
 class PurchaseItem(models.Model):
