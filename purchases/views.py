@@ -66,7 +66,7 @@ class ProviderView(LoginRequiredMixin, DetailView):
 
 class ProviderCreate(LoginRequiredMixin, CreateView):
     model = Provider
-    success_url = reverse_lazy('Provider_list')
+    success_url = reverse_lazy('provider_list')
     form_class = ProviderForm
 
     def form_valid(self, form):
@@ -76,7 +76,7 @@ class ProviderCreate(LoginRequiredMixin, CreateView):
 
 class ProviderUpdate(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
     model = Provider
-    success_url = reverse_lazy('Provider_list')
+    success_url = reverse_lazy('provider_list')
     form_class = ProviderForm
 
     def form_valid(self, form):
@@ -86,6 +86,6 @@ class ProviderUpdate(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
 
 class ProviderDelete(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
     model = Provider
-    success_url = reverse_lazy('Provider_list')
+    success_url = reverse_lazy('provider_list')
 
 # END Provider CRUD
