@@ -36,6 +36,16 @@ class OrderList(LoginRequiredMixin, ListView):
 class OrderView(LoginRequiredMixin, DetailView):
     model = Order
 
+    def get_context_data(self, **kwargs):
+        context = super(OrderView, self).get_context_data(**kwargs)
+        order_id = context.get('object').id
+        order_items = OrderItem.objects.filter(order_id=order_id)
+        extra_context = {
+            'order_items': order_items
+        }
+        context.update(extra_context)
+        return context
+
 
 class OrderCreate(LoginRequiredMixin, CreateView):
     model = Order
@@ -113,21 +123,35 @@ class OrderItemView(LoginRequiredMixin, DetailView):
 
 def get_dynamic_fields(request_fields, object_name, object_fields):
     crsftoken = 'csrfmiddlewaretoken'
+    excempt_fields_list = [
+        crsftoken,
+        'customer',
+        'additional_notes',
+        'gross_amount',
+        'tax',
+        'discount',
+        'shipping',
+        'paid_amount',
+        'status',
+        'payment_method',
+        'currency',
+        'invoice_url',
+    ]
     dynamic_fields = {
             crsftoken: '',
             object_name: object_fields,
         }
     for key, value in request_fields.items():
-        keys = key.split('[')
-        if not crsftoken in keys:
-            correlation_id = keys[2].split(']')[0]
-            field_name = keys[3].split(']')[0]
+        field_name = key.split('[')[2].split(']')[0]
+        if not field_name in excempt_fields_list:
+            field_name = key.split('[')[3].split(']')[0]
+            correlation_id = key.split('[')[2].split(']')[0]
             dynamic_fields[object_name][field_name].append(
                 {'value': value, 'correlation_id': correlation_id}
             )
             if not correlation_id in dynamic_fields[object_name]['correlation_ids']:
                 dynamic_fields[object_name]['correlation_ids'].append(correlation_id)
-        else:
+        elif crsftoken == field_name:
             dynamic_fields[crsftoken] = value
     return dynamic_fields
 
@@ -146,8 +170,9 @@ def get_dynamic_items(request_fields):
 def get_object_items(request_fields, object_field_list):
     object_items = {}
     for key, value in request_fields.items():
-        if key in object_field_list:
-            object_items[key] = value
+        field_name = key.split('[')[2].split(']')[0]
+        if field_name in object_field_list:
+            object_items[field_name] = value
     return object_items
 
 def build_schema_order_item(order_items_dict, object_fields):
@@ -169,14 +194,13 @@ def create_order_and_get_order_id(request_fields, user_id):
         'discount',
         'shipping',
         'paid_amount',
-        'status',
         'payment_method',
         'currency',
         'invoice_url',
     ]
     order_items = get_object_items(request_fields, order_fields_list)
     order_items['customer'] = Customer.objects.get(id=order_items.get('customer'))
-    order_items['status'] = OrderStatus.objects.get(id=order_items.get('status'))
+    order_items['status'] = OrderStatus.objects.get(id=1)
     order_items['payment_method'] = PaymentMethod.objects.get(id=order_items.get('payment_method'))
     order_items['currency'] = Currency.objects.get(id=order_items.get('currency'))
     order_items['user'] = User.objects.get(id=user_id)
@@ -198,18 +222,20 @@ def create_order_items(request_fields, user_id):
     order_item_schema = build_schema_order_item(dynamic_fields.get('order_items'), order_item_fields_list)
     
     objects_to_create = []
+    order_id = create_order_and_get_order_id(request_fields, user_id)
     for order_item in order_item_schema:
         del order_item['id']
-        order_item['order_id'] = create_order_and_get_order_id(request_fields, user_id)
+        order_item['order_id'] = order_id
         order_item['product'] = Product.objects.get(id=order_item.get('product'))
         objects_to_create.append(OrderItem(**order_item))
     OrderItem.objects.bulk_create(objects_to_create)
 
+
+
 class OrderItemCreate(LoginRequiredMixin, CreateView):
     model = OrderItem
-    success_url = reverse_lazy('order_item_list')
+    success_url = reverse_lazy('order_list')
     form_class = OrderItemForm
-
 
     def post(self, request, *args, **kwargs):
         request_fields = request.POST.dict()

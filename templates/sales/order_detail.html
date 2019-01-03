@@ -49,6 +49,33 @@
 <h2>Método de pago: {{object.payment_method}}</h2>
 <h2>Moneda: {{object.currency}}</h2>
 <h2>URL de la factura: {{object.invoice_url}}</h2>
+
+
+<div class="table-responsive">
+    <table class="table table-bordered table-sm">
+        <thead class="thead-light">
+            <tr>
+            <th>Id</th>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Monto</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order_item in order_items %}
+            <tr>
+            <td>{{ order_item.id }}</td>
+            <td>{{ order_item.product }}</td>
+            <td>{{ order_item.quantity}}</td>
+            <td>{{ order_item.amount }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div> 
+
+
+
 </div>
 </div>
 </div>

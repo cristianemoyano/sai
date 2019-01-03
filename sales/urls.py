@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
     # Order
@@ -12,7 +13,7 @@ urlpatterns = [
     # OrderItem
     path('item', views.OrderItemList.as_view(), name='order_item_list'),
     path('item/view/<int:pk>', views.OrderItemView.as_view(), name='order_item_view'),
-    path('item/new', views.OrderItemCreate.as_view(), name='order_item_new'),
+    path('item/new', csrf_exempt(views.OrderItemCreate.as_view()), name='order_item_new'),
     path('item/view/<int:pk>', views.OrderItemView.as_view(), name='order_item_view'),
     path('item/edit/<int:pk>', views.OrderItemUpdate.as_view(), name='order_item_edit'),
     path('item/delete/<int:pk>', views.OrderItemDelete.as_view(), name='order_item_delete'),
