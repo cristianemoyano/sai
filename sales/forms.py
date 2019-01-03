@@ -2,6 +2,7 @@ from django import forms
 
 from .models import (
     Order,
+    OrderItem,
     Customer,
 )
 
@@ -22,6 +23,18 @@ class OrderForm(forms.ModelForm):
             'currency',
             'invoice_url',
         ]
+
+class OrderItemForm(forms.ModelForm):
+
+    class Meta:
+        model = OrderItem
+        fields = [
+            'product',
+            'unit_price',
+            'quantity',
+            'amount',
+        ]
+
 
 class CustomerForm(forms.ModelForm):
 

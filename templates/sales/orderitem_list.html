@@ -1,0 +1,97 @@
+{% extends 'base2.html' %}
+{% block content %}
+<!-- HEADER -->
+<div class="header">
+    <div class="container-fluid">
+
+      <!-- Body -->
+      <div class="header-body">
+        <div class="row align-items-end">
+          <div class="col">
+            
+            <!-- Pretitle -->
+            <h6 class="header-pretitle">
+                Listado
+            </h6>
+
+            <!-- Title -->
+            <h1 class="header-title">
+              Órdenes
+            </h1>
+
+          </div>
+          <a class="btn btn-danger" href="{% url "order_item_new" %}">Agregar Orden</a>
+          <div class="col-auto">
+              
+            
+
+
+          </div>
+        </div> <!-- / .row -->
+      </div> <!-- / .header-body -->
+
+    </div>
+  </div> <!-- / .header -->
+
+    <!-- CARDS -->
+    <div class="container-fluid">
+        <div class="row">
+          <div class="col-12 col-lg-6 col-xl">
+                        <div class="table-responsive">
+                          <table class="table table-bordered table-sm">
+                              <thead class="thead-light">
+                                  <tr>
+                                  <th>Id</th>
+                                  <th>Cliente</th>
+                                  <th>Monto</th>
+                                  <th>Fecha</th>
+                                  <th>Acciones</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  {% for order in object_list %}
+                                  <tr>
+                                  <td>{{ order.id }}</td>
+                                  <td>{{ order.customer }}</td>
+                                  <td>{{ order.currency.code }}{{ order.currency.symbol }} {{ order.paid_amount }}</td>
+                                  <td>{{ order.created_date }}</td>
+                                  <td>
+                                      <a class="btn btn-sm btn-primary" href="{% url "order_view" order.id %}">Ver</a>
+                                      <a class="btn btn-sm btn-primary" href="{% url "order_edit" order.id %}">Editar</a>
+                                      <a class="btn btn-sm btn-danger" href="{% url "order_delete" order.id %}">Eliminar</a>
+                                  </td>
+                                  </tr>
+                                  {% endfor %}
+                              </tbody>
+                          </table>
+                          </div> 
+          
+                          
+                          <nav aria-label="Page navigation example">
+                              {% if is_paginated %}
+                                <ul class="pagination">
+                                  {% if page_obj.has_previous %}
+                                  <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                                  {% else %}
+                                    <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                                  {% endif %}
+                                  {% for i in paginator.page_range %}
+                                    {% if page_obj.number == i %}
+                                    <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+                                    {% else %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                                    {% endif %}
+                                  {% endfor %}
+                                  {% if page_obj.has_next %}
+                                  <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                                  {% else %}
+                                  <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                                  {% endif %}
+                                </ul>
+                              {% endif %}
+                              </nav>
+
+    </div>
+    </div> 
+    </div>
+{% endblock %}

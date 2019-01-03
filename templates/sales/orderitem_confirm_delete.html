@@ -16,7 +16,7 @@
     
                 <!-- Title -->
                 <h1 class="header-title">
-                  Órden
+                  Eliminar a: "{{ object }}"
                 </h1>
     
               </div>
@@ -37,26 +37,9 @@
         <div class="container-fluid">
             <div class="row">
               <div class="col-12 col-lg-6 col-xl">
-                    <div class="form-group">
-
 <form method="post">{% csrf_token %}
-    {% for field in form %}
-    <div class="form-group">
-        {{ field.errors }}
-        {{ field.label_tag }} {{ field }}
-        {% if field.help_text %}
-        <p class="help">{{ field.help_text|safe }}</p>
-        {% endif %}
-    </div>
-    {% endfor %}
-    <input class="btn btn-danger" type="submit" value="Agregar" />
+    <h1>¿ Estás seguro que quieres eliminar a  "{{ object }}" ?</h1>
+    <a class="btn btn-primary" href="{% url "order_list" %}">No, volver</a></Volver>
+    <input class="btn btn-danger" type="submit" value="Sí, eliminar" />
 </form>
-</div>
-</div>
-</div> 
-</div>
-
-
-
-
 {% endblock %}

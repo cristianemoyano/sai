@@ -39,8 +39,29 @@
               <div class="col-12 col-lg-6 col-xl">
                     <div class="form-group">
 
+
+
+                            
+                                    
+
+
+
+
+
 <form method="post">{% csrf_token %}
+        {% for field in order_form %}
+    
+        <div class="form-group">
+            {{ field.errors }}
+            {{ field.label_tag }} {{ field }}
+            {% if field.help_text %}
+            <p class="help">{{ field.help_text|safe }}</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    <div id="dynamic_form">
     {% for field in form %}
+    
     <div class="form-group">
         {{ field.errors }}
         {{ field.label_tag }} {{ field }}
@@ -49,14 +70,17 @@
         {% endif %}
     </div>
     {% endfor %}
+    <div class="button-group">
+            <a href="javascript:void(0)" class="btn btn-primary" id="plus">Add More</a>
+            <a href="javascript:void(0)" class="btn btn-danger" id="minus">Remove</a>
+    </div>
+    </div>
     <input class="btn btn-danger" type="submit" value="Agregar" />
 </form>
 </div>
 </div>
 </div> 
 </div>
-
-
 
 
 {% endblock %}

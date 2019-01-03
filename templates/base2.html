@@ -34,7 +34,20 @@
     <!-- JAVASCRIPT
     ================================================== -->
     <!-- Libs JS -->
-    <script src="{% static "js/jquery.min.js" %}"></script>
+    <script src="{% static "js/jquery-1.12.4.min.js" %}"></script>
     <script src="{% static "js/bootstrap.bundle.min.js" %}"></script>
+    <script src="{% static "js/dynamic-form.js" %}"></script>
+    <script>
+        // https://www.jqueryscript.net/form/dynamic-forms-fields.html
+        // dynamicForm(selectedTarget, plusSelector, minusSelector, options)
+        var dynamic_form =  $("#dynamic_form").dynamicForm("#dynamic_form","#plus", "#minus", {
+
+        // the maximum number of form fields
+        limit: 10,
+
+        });
+    </script>
+
   </body>
+ 
 </html>
