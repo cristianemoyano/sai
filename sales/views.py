@@ -208,6 +208,12 @@ def create_order_and_get_order_id(request_fields, user_id):
     order.save()
     return order.id
 
+def manage_stock_product(id, quantity):
+    product = Product.objects.get(id=id)
+    product.stock = product.stock - int(quantity)
+    product.save()
+    return product
+
 def create_order_items(request_fields, user_id):
     dynamic_items = get_dynamic_items(request_fields)
     order_item_fields_dict = {
@@ -226,7 +232,9 @@ def create_order_items(request_fields, user_id):
     for order_item in order_item_schema:
         del order_item['id']
         order_item['order_id'] = order_id
-        order_item['product'] = Product.objects.get(id=order_item.get('product'))
+        product_id = order_item.get('product')
+        quantity = order_item.get('quantity')
+        order_item['product'] = manage_stock_product(product_id, quantity)
         objects_to_create.append(OrderItem(**order_item))
     OrderItem.objects.bulk_create(objects_to_create)
 
