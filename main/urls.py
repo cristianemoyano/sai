@@ -15,7 +15,6 @@ Including another URLconf
 """
 from django.contrib import (
     admin,
-    auth,
 )
 from product.views import dashboard
 from django.conf.urls import (
