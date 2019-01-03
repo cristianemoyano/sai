@@ -4,9 +4,9 @@ from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
     # Order
-    path('', views.OrderList.as_view(), name='order_list'),
+    path('', csrf_exempt(views.OrderList.as_view()), name='order_list'),
     path('view/<int:pk>', views.OrderView.as_view(), name='order_view'),
-    path('new', views.OrderCreate.as_view(), name='order_new'),
+    path('new', csrf_exempt(views.OrderCreate.as_view()), name='order_new'),
     path('view/<int:pk>', views.OrderView.as_view(), name='order_view'),
     path('edit/<int:pk>', views.OrderUpdate.as_view(), name='order_edit'),
     path('delete/<int:pk>', views.OrderDelete.as_view(), name='order_delete'),
