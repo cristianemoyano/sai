@@ -1,11 +1,12 @@
 from django.urls import path
 from . import views
+from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
     # Purchase
     path('', views.PurchaseList.as_view(), name='purchase_list'),
     path('view/<int:pk>', views.PurchaseView.as_view(), name='purchase_view'),
-    path('new', views.PurchaseCreate.as_view(), name='purchase_new'),
+    path('new', csrf_exempt(views.PurchaseCreate.as_view()), name='purchase_new'),
     path('view/<int:pk>', views.PurchaseView.as_view(), name='purchase_view'),
     path('edit/<int:pk>', views.PurchaseUpdate.as_view(), name='purchase_edit'),
     path('delete/<int:pk>', views.PurchaseDelete.as_view(), name='purchase_delete'),

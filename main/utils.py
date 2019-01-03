@@ -11,24 +11,16 @@ from sales.models import (
     PaymentMethod,
     Currency,
 )
+from purchases.models import (
+    Purchase,
+    PurchaseItem,
+    Provider,
+    PurchaseStatus,
+)
 
 
-def get_dynamic_fields(request_fields, object_name, object_fields):
+def get_dynamic_fields(request_fields, object_name, object_fields, excempt_fields_list):
     crsftoken = 'csrfmiddlewaretoken'
-    excempt_fields_list = [
-        crsftoken,
-        'customer',
-        'additional_notes',
-        'gross_amount',
-        'tax',
-        'discount',
-        'shipping',
-        'paid_amount',
-        'status',
-        'payment_method',
-        'currency',
-        'invoice_url',
-    ]
     dynamic_fields = {
         crsftoken: '',
         object_name: object_fields,
@@ -71,7 +63,7 @@ def get_object_items(request_fields, object_field_list):
     return object_items
 
 
-def build_schema_order_item(order_items_dict, object_fields):
+def build_schema(order_items_dict, object_fields):
     order_item_schema = []
     for item_id in order_items_dict.get('correlation_ids'):
         order_item = {}
@@ -106,12 +98,17 @@ def create_order_and_get_order_id(request_fields, user_id):
     return order.id
 
 
-def manage_stock_product(id, quantity):
+def manage_stock_product(id, quantity, operation):
     product = Product.objects.get(id=id)
-    new_stock = product.stock - int(quantity)
+    if operation == 'SALE':
+        new_stock = product.stock - int(quantity)
+    elif operation == 'PURCHASE':
+        new_stock = product.stock + int(quantity)
     product.stock = new_stock
-    if (new_stock <= 0):
+    if new_stock <= 0:
         product.product_status = ProductStatus.objects.get(code='not_available')
+    elif new_stock > 0:
+        product.product_status = ProductStatus.objects.get(code='available')
     product.save()
     return product
 
@@ -125,9 +122,28 @@ def create_order_items(request_fields, user_id):
         'quantity': [],
         'amount': [],
     }
+    excempt_fields_list = [
+        'csrfmiddlewaretoken',
+        'customer',
+        'additional_notes',
+        'gross_amount',
+        'tax',
+        'discount',
+        'shipping',
+        'paid_amount',
+        'status',
+        'payment_method',
+        'currency',
+        'invoice_url',
+    ]
     order_item_fields_list = ['product', 'unit_price', 'quantity', 'amount']
-    dynamic_fields = get_dynamic_fields(dynamic_items, 'order_items', order_item_fields_dict)
-    order_item_schema = build_schema_order_item(dynamic_fields.get('order_items'), order_item_fields_list)
+    dynamic_fields = get_dynamic_fields(
+        dynamic_items,
+        'order_items',
+        order_item_fields_dict,
+        excempt_fields_list
+    )
+    order_item_schema = build_schema(dynamic_fields.get('order_items'), order_item_fields_list)
 
     objects_to_create = []
     order_id = create_order_and_get_order_id(request_fields, user_id)
@@ -136,6 +152,75 @@ def create_order_items(request_fields, user_id):
         order_item['order_id'] = order_id
         product_id = order_item.get('product')
         quantity = order_item.get('quantity')
-        order_item['product'] = manage_stock_product(product_id, quantity)
+        order_item['product'] = manage_stock_product(product_id, quantity, 'SALE')
         objects_to_create.append(OrderItem(**order_item))
     OrderItem.objects.bulk_create(objects_to_create)
+
+
+def create_purchase_and_get_purchase_id(request_fields, user_id):
+    purchase_fields_list = [
+        'provider',
+        'additional_notes',
+        'gross_amount',
+        'tax',
+        'discount',
+        'shipping',
+        'paid_amount',
+        'payment_method',
+        'currency',
+        'invoice_url',
+    ]
+    purchase_items = get_object_items(request_fields, purchase_fields_list)
+    purchase_items['provider'] = Provider.objects.get(id=purchase_items.get('provider'))
+    purchase_items['status'] = PurchaseStatus.objects.get(code='PAID')
+    purchase_items['payment_method'] = PaymentMethod.objects.get(id=purchase_items.get('payment_method'))
+    purchase_items['currency'] = Currency.objects.get(id=purchase_items.get('currency'))
+    purchase_items['user'] = User.objects.get(id=user_id)
+    purchase = Purchase.objects.create(**purchase_items)
+    purchase.save()
+    return purchase.id
+
+
+def create_purchase_items(request_fields, user_id):
+    dynamic_items = get_dynamic_items(request_fields)
+    purchase_item_fields_dict = {
+        'correlation_ids': [],
+        'product': [],
+        'unit_price': [],
+        'quantity': [],
+        'amount': [],
+    }
+    excempt_fields_list = [
+        'csrfmiddlewaretoken',
+        'provider',
+        'additional_notes',
+        'gross_amount',
+        'tax',
+        'discount',
+        'shipping',
+        'paid_amount',
+        'status',
+        'payment_method',
+        'currency',
+        'invoice_url',
+    ]
+    purchase_item_fields_list = ['product', 'unit_price', 'quantity', 'amount']
+    dynamic_fields = get_dynamic_fields(
+        dynamic_items,
+        'purchase_items',
+        purchase_item_fields_dict,
+        excempt_fields_list
+    )
+
+    purchase_item_schema = build_schema(dynamic_fields.get('purchase_items'), purchase_item_fields_list)
+
+    objects_to_create = []
+    purchase_id = create_purchase_and_get_purchase_id(request_fields, user_id)
+    for purchase_item in purchase_item_schema:
+        del purchase_item['id']
+        purchase_item['purchase_id'] = purchase_id
+        product_id = purchase_item.get('product')
+        quantity = purchase_item.get('quantity')
+        purchase_item['product'] = manage_stock_product(product_id, quantity, 'PURCHASE')
+        objects_to_create.append(PurchaseItem(**purchase_item))
+    PurchaseItem.objects.bulk_create(objects_to_create)

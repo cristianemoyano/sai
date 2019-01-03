@@ -3,7 +3,9 @@ from django import forms
 from .models import (
     Purchase,
     Provider,
+    PurchaseItem,
 )
+
 
 class PurchaseForm(forms.ModelForm):
 
@@ -22,6 +24,19 @@ class PurchaseForm(forms.ModelForm):
             'currency',
             'invoice_url',
         ]
+
+
+class PurchaseItemForm(forms.ModelForm):
+
+    class Meta:
+        model = PurchaseItem
+        fields = [
+            'product',
+            'unit_price',
+            'quantity',
+            'amount',
+        ]
+
 
 class ProviderForm(forms.ModelForm):
 
