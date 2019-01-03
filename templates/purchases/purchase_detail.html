@@ -3,36 +3,36 @@
 <!-- HEADER -->
 <div class="header">
         <div class="container-fluid">
-    
+
           <!-- Body -->
           <div class="header-body">
             <div class="row align-items-end">
               <div class="col">
-                
+
                 <!-- Pretitle -->
                 <h6 class="header-pretitle">
                     Detalle
                 </h6>
-    
+
                 <!-- Title -->
                 <h1 class="header-title">
                   Detalle del Pedido: {{object.id}}
                 </h1>
-    
+
               </div>
               <a class="btn btn-danger" href="{% url "purchase_list" %}">< Volver</a>
               <div class="col-auto">
-                  
-                
-    
-    
+
+
+
+
               </div>
             </div> <!-- / .row -->
           </div> <!-- / .header-body -->
-    
+
         </div>
       </div> <!-- / .header -->
-    
+
         <!-- CARDS -->
         <div class="container-fluid">
             <div class="row">
@@ -49,6 +49,30 @@
 <h2>Método de pago: {{object.payment_method}}</h2>
 <h2>Moneda: {{object.currency}}</h2>
 <h2>URL de la factura: {{object.invoice_url}}</h2>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-sm">
+        <thead class="thead-light">
+            <tr>
+            <th>Id</th>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Monto</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for purchase_item in purchase_items %}
+            <tr>
+            <td>{{ purchase_item.id }}</td>
+            <td>{{ purchase_item.product }}</td>
+            <td>{{ purchase_item.quantity}}</td>
+            <td>{{ purchase_item.amount }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
 </div>
 </div>
 </div>

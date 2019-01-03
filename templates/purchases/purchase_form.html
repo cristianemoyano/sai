@@ -3,36 +3,36 @@
 <!-- HEADER -->
 <div class="header">
         <div class="container-fluid">
-    
+
           <!-- Body -->
           <div class="header-body">
             <div class="row align-items-end">
               <div class="col">
-                
+
                 <!-- Pretitle -->
                 <h6 class="header-pretitle">
                     Listado
                 </h6>
-    
+
                 <!-- Title -->
                 <h1 class="header-title">
                   Pedido
                 </h1>
-    
+
               </div>
               <a class="btn btn-danger" href="{% url "purchase_list" %}">< Volver</a>
               <div class="col-auto">
-                  
-                
-    
-    
+
+
+
+
               </div>
             </div> <!-- / .row -->
           </div> <!-- / .header-body -->
-    
+
         </div>
       </div> <!-- / .header -->
-    
+
         <!-- CARDS -->
         <div class="container-fluid">
             <div class="row">
@@ -40,20 +40,77 @@
                     <div class="form-group">
 
 <form method="post">{% csrf_token %}
-    {% for field in form %}
-    <div class="form-group">
-        {{ field.errors }}
-        {{ field.label_tag }} {{ field }}
-        {% if field.help_text %}
-        <p class="help">{{ field.help_text|safe }}</p>
-        {% endif %}
+
+    <div class="table-responsive">
+    <table class="table table-bordered table-sm">
+    <thead class="thead-light">
+        <tr>
+        <th>Proveedor</th>
+        <th>URL de la factura</th>
+        <th>Método de Pago</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <td>{{ purchase_form.provider }}</td>
+    <td>{{ purchase_form.invoice_url }}</td>
+    <td>{{ purchase_form.payment_method }}</td>
+
+  </tr>
+</tbody>
+</table>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-sm">
+    <thead class="thead-light">
+        <tr>
+        <th>Subtotal</th>
+        <th>Impuestos</th>
+        <th>Descuento</th>
+        <th>Envío</th>
+        <th>Moneda</th>
+        <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <td>{{ purchase_form.gross_amount  }}</td>
+    <td>{{ purchase_form.tax }}</td>
+    <td>{{ purchase_form.discount }}</td>
+    <td>{{ purchase_form.shipping }}</td>
+    <td>{{ purchase_form.currency }}</td>
+    <td>{{ purchase_form.paid_amount }}</td>
+  </tr>
+</tbody>
+</table>
+</div>
+    <div id="dynamic_form">
+      <div class="form-group section">
+            <p>Producto {{ form.product }}</p>
+            <p>Precio unitario {{ form.unit_price }}</p>
+            <p>Cantidad {{ form.quantity }}</p>
+            <p>Monto {{ form.amount }}</p>
+            <p>
+                <div class="button-group">
+                    <a href="javascript:void(0)" class="btn btn-primary" id="plus">Agregar item</a>
+                    <a href="javascript:void(0)" class="btn btn-danger" id="minus">Remover item</a>
+                </div>
+            </p>
+      </div>
     </div>
-    {% endfor %}
-    <input class="btn btn-danger" type="submit" value="Agregar" />
+
+    <p>
+        Observaciones
+    </p>
+    {{ purchase_form.additional_notes }}
+
+    <p>
+        <input class="btn btn-danger" type="submit" value="Crear Orden" />
+    </p>
 </form>
 </div>
 </div>
-</div> 
+</div>
 </div>
 
 {% endblock %}
