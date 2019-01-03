@@ -46,8 +46,27 @@
         limit: 10,
 
         });
+    function total() { 
+        var tot = 0;
+        tot += +$("#id_gross_amount").val();
+        tot += +$("#id_tax").val();
+        tot -= +$("#id_discount").val();
+        tot += +$("#id_shipping").val();
+        
+        $("#id_paid_amount").val(tot);
+    }
+    $(document).on("change", "[origname='amount'], #id_gross_amount, #id_tax, #id_discount, #id_shipping", function() {
+    var sum = 0;
+    $("[origname='amount']").each(function(){
+        sum += +$(this).val();
+    });
+    $("#id_gross_amount").val(sum);
+    total();
+    });
+
     </script>
 
+    
   </body>
  
 </html>

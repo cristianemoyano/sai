@@ -49,33 +49,73 @@
 
 
 <form method="post">{% csrf_token %}
-        {% for field in order_form %}
-    
-        <div class="form-group">
-            {{ field.errors }}
-            {{ field.label_tag }} {{ field }}
-            {% if field.help_text %}
-            <p class="help">{{ field.help_text|safe }}</p>
-            {% endif %}
-        </div>
-        {% endfor %}
+
+    <div class="table-responsive">
+    <table class="table table-bordered table-sm">
+    <thead class="thead-light">
+        <tr>
+        <th>Cliente</th>
+        <th>URL de la factura</th>
+        <th>Método de Pago</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <td>{{ order_form.customer }}</td>
+    <td>{{ order_form.invoice_url }}</td>
+    <td>{{ order_form.payment_method }}</td>
+
+  </tr>
+</tbody>
+</table>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-sm">
+    <thead class="thead-light">
+        <tr>
+        <th>Subtotal</th>
+        <th>Impuestos</th>
+        <th>Descuento</th>
+        <th>Envío</th>
+        <th>Moneda</th>
+        <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <td>{{ order_form.gross_amount  }}</td>
+    <td>{{ order_form.tax }}</td>
+    <td>{{ order_form.discount }}</td>
+    <td>{{ order_form.shipping }}</td>
+    <td>{{ order_form.currency }}</td>
+    <td>{{ order_form.paid_amount }}</td>
+  </tr>
+</tbody>
+</table>
+</div>
     <div id="dynamic_form">
-    {% for field in form %}
-    
-    <div class="form-group">
-        {{ field.errors }}
-        {{ field.label_tag }} {{ field }}
-        {% if field.help_text %}
-        <p class="help">{{ field.help_text|safe }}</p>
-        {% endif %}
+      <div class="form-group section">
+            <p>Producto {{ form.product }}</p>
+            <p>Precio unitario {{ form.unit_price }}</p>
+            <p>Cantidad {{ form.quantity }}</p>
+            <p>Monto {{ form.amount }}</p>
+            <p>
+                <div class="button-group">
+                    <a href="javascript:void(0)" class="btn btn-primary" id="plus">Agregar item</a>
+                    <a href="javascript:void(0)" class="btn btn-danger" id="minus">Remover item</a>
+                </div>
+            </p>
+      </div>
     </div>
-    {% endfor %}
-    <div class="button-group">
-            <a href="javascript:void(0)" class="btn btn-primary" id="plus">Add More</a>
-            <a href="javascript:void(0)" class="btn btn-danger" id="minus">Remove</a>
-    </div>
-    </div>
-    <input class="btn btn-danger" type="submit" value="Agregar" />
+  
+    <p>
+        Observaciones 
+    </p>
+    {{ order_form.additional_notes }}
+
+    <p>
+        <input class="btn btn-danger" type="submit" value="Crear Orden" />
+    </p>
 </form>
 </div>
 </div>
