@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from search_views.search import SearchListView
 from django.views.generic import ListView, DetailView
+from django.http import HttpResponse
+from .resources import ProductResource
 from .forms import (
     ProductForm,
     ProductSearchForm,
@@ -104,6 +106,81 @@ class ProductDelete(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('product_list')
 
+
+def product_import_file(request):
+    success_url = 'product/product_import.html'
+    product_fields = [
+        'id',
+        'created',
+        'modified',
+        'user',
+        'name',
+        'reference_code',
+        'import_code',
+        'description',
+        'stock',
+        'min_amount',
+        'product_store',
+        'product_category',
+        'product_type',
+        'product_status',
+        'image_url'
+    ]
+    context = {}
+    if request.method == 'POST':
+        try:
+            csv_file = request.FILES["file"]
+            if not csv_file.name.endswith('.csv'):
+                context['error'] = 'Formato no permitido. Sólo se permiten .CSV'
+                return render(request, success_url, context)
+            # if file is too large, return
+            if csv_file.multiple_chunks():
+                context['error'] = 'Archivo demasiado grande.'
+                return render(request, success_url, context)
+
+            file_data = csv_file.read().decode("utf-8")
+
+            lines = file_data.split("\r\n")
+            for line in lines:
+                fields = line.split(",")
+                data_dict = {}
+                i = 0
+                for field in product_fields:
+                    if len(product_fields) == len(fields):
+                        data_dict[field] = fields[i]
+                        i += 1
+
+                try:
+                    form = ProductForm(data_dict)
+                    form.instance.user_id = request.user.id
+                    if form.is_valid():
+                        form.save()
+                except Exception as e:
+                    context['error'] = 'Error inesperado: {e}'.format(e=e)
+                    return render(request, success_url, context)
+            context['message'] = 'Productos creados correctamente.'
+        except Exception as e:
+            context['error'] = 'Error inesperado: {e}'.format(e=e)
+            return render(request, success_url, context)
+
+    return render(request, success_url, context)
+
+
+def product_export_csv(request):
+    product_resource = ProductResource()
+    dataset = product_resource.export()
+    response = HttpResponse(dataset.csv, content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="producto.csv"'
+    return response
+
+
+def product_export_excel(request):
+    product_resource = ProductResource()
+    dataset = product_resource.export()
+    response = HttpResponse(dataset.xls, content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="producto.xls"'
+    return response
+
 # END Product CRUD
 
 # ProductCategory CRUD
@@ -175,6 +252,7 @@ class ProductStoreDelete(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
 # END ProductStore CRUD
 
 # Price CRUD
+
 
 class PriceList(LoginRequiredMixin, ListView):
     model = Price

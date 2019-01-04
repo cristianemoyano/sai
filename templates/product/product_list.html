@@ -35,7 +35,27 @@
           <a class="btn btn-danger" href="{% url "product_new" %}">Agregar Producto</a>
           <div class="col-auto">
 
-
+              <div class="row align-items-end">
+                <div class="col-auto">
+                  <!-- Dropdown -->
+                  <div class="dropdown">
+                    <a href="#!" class="dropdown-ellipses dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-boundary="window">
+                      <i class="fe fe-more-vertical"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                      <a href="{% url "product_export_excel" %}" class="dropdown-item">
+                        Exportar .Excel
+                      </a>
+                      <a href="{% url "product_export_csv" %}" class="dropdown-item">
+                        Exportar .CSV
+                      </a>
+                      <a href="{% url "product_import_file" %}" class="dropdown-item">
+                        Importar
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div> <!-- / .row -->
 
 
           </div>

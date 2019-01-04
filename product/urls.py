@@ -9,6 +9,9 @@ urlpatterns = [
     path('view/<int:pk>', views.ProductView.as_view(), name='product_view'),
     path('edit/<int:pk>', views.ProductUpdate.as_view(), name='product_edit'),
     path('delete/<int:pk>', views.ProductDelete.as_view(), name='product_delete'),
+    path('export_csv', views.product_export_csv, name='product_export_csv'),
+    path('export_excel', views.product_export_excel, name='product_export_excel'),
+    path('import_file', views.product_import_file, name='product_import_file'),
     # ProductCategory
     path('category', views.ProductCategoryList.as_view(), name='product_category_list'),
     path('category/view/<int:pk>', views.ProductCategoryView.as_view(), name='product_category_view'),
@@ -16,7 +19,7 @@ urlpatterns = [
     path('category/view/<int:pk>', views.ProductCategoryView.as_view(), name='product_category_view'),
     path('category/edit/<int:pk>', views.ProductCategoryUpdate.as_view(), name='product_category_edit'),
     path('category/delete/<int:pk>', views.ProductCategoryDelete.as_view(), name='product_category_delete'),
-     # ProductStore
+    # ProductStore
     path('store', views.ProductStoreList.as_view(), name='product_store_list'),
     path('store/view/<int:pk>', views.ProductStoreView.as_view(), name='product_store_view'),
     path('store/new', views.ProductStoreCreate.as_view(), name='product_store_new'),

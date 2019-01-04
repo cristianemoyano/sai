@@ -50,10 +50,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'import_export',
     'product',
     'sales',
     'purchases',
 ]
+
+# For import_export
+# The default value is False. It determines if the library will use database
+# transactions on data import, just to be on the safe side.
+IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',

@@ -1,0 +1,84 @@
+{% extends 'base2.html' %}
+{% block content %}
+<!-- HEADER -->
+<div class="header">
+        <div class="container-fluid">
+
+          <!-- Body -->
+          <div class="header-body">
+            <div class="row align-items-end">
+              <div class="col">
+
+                <!-- Pretitle -->
+                <h6 class="header-pretitle">
+                    Listado
+                </h6>
+
+                <!-- Title -->
+                <h1 class="header-title">
+                  Productos
+                </h1>
+
+              </div>
+              <a class="btn btn-danger" href="{% url "product_list" %}">< Volver</a>
+              <div class="col-auto">
+
+
+
+
+              </div>
+            </div> <!-- / .row -->
+          </div> <!-- / .header-body -->
+
+        </div>
+      </div> <!-- / .header -->
+
+        <!-- CARDS -->
+        <div class="container-fluid">
+            <div class="row">
+              <div class="col-12 col-lg-6 col-xl">
+                    <div class="form-group">
+Columnas que debe tener el archivo:
+<table class="table table-responsive">
+  <tr>
+    <th>id</th>
+    <th>created</th>
+    <th>modified</th>
+    <th>user</th>
+    <th>name</th>
+    <th>referenced_code</th>
+    <th>import_code</th>
+    <th>description</th>
+    <th>stock</th>
+    <th>min_amount</th>
+    <th>product_store</th>
+    <th>product_category</th>
+    <th>product_type</th>
+    <th>product_status</th>
+    <th>image_urle</th>
+  </tr>
+</table>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% if error %}
+    <span class="badge badge-danger"><h3>{{ error }}</h3></span>
+    {% endif %}
+    {% if message %}
+    <span class="badge badge-primary"><h3>{{ message }}</h3></span>
+    {% endif %}
+    <div class="form-group">
+      <label for="file">Subir archivo</label>
+      <input type="file" class="form-control-file" id="file" name="file" required>
+    </div>
+    <button class="btn btn-primary" type="submit">Importar</button>
+
+  </form>
+
+
+</div>
+</div>
+</div>
+</div>
+
+{% endblock %}
