@@ -1,8 +1,11 @@
 from django.http import HttpResponseRedirect
+from search_views.search import SearchListView
 from django.views.generic import ListView, DetailView
 from .forms import (
     OrderForm,
     CustomerForm,
+    CustomerSearchForm,
+    CustomerFilter,
     OrderItemForm,
 )
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -70,9 +73,14 @@ class OrderDelete(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
 # Customer CRUD
 
 
-class CustomerList(LoginRequiredMixin, ListView):
+class CustomerList(LoginRequiredMixin, SearchListView):
     model = Customer
     paginate_by = 10
+    template_name = 'sales/customer_list.html'
+
+    # additional configuration for SearchListView
+    form_class = CustomerSearchForm
+    filter_class = CustomerFilter
 
 
 class CustomerView(LoginRequiredMixin, DetailView):
