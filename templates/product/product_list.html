@@ -77,6 +77,8 @@
                                   <th>En stock</th>
                                   <th>Depósito/Ubicación</th>
                                   <th>Categoría</th>
+                                  <th>Precio Costo</th>
+                                  <th>Precio Lista</th>
                                   <th>Estado</th>
                                   <th>Acciones</th>
                                   </tr>
@@ -88,6 +90,8 @@
                                   <td>{{ product.stock }}</td>
                                   <td>{{ product.product_store }}</td>
                                   <td>{{ product.product_category }}</td>
+                                  <td>{{ product.cost_price }}</td>
+                                  <td>{{ product.list_price }}</td>
                                   <td>{{ product.product_status }}</td>
                                   <td>
                                       <a class="btn btn-sm btn-primary" href="{% url "product_view" product.id %}">Ver</a>

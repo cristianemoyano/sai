@@ -57,6 +57,31 @@ class Product(TimeStampedModel):
     def __str__(self):
         return self.name
 
+    @property
+    def list_price(self):
+        price = Price.objects.filter(product=self.id).latest('list_price')
+        return price.list_price
+
+    @property
+    def cost_price(self):
+        price = Price.objects.filter(product=self.id).latest('list_price')
+        return price.cost_price
+
+    @property
+    def price_a(self):
+        price = Price.objects.filter(product=self.id).latest('list_price')
+        return price.price_a
+
+    @property
+    def price_b(self):
+        price = Price.objects.filter(product=self.id).latest('list_price')
+        return price.price_b
+
+    @property
+    def price_c(self):
+        price = Price.objects.filter(product=self.id).latest('list_price')
+        return price.price_c
+
 
 class Currency(TimeStampedModel):
     name = models.CharField(max_length=200)
