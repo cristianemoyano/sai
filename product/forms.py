@@ -6,6 +6,8 @@ from .models import (
     ProductStore,
     Price,
 )
+from search_views.filters import BaseFilter
+
 
 class ProductForm(forms.ModelForm):
 
@@ -25,6 +27,24 @@ class ProductForm(forms.ModelForm):
             'image_url'
         ]
 
+
+class ProductFilter(BaseFilter):
+    search_fields = {
+        'search_text': ['description', 'reference_code', 'import_code', 'name'],
+    }
+
+
+class ProductSearchForm(forms.Form):
+    search_text = forms.CharField(
+        required=False,
+        label='Buscar',
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Buscar...',
+            'class': 'form-control',
+        })
+    )
+
+
 class ProductCategoryForm(forms.ModelForm):
 
     class Meta:
@@ -35,6 +55,7 @@ class ProductCategoryForm(forms.ModelForm):
             'description',
         ]
 
+
 class ProductStoreForm(forms.ModelForm):
 
     class Meta:
@@ -44,6 +65,7 @@ class ProductStoreForm(forms.ModelForm):
             'code',
             'description',
         ]
+
 
 class PriceForm(forms.ModelForm):
 

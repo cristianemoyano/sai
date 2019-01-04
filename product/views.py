@@ -1,7 +1,10 @@
 from django.shortcuts import render
+from search_views.search import SearchListView
 from django.views.generic import ListView, DetailView
 from .forms import (
     ProductForm,
+    ProductSearchForm,
+    ProductFilter,
     ProductCategoryForm,
     ProductStoreForm,
     PriceForm,
@@ -39,7 +42,7 @@ def dashboard(request):
     orders = Order.objects.all().count()
     orders_sum = Order.objects.aggregate(Sum('paid_amount'))
     purchases_sum = Purchase.objects.aggregate(Sum('paid_amount'))
-    
+
     purchases_amount = purchases_sum.get('paid_amount__sum')
     orders_amount = orders_sum.get('paid_amount__sum')
 
@@ -58,14 +61,19 @@ def dashboard(request):
         'purchases_amount': purchases_amount
     }
 
-
     return render(request, 'product/dashboard.html', context)
 
 # Product CRUD
 
-class ProductList(LoginRequiredMixin, ListView):
+
+class ProductList(LoginRequiredMixin, SearchListView):
     model = Product
     paginate_by = 10
+    template_name = "product/product_list.html"
+
+    # additional configuration for SearchListView
+    form_class = ProductSearchForm
+    filter_class = ProductFilter
 
 
 class ProductView(LoginRequiredMixin, DetailView):

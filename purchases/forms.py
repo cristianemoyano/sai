@@ -5,6 +5,7 @@ from .models import (
     Provider,
     PurchaseItem,
 )
+from search_views.filters import BaseFilter
 
 
 class PurchaseForm(forms.ModelForm):
@@ -36,6 +37,23 @@ class PurchaseItemForm(forms.ModelForm):
             'quantity',
             'amount',
         ]
+
+
+class PurchaseFilter(BaseFilter):
+    search_fields = {
+        'search_text': ['description', 'reference_code', 'import_code', 'name'],
+    }
+
+
+class PurchaseSearchForm(forms.Form):
+    search_text = forms.CharField(
+        required=False,
+        label='Buscar',
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Buscar...',
+            'class': 'form-control',
+        })
+    )
 
 
 class ProviderForm(forms.ModelForm):
