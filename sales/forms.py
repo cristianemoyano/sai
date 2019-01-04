@@ -5,6 +5,8 @@ from .models import (
     OrderItem,
     Customer,
 )
+from search_views.filters import BaseFilter
+
 
 class OrderForm(forms.ModelForm):
 
@@ -23,6 +25,7 @@ class OrderForm(forms.ModelForm):
             'currency',
             'invoice_url',
         ]
+
 
 class OrderItemForm(forms.ModelForm):
 
@@ -57,3 +60,20 @@ class CustomerForm(forms.ModelForm):
             'address_note',
             'additional_notes',
         ]
+
+
+class CustomerFilter(BaseFilter):
+    search_fields = {
+        'search_text': ['first_name', 'last_name', 'company', 'email'],
+    }
+
+
+class CustomerSearchForm(forms.Form):
+    search_text = forms.CharField(
+        required=False,
+        label='Buscar',
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Buscar...',
+            'class': 'form-control',
+        })
+    )
