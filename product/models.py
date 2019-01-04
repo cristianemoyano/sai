@@ -43,7 +43,7 @@ class ProductStatus(TimeStampedModel):
 class Product(TimeStampedModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
-    reference_code = models.CharField(max_length=200)
+    reference_code = models.CharField(max_length=200, unique=True, blank=False, null=True)
     import_code = models.CharField(max_length=200)
     description = models.TextField()
     stock = models.IntegerField()
