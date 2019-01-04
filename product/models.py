@@ -1,70 +1,46 @@
+from main.models import TimeStampedModel
 from django.conf import settings
 from django.db import models
-from django.utils import timezone
 
 
-class ProductStore(models.Model):
+class ProductStore(TimeStampedModel):
     name = models.CharField(max_length=200)
     code = models.CharField(max_length=200)
     description = models.TextField()
-    created_date = models.DateTimeField(default=timezone.now)
-    modified_date = models.DateTimeField(blank=True, null=True)
-
-    def publish(self):
-        self.modified_date = timezone.now()
-        self.save()
 
     def __str__(self):
         return self.name
 
 
-class ProductCategory(models.Model):
+class ProductCategory(TimeStampedModel):
     name = models.CharField(max_length=200)
     code = models.CharField(max_length=200)
     description = models.TextField()
-    created_date = models.DateTimeField(default=timezone.now)
-    modified_date = models.DateTimeField(blank=True, null=True)
-
-    def publish(self):
-        self.modified_date = timezone.now()
-        self.save()
 
     def __str__(self):
         return self.name
 
 
-class ProductType(models.Model):
+class ProductType(TimeStampedModel):
     name = models.CharField(max_length=200)
     code = models.CharField(max_length=200)
     parameter = models.IntegerField()
     description = models.TextField()
-    created_date = models.DateTimeField(default=timezone.now)
-    modified_date = models.DateTimeField(blank=True, null=True)
-
-    def publish(self):
-        self.modified_date = timezone.now()
-        self.save()
 
     def __str__(self):
         return self.name
 
 
-class ProductStatus(models.Model):
+class ProductStatus(TimeStampedModel):
     name = models.CharField(max_length=200)
     code = models.CharField(max_length=200)
     description = models.TextField()
-    created_date = models.DateTimeField(default=timezone.now)
-    modified_date = models.DateTimeField(blank=True, null=True)
-
-    def publish(self):
-        self.modified_date = timezone.now()
-        self.save()
 
     def __str__(self):
         return self.name
 
 
-class Product(models.Model):
+class Product(TimeStampedModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     reference_code = models.CharField(max_length=200)
@@ -77,34 +53,22 @@ class Product(models.Model):
     product_type = models.ForeignKey(ProductType, on_delete=models.CASCADE)
     product_status = models.ForeignKey(ProductStatus, on_delete=models.CASCADE)
     image_url = models.CharField(max_length=200)
-    created_date = models.DateTimeField(default=timezone.now)
-    modified_date = models.DateTimeField(blank=True, null=True)
-
-    def publish(self):
-        self.modified_date = timezone.now()
-        self.save()
 
     def __str__(self):
         return self.name
 
 
-class Currency(models.Model):
+class Currency(TimeStampedModel):
     name = models.CharField(max_length=200)
     symbol = models.CharField(max_length=200)
     code = models.CharField(max_length=200)
     description = models.TextField()
-    created_date = models.DateTimeField(default=timezone.now)
-    modified_date = models.DateTimeField(blank=True, null=True)
-
-    def publish(self):
-        self.modified_date = timezone.now()
-        self.save()
 
     def __str__(self):
         return self.name
 
 
-class Price(models.Model):
+class Price(TimeStampedModel):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
     cost_price = models.DecimalField(max_digits=20, decimal_places=2)
@@ -113,12 +77,6 @@ class Price(models.Model):
     price_b = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
     price_c = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    created_date = models.DateTimeField(default=timezone.now)
-    modified_date = models.DateTimeField(blank=True, null=True)
-
-    def publish(self):
-        self.modified_date = timezone.now()
-        self.save()
 
     def __str__(self):
         return self.product.name

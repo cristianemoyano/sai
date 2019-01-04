@@ -1,88 +1,58 @@
 from django.conf import settings
+from main.models import TimeStampedModel
 from django.db import models
-from django.utils import timezone
 from product.models import (
     Product,
     Currency,
 )
 
 
-class OrderStatus(models.Model):
+class OrderStatus(TimeStampedModel):
     name = models.CharField(max_length=200)
     code = models.CharField(max_length=200)
     description = models.TextField()
-    created_date = models.DateTimeField(default=timezone.now)
-    modified_date = models.DateTimeField(blank=True, null=True)
-
-    def publish(self):
-        self.modified_date = timezone.now()
-        self.save()
 
     def __str__(self):
         return self.name
 
 
-class PaymentMethod(models.Model):
+class PaymentMethod(TimeStampedModel):
     name = models.CharField(max_length=200)
     code = models.CharField(max_length=200)
     description = models.TextField()
-    created_date = models.DateTimeField(default=timezone.now)
-    modified_date = models.DateTimeField(blank=True, null=True)
-
-    def publish(self):
-        self.modified_date = timezone.now()
-        self.save()
 
     def __str__(self):
         return self.name
 
 
-class Country(models.Model):
+class Country(TimeStampedModel):
     name = models.CharField(max_length=200)
     code = models.CharField(max_length=200)
     description = models.TextField()
-    created_date = models.DateTimeField(default=timezone.now)
-    modified_date = models.DateTimeField(blank=True, null=True)
-
-    def publish(self):
-        self.modified_date = timezone.now()
-        self.save()
 
     def __str__(self):
         return self.name
 
 
-class Region(models.Model):
+class Region(TimeStampedModel):
     name = models.CharField(max_length=200)
     code = models.CharField(max_length=200)
     description = models.TextField()
-    created_date = models.DateTimeField(default=timezone.now)
-    modified_date = models.DateTimeField(blank=True, null=True)
-
-    def publish(self):
-        self.modified_date = timezone.now()
-        self.save()
 
     def __str__(self):
         return self.name
 
 
-class City(models.Model):
+class City(TimeStampedModel):
     name = models.CharField(max_length=200)
     code = models.CharField(max_length=200)
     description = models.TextField()
-    created_date = models.DateTimeField(default=timezone.now)
-    modified_date = models.DateTimeField(blank=True, null=True)
-
-    def publish(self):
-        self.modified_date = timezone.now()
-        self.save()
 
     def __str__(self):
         return self.name
 
 
-class Customer(models.Model):
+class Customer(TimeStampedModel):
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
     mobile_number = models.CharField(max_length=200)
@@ -99,18 +69,12 @@ class Customer(models.Model):
     address_note = models.TextField(blank=True, null=True)
     additional_notes = models.TextField(blank=True, null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    created_date = models.DateTimeField(default=timezone.now)
-    modified_date = models.DateTimeField(blank=True, null=True)
-
-    def publish(self):
-        self.modified_date = timezone.now()
-        self.save()
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name
 
 
-class Order(models.Model):
+class Order(TimeStampedModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     additional_notes = models.TextField(blank=True, null=True)
@@ -123,29 +87,17 @@ class Order(models.Model):
     payment_method = models.ForeignKey(PaymentMethod, on_delete=models.CASCADE)
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
     invoice_url = models.CharField(max_length=200, blank=True, null=True)
-    created_date = models.DateTimeField(default=timezone.now)
-    modified_date = models.DateTimeField(blank=True, null=True)
-
-    def publish(self):
-        self.modified_date = timezone.now()
-        self.save()
 
     def __str__(self):
         return '#' + str(self.id)
 
 
-class OrderItem(models.Model):
+class OrderItem(TimeStampedModel):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     unit_price = models.DecimalField(max_digits=20, decimal_places=2)
     quantity = models.IntegerField()
     amount = models.DecimalField(max_digits=20, decimal_places=2)
-    created_date = models.DateTimeField(default=timezone.now)
-    modified_date = models.DateTimeField(blank=True, null=True)
-
-    def publish(self):
-        self.modified_date = timezone.now()
-        self.save()
 
     def __str__(self):
         return self.product.name
