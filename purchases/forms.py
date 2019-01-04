@@ -39,23 +39,6 @@ class PurchaseItemForm(forms.ModelForm):
         ]
 
 
-class PurchaseFilter(BaseFilter):
-    search_fields = {
-        'search_text': ['description', 'reference_code', 'import_code', 'name'],
-    }
-
-
-class PurchaseSearchForm(forms.Form):
-    search_text = forms.CharField(
-        required=False,
-        label='Buscar',
-        widget=forms.TextInput(attrs={
-            'placeholder': 'Buscar...',
-            'class': 'form-control',
-        })
-    )
-
-
 class ProviderForm(forms.ModelForm):
 
     class Meta:
@@ -77,3 +60,20 @@ class ProviderForm(forms.ModelForm):
             'address_note',
             'additional_notes',
         ]
+
+
+class ProviderFilter(BaseFilter):
+    search_fields = {
+        'search_text': ['first_name', 'last_name', 'company', 'email'],
+    }
+
+
+class ProviderSearchForm(forms.Form):
+    search_text = forms.CharField(
+        required=False,
+        label='Buscar',
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Buscar...',
+            'class': 'form-control',
+        })
+    )

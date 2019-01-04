@@ -1,9 +1,12 @@
 from django.http import HttpResponseRedirect
+from search_views.search import SearchListView
 from django.views.generic import ListView, DetailView
 from .forms import (
     PurchaseForm,
     ProviderForm,
     PurchaseItemForm,
+    ProviderSearchForm,
+    ProviderFilter,
 )
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
@@ -82,9 +85,14 @@ class PurchaseDelete(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
 # Provider CRUD
 
 
-class ProviderList(LoginRequiredMixin, ListView):
+class ProviderList(LoginRequiredMixin, SearchListView):
     model = Provider
     paginate_by = 10
+    template_name = 'purchases/provider_list.html'
+
+    # additional configuration for SearchListView
+    form_class = ProviderSearchForm
+    filter_class = ProviderFilter
 
 
 class ProviderView(LoginRequiredMixin, DetailView):

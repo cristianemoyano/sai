@@ -108,6 +108,7 @@ class ProductDelete(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
 
 # ProductCategory CRUD
 
+
 class ProductCategoryList(LoginRequiredMixin, ListView):
     model = ProductCategory
     paginate_by = 10
@@ -121,7 +122,6 @@ class ProductCategoryCreate(LoginRequiredMixin, CreateView):
     model = ProductCategory
     success_url = reverse_lazy('product_category_list')
     form_class = ProductCategoryForm
-
 
 
 class ProductCategoryUpdate(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
@@ -141,6 +141,7 @@ class ProductCategoryDelete(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
 # END ProductCategory CRUD
 
 # ProductStore CRUD
+
 
 class ProductStoreList(LoginRequiredMixin, ListView):
     model = ProductStore
