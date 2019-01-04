@@ -8,7 +8,7 @@
       <div class="header-body">
         <div class="row align-items-end">
           <div class="col">
-            
+
             <!-- Pretitle -->
             <h6 class="header-pretitle">
                 Listado
@@ -18,12 +18,24 @@
             <h1 class="header-title">
               Productos
             </h1>
+            <br>
+            <form >
+              <div class="col-12 col-lg-6 col-xl">
+              <div class="input-group mb-3">
+              {{ form.search_text }}
+              <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+              </div>
+              </div>
+              </div>
+            </form>
+
 
           </div>
           <a class="btn btn-danger" href="{% url "product_new" %}">Agregar Producto</a>
           <div class="col-auto">
-              
-            
+
+
 
 
           </div>
@@ -66,9 +78,9 @@
                                   {% endfor %}
                               </tbody>
                           </table>
-                          </div> 
-          
-                          
+                          </div>
+
+
                           <nav aria-label="Page navigation example">
                               {% if is_paginated %}
                                 <ul class="pagination">
@@ -94,6 +106,6 @@
                               </nav>
 
     </div>
-    </div> 
+    </div>
     </div>
 {% endblock %}
