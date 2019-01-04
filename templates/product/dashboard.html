@@ -8,7 +8,7 @@
       <div class="header-body">
         <div class="row align-items-end">
           <div class="col">
-            
+
             <!-- Pretitle -->
             <h6 class="header-pretitle">
                 {% if user.is_authenticated %}
@@ -24,8 +24,8 @@
           </div>
           <a class="btn btn-danger" href="{% url "logout" %}">Cerrar sesión</a>
           <div class="col-auto">
-              
-            
+
+
 
 
           </div>
@@ -47,68 +47,69 @@
                 <div class="card-body">
                   <div class="row align-items-center">
                     <div class="col">
-  
+
                       <!-- Title -->
                       <h6 class="card-title text-uppercase text-muted mb-2">
                         Ventas
                       </h6>
-                      
+
                       <!-- Heading -->
                       <span class="h2 mb-0">
-                        ${{ orders_amount }}
+                        <a href="{% url "order_list" %}">${{ orders_amount }}</a>
                       </span>
-                      
-  
+
+
                       <!-- Badge -->
                       <span class="badge badge-soft-success mt--1">
                           {{ orders }} operaciones
                       </span>
-  
+
                     </div>
                     <div class="col-auto">
-                      
+
                       <!-- Icon -->
                       <span class="h2 fe fe-dollar-sign text-muted mb-0"></span>
-  
+
                     </div>
                   </div> <!-- / .row -->
-  
+
                 </div>
               </div>
-  
+
             </div>
-          
+
             <div class="col-12 col-lg-6 col-xl">
              <!-- Card -->
              <div class="card">
                 <div class="card-body">
                   <div class="row align-items-center">
                     <div class="col">
-  
+
                       <!-- Title -->
                       <h6 class="card-title text-uppercase text-muted mb-2">
                         Compras
                       </h6>
-                      
+
                       <!-- Heading -->
                       <span class="h2 mb-0">
-                        ${{ purchases_amount }}
+                        <a href="{% url "purchase_list" %}">${{ purchases_amount }}</a>
+
                       </span>
 
                       <!-- Badge -->
                       <span class="badge badge-soft-success mt--1">
                           {{ purchases }} pedidos
                       </span>
-  
+
                     </div>
                     <div class="col-auto">
-                      
+
                       <!-- Icon -->
                       <span class="h2 fe fe-truck text-muted mb-0"></span>
-  
+
                     </div>
                   </div> <!-- / .row -->
-  
+
                 </div>
               </div>
             </div>
@@ -118,109 +119,110 @@
                 <div class="card-body">
                   <div class="row align-items-center">
                     <div class="col">
-  
+
                       <!-- Title -->
                       <h6 class="card-title text-uppercase text-muted mb-2">
                         Productos
                       </h6>
-                      
+
                       <!-- Heading -->
                       <span class="h2 mb-0">
-                          {{ products }}
+                        <a href="{% url "product_list" %}">{{ products }}</a>
                       </span>
 
                        <!-- Badge -->
                        <span class="badge badge-soft-danger mt--2">
                           0 en alerta
                       </span>
-  
+
                     </div>
                     <div class="col-auto">
-                      
+
                       <!-- Icon -->
                       <span class="h2 fe fe-tag text-muted mb-0"></span>
-  
+
                     </div>
                   </div> <!-- / .row -->
-  
+
                 </div>
               </div>
-                
+
             </div>
             <div class="col-12 col-lg-6 col-xl">
-              
+
               <!-- Card -->
               <div class="card">
                 <div class="card-body">
                   <div class="row align-items-center">
                     <div class="col">
-  
+
                       <!-- Title -->
                       <h6 class="card-title text-uppercase text-muted mb-2">
                         Clientes
                       </h6>
-  
+
                       <!-- Heading -->
                       <span class="h2 mb-0">
-                          {{ customers }}
+                        <a href="{% url "customer_list" %}">{{ customers }}</a>
                         </span>
 
                        <!-- Badge -->
                        <span class="badge badge-soft-success mt--1">
                           0 nuevos
                       </span>
-  
+
                     </div>
                     <div class="col-auto">
-                      
+
                       <!-- Icon -->
                       <span class="h2 fe fe-users text-muted mb-0"></span>
-  
+
                     </div>
                   </div> <!-- / .row -->
-  
+
                 </div>
               </div>
-                
+
             </div>
             <div class="col-12 col-lg-6 col-xl">
-              
+
                 <!-- Card -->
                 <div class="card">
                   <div class="card-body">
                     <div class="row align-items-center">
                       <div class="col">
-    
+
                         <!-- Title -->
                         <h6 class="card-title text-uppercase text-muted mb-2">
                           Proveedores
                         </h6>
-    
+
                         <!-- Heading -->
                         <span class="h2 mb-0">
-                            {{ providers }}
+
+                          <a href="{% url "provider_list" %}">{{ providers }}</a>
                           </span>
-  
+
                          <!-- Badge -->
                          <span class="badge badge-soft-success mt--1">
                             0 nuevos
                         </span>
-    
+
                       </div>
                       <div class="col-auto">
-                        
+
                         <!-- Icon -->
                         <span class="h2 fe fe-users text-muted mb-0"></span>
-    
+
                       </div>
                     </div> <!-- / .row -->
-    
+
                   </div>
                 </div>
-                  
+
               </div>
-              
-             
+
+
 
             <!-- End Content  -->
             </div>
