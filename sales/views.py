@@ -83,7 +83,6 @@ class OrderSale(LoginRequiredMixin, CreateView):
         sid = transaction.savepoint()
         try:
             proceso = json.loads(request.POST.get('proceso'))
-            import ipdb; ipdb.set_trace()
             print(proceso)
             if 'serie' not in proceso:
                 msg = 'Ingrese serie'
