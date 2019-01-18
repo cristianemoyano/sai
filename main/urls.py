@@ -29,4 +29,5 @@ urlpatterns = [
     url(r'^product/', include('product.urls')),
     url(r'^purchases/', include('purchases.urls')),
     url(r'^sales/', include('sales.urls')),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]

@@ -53,6 +53,7 @@
                               <thead class="thead-light">
                                   <tr>
                                   <th>Id</th>
+                                  <th>Identificación</th>
                                   <th>Cliente</th>
                                   <th>Fecha ingreso</th>
                                   <th>Acciones</th>
@@ -62,8 +63,9 @@
                                   {% for customer in object_list %}
                                   <tr>
                                   <td>{{ customer.id }}</td>
+                                  <td>{{ customer.identifier_number }}</td>
                                   <td>{{ customer }}</td>
-                                  <td>{{ customer.created_date }}</td>
+                                  <td>{{ customer.created }}</td>
                                   <td>
                                       <a class="btn btn-sm btn-primary" href="{% url "customer_view" customer.id %}">Ver</a>
                                       <a class="btn btn-sm btn-primary" href="{% url "customer_edit" customer.id %}">Editar</a>

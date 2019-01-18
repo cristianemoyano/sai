@@ -54,7 +54,7 @@
     <td>{{ product_price.product.name }}</td>
     <td>{{ product_price.currency.code }}{{ product_price.currency.symbol }} {{ product_price.cost_price }}</td>
     <td>{{ product_price.currency.code }}{{ product_price.currency.symbol }} {{ product_price.list_price }}</td>
-    <td>{{ product_price.created_date }} </td>
+    <td>{{ product_price.created }} </td>
     <td>
         <a class="btn btn-sm btn-primary" href="{% url "product_price_view" product_price.id %}">Ver</a>
         <a class="btn btn-sm btn-primary" href="{% url "product_price_edit" product_price.id %}">Editar</a>

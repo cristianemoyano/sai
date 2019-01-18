@@ -1,0 +1,254 @@
+{% extends 'base2.html' %}
+{% load staticfiles %}
+{% block css %}
+
+    <!-- DataTables -->
+    
+{% endblock css %}
+ {% block js %}
+
+   
+    <!-- DataTables -->
+
+
+
+    <!-- Script -->
+    <script>
+        var proceso = new Object();
+
+        proceso.type = 1;
+        proceso.order_items = new Array();
+
+        var table = new Array();
+        var cliente = new Object();
+
+        $(document).ready(function(){
+            $("#c-buscar").click(function () {          
+                    
+                var id = $('#cliente-id').val();
+                $.ajax({
+                    data: {
+                        'identifier_number':id,
+                        'format':'json',
+                    },
+                    url: '/sales/api/customers',
+                    type: 'get',
+                    success: function(data){
+                        //console.log(JSON.stringify(data));
+                        var html = ""
+                        if(data.length != 0){
+                            for (var i = 0; i < data.length; i++) {
+                                html += '<strong>Cliente</strong><br>';
+                                html += 'ID: ' + data[i].pk + '<br>';
+                                html += 'Identificación: ' + data[i].identifier_number + '<br>';
+                                html += 'nombre: ' + data[i].first_name + '<br>';
+                                html += 'apellido: ' + data[i].last_name + '<br>';
+                                html += 'dirección: ' + data[i].street_address_1 + '<br>';
+                                html += 'teléfono: ' + data[i].mobile_number + '<br>';
+
+                                cliente.pk = data[i].pk;
+                                cliente.dni = data[i].identifier_number;
+                                cliente.nombre = data[i].first_name;
+                                cliente.direccion = data[i].street_address_1;
+                                cliente.telefono = data[i].mobile_number;
+                            }  
+                            $("#c-seleccionar").attr("disabled", false);
+                        }else{
+                            html += '<strong>No existe un cliente con ese numero de identificación</strong><br><button class="btn btn-primary" style="margin-right: 5px;"> Crear Usuario</button>';
+                            $("#c-seleccionar").attr("disabled", true);
+                        }
+                        $('#cliente-resultado').html(html); 
+                    }
+                });            
+            });
+
+            $("#c-seleccionar").click(function () {
+                //console.log(cliente.numIdentificacion);
+                proceso.customer_id = cliente.pk;
+                $("#c-id").text(cliente.dni);
+                $("#c-nombre").text(cliente.nombre);
+                $("#c-direccion").text(cliente.direccion);
+                $("#c-telefono").text(cliente.telefono);
+                $('#buscarClienteModal').modal('hide');
+            });
+
+            $("#p-buscar").click(function () {
+                var id = $('#producto-id').val();
+                $.ajax({
+                    data: {
+                        'reference_code':id,
+                        'format':'json',
+                    },
+                    url: '/product/api/products',
+                    type: 'get',
+                    success: function(data){
+                        console.log(JSON.stringify(data));                    
+                        var html = ""
+                        if(data.length != 0){
+                            for (var i = 0; i < data.length; i++) {
+                                html += '<br><strong>Producto</strong><br>';
+                                html += '#Código: ' + data[i].reference_code + '<br>';
+                                html += 'Nombre: ' + data[i].name + '<br>';
+                                html += 'Precio Venta: ' + data[i].list_price + '<br>';
+                                html += 'stock: ' + data[i].stock + '<br>';
+                                html += '<input name="p-cantidad" id="p-cantidad" placeholder="Cantidad" type="text">';
+
+                                var fila = new Object();
+                                fila.pk = data[i].pk;
+                                fila.nombre = data[i].name;
+                                fila.precio_venta = data[i].list_price;
+                                fila.igv = data[i].list_price * 0.21;
+                                fila.cantidad = 1;
+                                fila.descuento = 0;
+
+                                table.push(fila);
+                            }
+                            $('#producto-resultado').html(html); 
+                            $("#p-seleccionar").attr("disabled", false);
+                        }else{
+                            html += '<strong>No existe producto con el código: "' + id + '"</strong><br>';
+                            //html += '<a class="btn btn-primary" style="margin-right: 5px;" href=""> Crear Producto</a>';
+                            
+                            $("#p-seleccionar").attr("disabled", true);
+                        }
+                        $('#producto-resultado').html(html); 
+                    }
+                });     
+            });   
+
+
+            $("#p-seleccionar").click(function () {
+                var d = table;
+                var t = document.getElementById('tb-detalle').getElementsByTagName('tbody')[0];
+                var rowCount = t.rows.length;
+
+                var row = t.insertRow(rowCount);
+                var rowIndex = row.rowIndex;
+                
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                var cell4 = row.insertCell(3);
+                var cell5 = row.insertCell(4);
+                var cell6 = row.insertCell(5);
+                var cell7 = row.insertCell(6);
+                var cell8 = row.insertCell(7);
+                //cell7.className = 'right';
+                cell4.setAttribute('align','left');
+                cell5.setAttribute('align','left');
+                cell6.setAttribute('align','left');
+                cell7.setAttribute('align','left');
+
+                cell1.innerHTML = rowCount+1;
+                cell2.innerHTML = d[d.length-1].nombre;
+                cell3.innerHTML = d[d.length-1].pk;
+                cell4.innerHTML = "$" + [round(d[d.length-1].precio_venta,2).toFixed(2)];
+
+                if($('#p-cantidad').val() == ''){
+                    d[d.length-1].cantidad = 1;
+                    cell5.innerHTML = d[d.length-1].cantidad;
+                }else{
+                    d[d.length-1].cantidad = $('#p-cantidad').val();
+                    cell5.innerHTML = d[d.length-1].cantidad;
+                }
+                /*
+                $.ajax({
+                    data: {'descuento': $('#p-cantidad').val()},
+                    url:"/factura/descuento",                
+                    type: 'get',
+                    success:function(data){
+                        d[d.length-1].descuento = data.descuento;
+                        cell6.innerHTML = data.descuento + " %";
+
+                        cell7.innerHTML = [([d[d.length-1].precio_venta + (d[d.length-1].precio_venta * (d[d.length-1].ganancia / 100))] * d[d.length-1].cantidad) - (([d[d.length-1].precio_venta + (d[d.length-1].precio_venta * (d[d.length-1].ganancia / 100))] * d[d.length-1].cantidad) * (d[d.length-1].descuento / 100))];
+
+                    }
+                }); 
+                */
+                // taxes
+                cell6.innerHTML = round(d[d.length-1].igv * d[d.length-1].cantidad * 1,2).toFixed(2);
+                // subtotal
+                cell7.innerHTML = round((d[d.length-1].precio_venta) * d[d.length-1].cantidad * 1,2).toFixed(2);
+                cell8.innerHTML = "<button class='btn btn-sm btn-danger no-print' onclick='removeItem("+rowIndex+")'>Remover</button>" 
+
+                var html = ""
+                $('#producto-resultado').html(html);
+                $('#producto-id').val('');
+                $("#p-seleccionar").attr("disabled", true);
+                $('#buscarProductoModal').modal('hide');
+
+                /*
+                $.ajax({                
+                    url:"/factura/secuencia_item",
+                    success:function(data){
+                        cell1.innerHTML = data.item;
+                        proceso.order_items.push({'item': data.item, 'serial': d[d.length-1].pk, 'cantidad': d[d.length-1].cantidad});
+                    }   
+                });
+                */
+                proceso.order_items.push({'product_id': d[d.length-1].pk, 'quantity': d[d.length-1].cantidad});
+                calTotal();           
+            });
+               
+
+
+        });   
+
+        function onEnviar(){
+            proceso.serie = $('#p-serie').val();
+            proceso.number = $('#p-num').val();
+            console.log(JSON.stringify(proceso));
+           document.getElementById("proceso").value=JSON.stringify(proceso);
+        }
+
+        var total = 0;
+        function calTotal(){
+            var total=0;
+            var t=0;
+            $('#tb-detalle tbody tr').each(function () {
+                total = total*1 + $(this).find("td").eq(6).html()*1;    
+                t = t*1 + $(this).find("td").eq(5).html()*1; 
+                
+            });
+            $('#sum-subtotal').text((total));
+            $('#sum-tax').text(t.toFixed(2));
+
+            $('#sum-total').text(total+t);
+
+            proceso.gross_amount = total;
+            proceso.tax = t.toFixed(2);
+            proceso.paid_amount = total+t;
+            proceso.discount = 0;
+            proceso.shipping = 0;
+
+        }
+
+    function round(value, exp) {
+      if (typeof exp === 'undefined' || +exp === 0)
+        return Math.round(value);
+
+      value = +value;
+      exp  = +exp;
+
+      if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0))
+        return NaN;
+
+      // Shift
+      value = value.toString().split('e');
+      value = Math.round(+(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp)));
+
+      // Shift back
+      value = value.toString().split('e');
+      return +(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp));
+    }
+
+    function removeItem(rowIndex) {
+        document.getElementById("tb-detalle").deleteRow(rowIndex);
+    }
+
+</script>
+
+
+
+{% endblock js %}
+    

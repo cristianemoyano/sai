@@ -43,18 +43,27 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.herokuapp.com']
 
 # Application definition
 
-INSTALLED_APPS = [
+DJANGO_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'import_export',
+)
+
+LOCAL_APPS = (
     'product',
     'sales',
     'purchases',
-]
+)
+
+THIRD_PARTY_APPS = (
+    'import_export',
+    'rest_framework',
+)
+
+INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
 # For import_export
 # The default value is False. It determines if the library will use database

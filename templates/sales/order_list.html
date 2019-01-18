@@ -20,7 +20,7 @@
             </h1>
 
           </div>
-          <a class="btn btn-danger" href="{% url "order_item_new" %}">Agregar Orden</a>
+          <a class="btn btn-danger" href="{% url "order_pdv" %}">Punto de Venta</a>
           <div class="col-auto">
               
             
@@ -41,7 +41,8 @@
                           <table class="table table-bordered table-sm">
                               <thead class="thead-light">
                                   <tr>
-                                  <th>Id</th>
+                                  <th>#ID</th>
+                                  <th>Código</th>
                                   <th>Cliente</th>
                                   <th>Monto</th>
                                   <th>Fecha</th>
@@ -52,9 +53,10 @@
                                   {% for order in object_list %}
                                   <tr>
                                   <td>{{ order.id }}</td>
+                                  <td>{{ order.code }}</td>
                                   <td>{{ order.customer }}</td>
                                   <td>{{ order.currency.code }}{{ order.currency.symbol }} {{ order.paid_amount }}</td>
-                                  <td>{{ order.created_date }}</td>
+                                  <td>{{ order.created }}</td>
                                   <td>
                                       <a class="btn btn-sm btn-primary" href="{% url "order_view" order.id %}">Ver</a>
                                       <a class="btn btn-sm btn-primary" href="{% url "order_edit" order.id %}">Editar</a>

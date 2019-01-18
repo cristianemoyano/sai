@@ -55,6 +55,7 @@ class City(TimeStampedModel):
 class Customer(TimeStampedModel):
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
+    identifier_number = models.CharField(max_length=200)
     mobile_number = models.CharField(max_length=200)
     work_number = models.CharField(max_length=200)
     email = models.CharField(max_length=200)
@@ -76,6 +77,7 @@ class Customer(TimeStampedModel):
 
 class Order(TimeStampedModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    code = models.CharField(max_length=200, blank=True, null=True)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     additional_notes = models.TextField(blank=True, null=True)
     gross_amount = models.DecimalField(max_digits=20, decimal_places=2)
@@ -97,6 +99,7 @@ class OrderItem(TimeStampedModel):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     unit_price = models.DecimalField(max_digits=20, decimal_places=2)
     quantity = models.IntegerField()
+    taxes = models.DecimalField(max_digits=20, decimal_places=2)
     amount = models.DecimalField(max_digits=20, decimal_places=2)
 
     def __str__(self):

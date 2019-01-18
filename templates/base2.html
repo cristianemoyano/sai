@@ -16,7 +16,18 @@
     <link rel="stylesheet" href="https://dashkit.goodthemes.co/assets/css/theme.min.css" id="stylesheetLight">	
  
     <link rel="stylesheet" href="https://dashkit.goodthemes.co/assets/css/theme-dark.min.css" id="stylesheetDark">
+    <style>
+        @media print
+    {    
+        .no-print, .no-print *
+        {
+            display: none !important;
+        }
+    }
+    </style>
 
+    {% block css %}{% endblock css %}
+    
     <title>SAI</title>
     
   </head>
@@ -65,6 +76,9 @@
     });
 
     </script>
+
+{% block js %}
+{% endblock js %}
 
     
   </body>
