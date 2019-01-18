@@ -1,7 +1,7 @@
     <!-- NAVIGATION
     ================================================== -->
     
-    <nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light" id="sidebar">
+    <nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light no-print" id="sidebar">
             <div class="container-fluid">
     
               <!-- Toggler -->
@@ -115,6 +115,11 @@
                     </a>
                     <div class="collapse " id="ventas">
                       <ul class="nav nav-sm flex-column">
+                        <li class="nav-item">
+                            <a href="{% url "order_pdv" %}" class="nav-link">
+                              Punto de Venta
+                            </a>
+                          </li>
                         <li class="nav-item">
                           <a href="{% url "order_list" %}" class="nav-link">
                             Órdenes

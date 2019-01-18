@@ -1,5 +1,10 @@
-from django.urls import path
+from django.urls import path, include
+from django.conf.urls import url
+from rest_framework import routers
 from . import views
+
+router = routers.DefaultRouter()
+router.register(r'products', views.ProductAPIView)
 
 urlpatterns = [
     # Product
@@ -33,4 +38,7 @@ urlpatterns = [
     path('price/view/<int:pk>', views.PriceView.as_view(), name='product_price_view'),
     path('price/edit/<int:pk>', views.PriceUpdate.as_view(), name='product_price_edit'),
     path('price/delete/<int:pk>', views.PriceDelete.as_view(), name='product_price_delete'),
+
+    # API
+    path('api/', include(router.urls)),
 ]

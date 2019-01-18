@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from search_views.search import SearchListView
 from django.views.generic import ListView, DetailView
+from django.core import serializers
 from django.http import HttpResponse
 from .resources import ProductResource
 from .forms import (
@@ -28,6 +29,8 @@ from sales.models import (
     Customer,
     Order,
 )
+from rest_framework import viewsets
+from .serializers import ProductSerializer
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 
@@ -288,3 +291,20 @@ class PriceDelete(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('product_price_list')
 
 # END Price CRUD
+
+
+# API
+class ProductAPIView(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = Product.objects.all().order_by('-created')
+    serializer_class = ProductSerializer
+    lookup_url_kwarg = 'reference_code'
+
+    def get_queryset(self):
+        code = self.request.query_params.get(self.lookup_url_kwarg)
+        products = Product.objects.all().order_by('-created')
+        if code:
+            products = Product.objects.filter(reference_code=code)
+        return products

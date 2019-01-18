@@ -44,6 +44,7 @@ class CustomerForm(forms.ModelForm):
     class Meta:
         model = Customer
         fields = [
+            'identifier_number',
             'first_name',
             'last_name',
             'mobile_number',

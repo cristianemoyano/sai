@@ -1,6 +1,11 @@
-from django.urls import path
+from django.urls import path, include
+from django.conf.urls import url
 from . import views
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register(r'customers', views.CustomerAPIView)
 
 urlpatterns = [
     # Order
@@ -10,6 +15,7 @@ urlpatterns = [
     path('view/<int:pk>', views.OrderView.as_view(), name='order_view'),
     path('edit/<int:pk>', views.OrderUpdate.as_view(), name='order_edit'),
     path('delete/<int:pk>', views.OrderDelete.as_view(), name='order_delete'),
+    path('pdv', csrf_exempt(views.OrderSale.as_view()), name='order_pdv'),
     # OrderItem
     path('item', views.OrderItemList.as_view(), name='order_item_list'),
     path('item/view/<int:pk>', views.OrderItemView.as_view(), name='order_item_view'),
@@ -24,4 +30,8 @@ urlpatterns = [
     path('customer/view/<int:pk>', views.CustomerView.as_view(), name='customer_view'),
     path('customer/edit/<int:pk>', views.CustomerUpdate.as_view(), name='customer_edit'),
     path('customer/delete/<int:pk>', views.CustomerDelete.as_view(), name='customer_delete'),
+
+
+    # API
+    path('api/', include(router.urls)),
 ]

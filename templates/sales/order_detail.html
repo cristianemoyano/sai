@@ -16,7 +16,7 @@
     
                 <!-- Title -->
                 <h1 class="header-title">
-                  Detalle de la Orden: {{object.id}}
+                  Detalle de la Orden: # {{object.id}} - Código: {{object.code}}
                 </h1>
     
               </div>
@@ -39,6 +39,7 @@
               <div class="col-12 col-lg-6 col-xl">
 
 <h2>Cliente: {{object.customer}}</h2>
+<h2>Vendedor: {{object.user.first_name}} {{object.user.last_name}}</h2>
 <h2>Notas adicionales: {{object.additional_notes}}</h2>
 <h2>Importe bruto: {{object.gross_amount}}</h2>
 <h2>Impuestos: {{object.tax}}</h2>
@@ -57,8 +58,10 @@
             <tr>
             <th>Id</th>
             <th>Producto</th>
+            <th>Precio Unit.</th>
             <th>Cantidad</th>
-            <th>Monto</th>
+            <th>Impuestos</th>
+            <th>Subtotal</th>
             </tr>
         </thead>
         <tbody>
@@ -66,7 +69,9 @@
             <tr>
             <td>{{ order_item.id }}</td>
             <td>{{ order_item.product }}</td>
+            <td>{{ order_item.unit_price }}</td>
             <td>{{ order_item.quantity}}</td>
+            <td>{{ order_item.taxes }}</td>
             <td>{{ order_item.amount }}</td>
             </tr>
             {% endfor %}
