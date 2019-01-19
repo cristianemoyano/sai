@@ -18,9 +18,9 @@
             </h1>
             <!-- Pretitle -->
             <h6 class="header-pretitle">
-            Sistema de Administración Integral
             
-            <center> <div class="tags tags--postTags tags--light"><br>
+            
+            <center> Sistema de Administración Integral<div class="tags tags--postTags tags--light"><br>
            <a class="link" href="/admin" title="Go to Python" aria-label="Go to Python" data-action-source="related">Admin</a>
         </div></center>    
         </h6>
@@ -36,8 +36,23 @@
         <div class="row">
           <div class="col-12 col-lg-6 col-xl">
 
+             
 
               <form method="post" class="form-signin">
+                  {% if form.errors %}
+                  {% for field in form %}
+                      {% for error in field.errors %}
+                          <div class="alert alert-danger">
+                              <strong>{{ error|escape }}</strong>
+                          </div>
+                      {% endfor %}
+                  {% endfor %}
+                  {% for error in form.non_field_errors %}
+                      <div class="alert alert-danger">
+                          <strong>{{ error|escape }}</strong>
+                      </div>
+                  {% endfor %}
+              {% endif %}
                   {% csrf_token %}
                   <div class="form-group">
                     <label for="exampleInputEmail1">Usuario</label>
