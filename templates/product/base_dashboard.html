@@ -1,8 +1,10 @@
 {% extends 'base2.html' %}
 {% load staticfiles %}
  {% block js %}
+ {% autoescape off %}
  <script src="/static/plugins/highcharts/highcharts.src.js"></script>
  <script>
+        let historical_sales = {{ historical_sales|safe }};
         Highcharts.chart('VENTAS', {
             chart: {
                 type: 'column'
@@ -21,8 +23,8 @@
                     text: 'Ventas'
                 }
             },
-            series: {{ historical_sales|safe }}
+            series: historical_sales,
         });
       </script>
-      
+{% endautoescape %}
  {% endblock js %}
