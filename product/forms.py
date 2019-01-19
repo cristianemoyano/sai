@@ -9,7 +9,7 @@ from .models import (
 from search_views.filters import BaseFilter
 
 
-class ProductForm(forms.ModelForm):
+class ProductCreateForm(forms.ModelForm):
 
     class Meta:
         model = Product
@@ -24,6 +24,20 @@ class ProductForm(forms.ModelForm):
             'product_category',
             'product_type',
             'product_status',
+            'image_url'
+        ]
+
+class ProductEditForm(forms.ModelForm):
+
+    class Meta:
+        model = Product
+        fields = [
+            'name',
+            'import_code',
+            'description',
+            'product_store',
+            'product_category',
+            'product_type',
             'image_url'
         ]
 

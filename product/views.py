@@ -5,7 +5,8 @@ from django.core import serializers
 from django.http import HttpResponse
 from .resources import ProductResource
 from .forms import (
-    ProductForm,
+    ProductCreateForm,
+    ProductEditForm,
     ProductSearchForm,
     ProductFilter,
     ProductCategoryForm,
@@ -36,10 +37,12 @@ from django.contrib.auth.decorators import login_required
 
 from django.db.models import Sum
 from main.auth import GroupRequiredMixin
+from main.utils import get_general_stock_status
 
 
 @login_required
 def dashboard(request):
+    product_alerts = get_general_stock_status()
     products = Product.objects.all().count()
     providers = Provider.objects.all().count()
     customers = Customer.objects.all().count()
@@ -63,7 +66,11 @@ def dashboard(request):
         'purchases': purchases,
         'orders': orders,
         'orders_amount': orders_amount,
-        'purchases_amount': purchases_amount
+        'purchases_amount': purchases_amount,
+        'products_in_danger': product_alerts.get('danger'),
+        'products_in_alert': product_alerts.get('alert'),
+        'products_in_info': product_alerts.get('info'),
+        'products_in_success': product_alerts.get('success'),
     }
 
     return render(request, 'product/dashboard.html', context)
@@ -87,7 +94,7 @@ class ProductView(LoginRequiredMixin, DetailView):
 class ProductCreate(LoginRequiredMixin, CreateView):
     model = Product
     success_url = reverse_lazy('product_list')
-    form_class = ProductForm
+    form_class = ProductCreateForm
 
     def form_valid(self, form):
         form.instance.user_id = self.request.user.id
@@ -97,7 +104,7 @@ class ProductCreate(LoginRequiredMixin, CreateView):
 class ProductUpdate(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
     model = Product
     success_url = reverse_lazy('product_list')
-    form_class = ProductForm
+    form_class = ProductEditForm
 
     def form_valid(self, form):
         form.instance.user_id = self.request.user.id
