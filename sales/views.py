@@ -27,7 +27,7 @@ from rest_framework import viewsets
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from main.auth import GroupRequiredMixin
-from main.utils import create_order_items
+from main.utils import create_order_items, manage_stock_product
 
 from django.template import RequestContext
 from django.contrib import messages
@@ -42,7 +42,7 @@ from product.models import (
 
 class OrderList(LoginRequiredMixin, ListView):
     model = Order
-    paginate_by = 10
+    ordering = ['-created']
 
 
 class OrderView(LoginRequiredMixin, DetailView):
@@ -124,13 +124,14 @@ class OrderSale(LoginRequiredMixin, CreateView):
             order.save()
             print("Sale generated")
             print(order.id)
-            for k in proceso['order_items']:
-                product = Product.objects.get(id=k['product_id'])
-                qty = Decimal(k['quantity'])
+            for order_item in proceso['order_items']:
+                product = Product.objects.get(id=order_item['product_id'])
+                qty = Decimal(order_item['quantity'])
                 price = product.list_price
                 tax = Decimal('0.21')
                 taxes = (price * qty) * tax
                 amount = qty * price
+                manage_stock_product(product.id, qty, 'SALE')
                 order_item = OrderItem(
                     product=product,
                     unit_price=price,
@@ -172,7 +173,6 @@ class OrderDelete(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
 
 class CustomerList(LoginRequiredMixin, SearchListView):
     model = Customer
-    paginate_by = 10
     template_name = 'sales/customer_list.html'
 
     # additional configuration for SearchListView
@@ -215,7 +215,6 @@ class CustomerDelete(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
 
 class OrderItemList(LoginRequiredMixin, ListView):
     model = OrderItem
-    paginate_by = 10
 
 
 class OrderItemView(LoginRequiredMixin, DetailView):
@@ -277,6 +276,15 @@ def search_customer(request):
         )
     )
     return HttpResponse(data, content_type='application/json')
+
+def order_ticket(request, pk):
+    order = Order.objects.get(pk=pk)
+    order_items = OrderItem.objects.filter(order=order)
+    context = {
+        'order': order,
+        'order_items': order_items,
+    }
+    return render(request, 'sales/order_ticket.html', context)
 
 
 class CustomerAPIView(viewsets.ModelViewSet):

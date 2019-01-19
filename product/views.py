@@ -73,7 +73,6 @@ def dashboard(request):
 
 class ProductList(LoginRequiredMixin, SearchListView):
     model = Product
-    paginate_by = 10
     template_name = "product/product_list.html"
 
     # additional configuration for SearchListView
@@ -191,7 +190,6 @@ def product_export_excel(request):
 
 class ProductCategoryList(LoginRequiredMixin, ListView):
     model = ProductCategory
-    paginate_by = 10
 
 
 class ProductCategoryView(DetailView):
@@ -225,7 +223,6 @@ class ProductCategoryDelete(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
 
 class ProductStoreList(LoginRequiredMixin, ListView):
     model = ProductStore
-    paginate_by = 10
 
 
 class ProductStoreView(DetailView):
@@ -259,7 +256,6 @@ class ProductStoreDelete(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
 
 class PriceList(LoginRequiredMixin, ListView):
     model = Price
-    paginate_by = 10
 
 
 class PriceView(DetailView):

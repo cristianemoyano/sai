@@ -26,7 +26,6 @@ from main.utils import create_purchase_items
 
 class PurchaseList(LoginRequiredMixin, ListView):
     model = Purchase
-    paginate_by = 10
 
 
 class PurchaseView(LoginRequiredMixin, DetailView):
@@ -87,7 +86,6 @@ class PurchaseDelete(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
 
 class ProviderList(LoginRequiredMixin, SearchListView):
     model = Provider
-    paginate_by = 10
     template_name = 'purchases/provider_list.html'
 
     # additional configuration for SearchListView
