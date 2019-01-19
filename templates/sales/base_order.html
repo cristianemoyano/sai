@@ -70,7 +70,7 @@
                             }  
                             $("#c-seleccionar").attr("disabled", false);
                         }else{
-                            html += '<strong>No existe un cliente con ese numero de identificación</strong><br><button class="btn btn-primary" style="margin-right: 5px;"> Crear Usuario</button>';
+                            html += '<strong>No existe un cliente con ese numero de identificación</strong><br><a target="_blank" href="{% url "customer_new" %}" class="btn btn-primary" style="margin-right: 5px;"> Cargar cliente</a>';
                             $("#c-seleccionar").attr("disabled", true);
                         }
                         $('#cliente-resultado').html(html); 
@@ -123,7 +123,7 @@
                             $("#p-seleccionar").attr("disabled", false);
                         }else{
                             html += '<strong>No existe producto con el código: "' + id + '"</strong><br>';
-                            //html += '<a class="btn btn-primary" style="margin-right: 5px;" href=""> Crear Producto</a>';
+                            html += '<a class="btn btn-primary" target="_blank" style="margin-right: 5px;" href="{% url "product_new" %}"> Cargar Producto</a>';
                             
                             $("#p-seleccionar").attr("disabled", true);
                         }

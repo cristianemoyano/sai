@@ -77,6 +77,7 @@
                                   <th>Nombre</th>
                                   <th>Código</th>
                                   <th>En stock</th>
+                                  <th>Cant. Mín.</th>
                                   <th>Depósito/Ubicación</th>
                                   <th>Categoría</th>
                                   <th>Precio Costo</th>
@@ -92,11 +93,19 @@
                                   <td>{{ product.name }}</td>
                                   <td>{{ product.reference_code }}</td>
                                   <td>{{ product.stock }}</td>
+                                  <td>{{ product.min_amount }}</td>
                                   <td>{{ product.product_store }}</td>
                                   <td>{{ product.product_category }}</td>
-                                  <td>{{ product.cost_price }}</td>
-                                  <td>{{ product.list_price }}</td>
-                                  <td>{{ product.product_status }}</td>
+                                  <td>$ {{ product.cost_price }}</td>
+                                  <td>
+                                    $ {{ product.list_price }}
+                                    <span class="badge badge-primary" title="rentabilidad"> Rent. % {{ product.profit_list_price }}</span>
+
+                                  </td>
+                                  <td>{{ product.product_status }}
+                                      <h4><span class="badge badge-{{ product.stock_status.class }}">{{ product.stock_status.label }}</span></h4> 
+                                     
+                                  </td>
                                   <td>
                                       <a class="btn btn-sm btn-primary" href="{% url "product_view" product.id %}">Ver</a>
                                       <a class="btn btn-sm btn-primary" href="{% url "product_edit" product.id %}">Editar</a>
