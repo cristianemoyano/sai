@@ -1,6 +1,7 @@
 from main.models import TimeStampedModel
 from django.conf import settings
 from django.db import models
+from decimal import Decimal
 
 
 class ProductStore(TimeStampedModel):
@@ -81,6 +82,45 @@ class Product(TimeStampedModel):
     def price_c(self):
         price = Price.objects.filter(product=self.id).latest('list_price')
         return price.price_c
+    
+    @property
+    def stock_status(self):
+        return _get_product_stock_status(self.id)
+    
+    @property
+    def profit_list_price(self):
+        list_price = Decimal(str(self.list_price))
+        cost_price = Decimal(str(self.cost_price))
+        percent = Decimal('100')
+        profit = ((list_price-cost_price)/ list_price) * percent
+        return round(profit,2)
+
+def _get_product_stock_status(product_id):
+    product =  Product.objects.get(id=product_id)
+    if product:
+        stock = product.stock
+        min_amount = product.min_amount
+        distance = stock-min_amount
+        if stock <= 0:
+            return {
+                'label': 'En Peligro',
+                'class': 'danger'
+            }
+        if stock <= min_amount and stock > 0:
+            return {
+                'label': 'En Alerta',
+                'class': 'warning'
+            }
+        if distance > 0 and distance <= 3:
+            return {
+                'label': 'Próximo a reponer',
+                'class': 'primary'
+            }
+        if distance > 0 and distance > 3:
+            return {
+                'label': 'Saludable',
+                'class': 'success'
+            }
 
 
 class Currency(TimeStampedModel):
