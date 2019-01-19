@@ -1,0 +1,28 @@
+{% extends 'base2.html' %}
+{% load staticfiles %}
+ {% block js %}
+ <script src="/static/plugins/highcharts/highcharts.src.js"></script>
+ <script>
+        Highcharts.chart('VENTAS', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Ventas históricas por mes'
+            },
+            xAxis: {
+                categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                title: {
+                    text: 'Meses'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Ventas'
+                }
+            },
+            series: {{ historical_sales|safe }}
+        });
+      </script>
+      
+ {% endblock js %}

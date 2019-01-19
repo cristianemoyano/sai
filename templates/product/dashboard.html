@@ -1,4 +1,4 @@
-{% extends 'base2.html' %}
+{% extends 'product/base_dashboard.html' %}
 {% block content %}
  <!-- HEADER -->
  <div class="header">
@@ -282,7 +282,6 @@
                         <a href="{% url "purchase_new" %}" class="btn btn-primary">
                           Comprar
                         </a>
-                        
                       </div>
                     </div> <!-- / .row -->
                   </div>
@@ -294,6 +293,34 @@
 
               {% include "product/product_dashboard.html" %}   
 
+
+              <!-- Chart -->
+              <div class="col-12 col-xl-12">
+            
+                  <!-- Card -->
+                  <div class="card">
+                    <div class="card-body text-center">
+                      <div class="row justify-content-center">
+                        <div class="col-12 col-xl-10">
+                    
+          
+                          <!-- Title -->
+                          <h2 class="mb-2">
+                            Ventas
+                          </h2>
+          
+                          <!-- Content -->
+                          <p class="text-muted">
+                              <div id="VENTAS"></div>
+                          </p>          
+                
+                        </div>
+                      </div> <!-- / .row -->
+                    </div>
+                  </div>
+          
+                </div>
+  
               
 
             <!-- End Content  -->
