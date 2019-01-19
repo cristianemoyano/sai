@@ -37,7 +37,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.db.models import Sum
 from main.auth import GroupRequiredMixin
-from main.utils import get_general_stock_status
+from main.utils import get_general_stock_status, get_historical_sales_amount_by_month
 
 
 @login_required
@@ -58,6 +58,8 @@ def dashboard(request):
         purchases_amount = 0
     if not orders_amount:
         orders_amount = 0
+    
+    historical_sales = get_historical_sales_amount_by_month()
 
     context = {
         'products': products,
@@ -71,6 +73,7 @@ def dashboard(request):
         'products_in_alert': product_alerts.get('alert'),
         'products_in_info': product_alerts.get('info'),
         'products_in_success': product_alerts.get('success'),
+        'historical_sales': historical_sales,
     }
 
     return render(request, 'product/dashboard.html', context)

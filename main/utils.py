@@ -1,3 +1,4 @@
+import json
 from product.models import (
     Product,
     ProductStatus,
@@ -17,7 +18,9 @@ from purchases.models import (
     Provider,
     PurchaseStatus,
 )
-
+from django.db.models.functions import TruncMonth
+from django.db.models import Count
+import itertools
 
 def get_dynamic_fields(request_fields, object_name, object_fields, excempt_fields_list):
     crsftoken = 'csrfmiddlewaretoken'
@@ -250,3 +253,46 @@ def get_general_stock_status():
         'info': info,
         'success': success,
     }
+
+def get_historical_sales_amount_by_month():
+    orders = Order.objects.annotate(month=TruncMonth('created')).values('month').annotate(c=Count('id')).order_by('month')
+    data = []
+    MONTHS_NAMES =	{
+        1: "Ene",
+        2: "Feb",
+        3: "Mar",
+        4: "Abr",
+        5: "May",
+        6: "Jun",
+        7: "Jul",
+        8: "Ago",
+        9: "Sep",
+        10: "Oct",
+        11: "Nov",
+        12: "Dic",
+    }
+    for order in orders:
+        data.append(
+            {
+                'month': MONTHS_NAMES.get(order.get('month').month),
+                'year': order.get('month').year,
+                'count': order.get('c'),
+            }
+        )
+    historical_sales_by_month = []
+    for key, group in itertools.groupby(data, key=lambda x:x['year']):
+        sales_by_year = list(group)
+        print(sales_by_year)
+        year = sales_by_year[0].get('year')
+        sales_by_month = [0,0,0,0,0,0,0,0,0,0,0,0]
+        i = 0
+        for month in sales_by_year:
+            sales_by_month[i] = month.get('count')
+            i += 1
+        historical_sales_by_month.append(
+            {
+                "name": str(year),
+                "data": sales_by_month
+            }
+        )
+    return json.dumps(historical_sales_by_month)
