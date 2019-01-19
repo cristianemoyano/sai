@@ -1,4 +1,4 @@
-{% extends 'base2.html' %}
+{% extends 'base_tables.html' %}
 {% block content %}
 <!-- HEADER -->
 <div class="header">
@@ -38,7 +38,7 @@
         <div class="row">
           <div class="col-12 col-lg-6 col-xl">
                         <div class="table-responsive">
-                          <table class="table table-bordered table-sm">
+                          <table id="data_table" class="table table-bordered table-sm">
                               <thead class="thead-light">
                                   <tr>
                                   <th>#ID</th>
@@ -58,9 +58,20 @@
                                   <td>{{ order.currency.code }}{{ order.currency.symbol }} {{ order.paid_amount }}</td>
                                   <td>{{ order.created }}</td>
                                   <td>
-                                      <a class="btn btn-sm btn-primary" href="{% url "order_view" order.id %}">Ver</a>
-                                      <a class="btn btn-sm btn-primary" href="{% url "order_edit" order.id %}">Editar</a>
-                                      <a class="btn btn-sm btn-danger" href="{% url "order_delete" order.id %}">Eliminar</a>
+                                      <a class="btn btn-sm btn-primary" href="{% url "order_view" order.id %}">
+                                        <i class="fe fe-eye" title="Ver Detalle"></i> Detalle
+                                      </a>
+                                      <a class="btn btn-sm btn-info" href="{% url "order_ticket" order.id %}">
+                                        <i class="fe fe-file" title="Imprimir Boleto"></i> Imprimir Boleto
+                                      </a>
+                                      {% if user.is_staff %}
+                                      <a class="btn btn-sm btn-warning" href="{% url "order_edit" order.id %}">
+                                          <i class="fe fe-edit" title="Editar Orden"></i> 
+                                        </a>
+                                      <a class="btn btn-sm btn-danger" href="{% url "order_delete" order.id %}">
+                                          <i class="fe fe-trash" title="Eliminar Orden"></i> 
+                                        </a>
+                                        {% endif %}
                                   </td>
                                   </tr>
                                   {% endfor %}

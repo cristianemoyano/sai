@@ -16,6 +16,7 @@ urlpatterns = [
     path('edit/<int:pk>', views.OrderUpdate.as_view(), name='order_edit'),
     path('delete/<int:pk>', views.OrderDelete.as_view(), name='order_delete'),
     path('pdv', csrf_exempt(views.OrderSale.as_view()), name='order_pdv'),
+    path('ticket/<int:pk>', views.order_ticket, name='order_ticket'),
     # OrderItem
     path('item', views.OrderItemList.as_view(), name='order_item_list'),
     path('item/view/<int:pk>', views.OrderItemView.as_view(), name='order_item_view'),

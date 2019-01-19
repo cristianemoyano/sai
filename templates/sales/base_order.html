@@ -3,13 +3,29 @@
 {% block css %}
 
     <!-- DataTables -->
+    <link rel="stylesheet" href="/static/plugins/datatables/dataTables.bootstrap.css">
     
 {% endblock css %}
  {% block js %}
 
    
-    <!-- DataTables -->
-
+        <!-- DataTables -->
+        <script src="/static/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="/static/plugins/datatables/dataTables.bootstrap.min.js"></script>
+        <!-- page script -->
+         <script>
+            $(function () {
+              $("#example1").DataTable();
+              $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false
+              });
+            });
+          </script>
 
 
     <!-- Script -->

@@ -1,0 +1,32 @@
+{% extends 'base2.html' %}
+{% load staticfiles %}
+{% block css %}
+
+    <!-- DataTables -->
+    <link rel="stylesheet" href="/static/plugins/datatables/dataTables.bootstrap4.min.css">
+    
+    
+{% endblock css %}
+ {% block js %}
+        <!-- DataTables -->
+        <script src="/static/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="/static/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+        <!-- page script -->
+         <script>
+            $(function () {
+                $("#data_table").DataTable( {
+                    "language": {
+                        "url": "/static/plugins/datatables/Spanish.json"
+                    }
+                } );
+                $('#data_table_full').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false
+              });
+            });
+          </script>
+{% endblock js %}
