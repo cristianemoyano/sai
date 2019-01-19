@@ -60,7 +60,6 @@ def dashboard(request):
         orders_amount = 0
     
     historical_sales = get_historical_sales_amount_by_month()
-
     context = {
         'products': products,
         'providers': providers,

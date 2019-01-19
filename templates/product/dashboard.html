@@ -293,7 +293,7 @@
 
               {% include "product/product_dashboard.html" %}   
 
-
+              {% if orders_amount %}
               <!-- Chart -->
               <div class="col-12 col-xl-12">
             
@@ -320,7 +320,7 @@
                   </div>
           
                 </div>
-  
+                {% endif %}
               
 
             <!-- End Content  -->
