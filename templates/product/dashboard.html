@@ -132,7 +132,7 @@
 
                        <!-- Badge -->
                        <span class="badge badge-soft-danger mt--2">
-                          0 en alerta
+                          {{ products_in_danger }}  en peligro
                       </span>
 
                     </div>
@@ -216,13 +216,85 @@
 
                       </div>
                     </div> <!-- / .row -->
-
                   </div>
                 </div>
 
               </div>
 
 
+
+
+
+              <!-- PDV -->
+              <div class="col-12 col-xl-5">
+            
+                <!-- Card -->
+                <div class="card">
+                  <div class="card-body text-center">
+                    <div class="row justify-content-center">
+                      <div class="col-12 col-xl-10">
+                  
+        
+                        <!-- Title -->
+                        <h2 class="mb-2">
+                          Punto de Venta
+                        </h2>
+        
+                        <!-- Content -->
+                        <p class="text-muted">
+                          Con el Punto de Venta (PDV) podrás procesar órdenes de compra para tus clientes.
+                        </p>
+        
+                        <!-- Button -->
+                        <a href="{% url "order_pdv" %}" class="btn btn-primary">
+                          Vender
+                        </a>
+                        
+                      </div>
+                    </div> <!-- / .row -->
+                  </div>
+                </div>
+        
+              </div>
+
+
+              <!-- Comprar -->
+              <div class="col-12 col-xl-5">
+            
+                <!-- Card -->
+                <div class="card">
+                  <div class="card-body text-center">
+                    <div class="row justify-content-center">
+                      <div class="col-12 col-xl-10">
+                  
+        
+                        <!-- Title -->
+                        <h2 class="mb-2">
+                          ¿Te quedaste sin stock?
+                        </h2>
+        
+                        <!-- Content -->
+                        <p class="text-muted">
+                          No te quedes sin stock. Realizá acá los pedidos a tus proveedores y reabastece tu depósito.
+                        </p>
+        
+                        <!-- Button -->
+                        <a href="{% url "purchase_new" %}" class="btn btn-primary">
+                          Comprar
+                        </a>
+                        
+                      </div>
+                    </div> <!-- / .row -->
+                  </div>
+                </div>
+        
+              </div>
+
+
+
+              {% include "product/product_dashboard.html" %}   
+
+              
 
             <!-- End Content  -->
             </div>

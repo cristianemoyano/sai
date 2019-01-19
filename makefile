@@ -11,6 +11,9 @@ superuser:
 run:
 	python3 manage.py runserver
 
+shell:
+	python3 manage.py shell
+
 loaddata:
 	python3 manage.py loaddata product/migrations/0001_product.json
 	python3 manage.py loaddata sales/migrations/0001_sales.json

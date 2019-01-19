@@ -1,0 +1,178 @@
+<div class="row">
+    <div class="col-12 col-xl-12">
+
+      <!-- Projects -->
+      <div class="card">
+        <div class="card-header">
+          <div class="row align-items-center">
+            <div class="col">
+              
+              <!-- Title -->
+              <h4 class="card-header-title">
+                    <span class="h2 fe fe-bell text-muted mb-0"></span>
+                Alerta de Productos
+              </h4>
+              <br>
+              Total:  <b> {{ products }}</b>
+            </div>
+            <div class="col-auto">
+
+              <!-- Link -->
+              <a href="{% url "product_list" %}" class="btn btn-sm btn-primary small">Ver todos</a>
+              
+            </div>
+          </div> <!-- / .row -->
+        </div>
+        <div class="card-body">
+
+          
+          {% if products_in_danger %}
+          <div class="row align-items-center">
+            <div class="col-auto">
+              
+              <!-- Avatar -->
+              <div class="avatar avatar-4by3">
+                    <h2>
+                     <span class="badge badge-xl badge-danger">
+                     </span> {{ products_in_danger }}
+                 </h2>
+                   </div>
+             
+
+            </div>
+            <div class="col ml--2">
+
+              <!-- Title -->
+              <h4 class="card-title mb-1">
+                <a href="project-overview.html">En Peligro</a>
+              </h4>
+
+              <!-- Time -->
+              <p class="card-text small text-muted">
+                <time datetime="2018-05-24">Productos que necesitan reposición urgente. Stock: 0 </time>
+              </p>
+              
+            </div>
+            <div class="col-auto">
+              
+              
+            </div>
+          </div> <!-- / .row -->
+          {% endif %}
+
+
+          {% if products_in_alert %}
+          <!-- Divider -->
+          <hr>
+          <div class="row align-items-center">
+            <div class="col-auto">
+              
+              <!-- Avatar -->
+              <div class="avatar avatar-4by3">
+                    <h2>
+                     <span class="badge badge-xl badge-warning">
+                     </span> {{ products_in_alert }}
+                 </h2>
+                   </div>
+
+            </div>
+            <div class="col ml--2">
+
+              <!-- Title -->
+              <h4 class="card-title mb-1">
+                <a href="project-overview.html">En Alerta</a>
+              </h4>
+
+              <!-- Time -->
+              <p class="card-text small text-muted">
+                <time datetime="2018-05-24">Productos que están próximos a acabarse.</time>
+              </p>
+              
+            </div>
+            <div class="col-auto">
+
+              
+            </div>
+          </div> <!-- / .row -->
+          {% endif %}
+
+
+          {% if products_in_info %}
+          <!-- Divider -->
+          <hr>
+
+          <div class="row align-items-center">
+            <div class="col-auto">
+              
+                    <div class="avatar avatar-4by3">
+                            <h2>
+                             <span class="badge badge-xl badge-primary">
+                             </span> {{ products_in_info }}
+                         </h2>
+                           </div>
+
+            </div>
+            <div class="col ml--2">
+
+              <!-- Title -->
+              <h4 class="card-title mb-1">
+                <a href="project-overview.html">Próximos a Reponer</a>
+              </h4>
+
+              <!-- Time -->
+              <p class="card-text small text-muted">
+                <time datetime="2018-05-24">Alerta de mantenimiento predictivo</time>
+              </p>
+              
+            </div>
+            <div class="col-auto">
+              
+              
+            </div>
+          </div> <!-- / .row -->
+          {% endif %}
+
+          {% if products_in_success %}
+          <!-- Divider -->
+          <hr>
+
+          <div class="row align-items-center">
+            <div class="col-auto">
+              
+               <!-- Avatar -->
+               <div class="avatar avatar-4by3">
+                   <h2>
+                    <span class="badge badge-xl badge-success">
+                    </span> {{ products_in_success }}
+                </h2>
+                  </div>
+
+
+            </div>
+            <div class="col ml--2">
+
+              <!-- Title -->
+              <h4 class="card-title mb-1">
+                <a href="project-overview.html">Saludable</a>
+              </h4>
+
+              <!-- Time -->
+              <p class="card-text small text-muted">
+                <time datetime="2018-05-24">Productos con un stock dentro de los márgenes establecidos.</time>
+              </p>
+              
+            </div>
+            <div class="col-auto">
+              
+
+              
+            </div>
+          </div> <!-- / .row -->
+          {% endif %}
+
+        </div> <!-- / .card-body -->
+      </div> <!-- / .card -->           
+
+    </div>
+
+  </div>

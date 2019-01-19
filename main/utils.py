@@ -224,3 +224,29 @@ def create_purchase_items(request_fields, user_id):
         purchase_item['product'] = manage_stock_product(product_id, quantity, 'PURCHASE')
         objects_to_create.append(PurchaseItem(**purchase_item))
     PurchaseItem.objects.bulk_create(objects_to_create)
+
+
+def get_general_stock_status():
+    products =  Product.objects.values('stock', 'min_amount')
+    danger = 0
+    alert = 0
+    info = 0
+    success = 0
+    for product in products:
+        stock = product.get('stock')
+        min_amount = product.get('min_amount')
+        distance = stock-min_amount
+        if stock <= 0:
+            danger += 1
+        if stock <= min_amount and stock > 0:
+            alert += 1
+        if distance > 0 and distance <= 3:
+            info += 1
+        if distance > 0 and distance > 3:
+            success += 1
+    return {
+        'danger': danger,
+        'alert': alert,
+        'info': info,
+        'success': success,
+    }
