@@ -82,6 +82,7 @@ class Order(TimeStampedModel):
     additional_notes = models.TextField(blank=True, null=True)
     gross_amount = models.DecimalField(max_digits=20, decimal_places=2)
     tax = models.DecimalField(max_digits=20, decimal_places=2)
+    tax_percent = models.DecimalField(max_digits=20, decimal_places=2)
     discount = models.DecimalField(max_digits=20, decimal_places=2)
     shipping = models.DecimalField(max_digits=20, decimal_places=2)
     shipping_address = models.TextField(blank=True, null=True)

@@ -126,6 +126,7 @@ class OrderSale(LoginRequiredMixin, CreateView):
                 msg = 'No se ha seleccionado ningun producto'
                 raise Exception(msg)
 
+            
 
             gross_amount = Decimal(proceso['gross_amount'])
             tax = Decimal(proceso['tax'])
@@ -136,7 +137,7 @@ class OrderSale(LoginRequiredMixin, CreateView):
             payment_method_id = int(proceso['payment_method'])
             additional_notes = proceso['additional_notes']
             shipping_address = proceso['shipping_address']
-
+            tax_value = proceso['tax_value']
             code = proceso['serie'] + '-' + proceso['number']
             order = Order(
                 code=code,
@@ -144,6 +145,7 @@ class OrderSale(LoginRequiredMixin, CreateView):
                 paid_amount=paid_amount,
                 gross_amount=gross_amount,
                 tax=tax,
+                tax_percent=tax_value,
                 discount=discount,
                 shipping=shipping,
                 status=OrderStatus.objects.get(id=order_status_id),
@@ -160,7 +162,7 @@ class OrderSale(LoginRequiredMixin, CreateView):
                 product = Product.objects.get(id=order_item['product_id'])
                 qty = Decimal(order_item['quantity'])
                 price = product.list_price
-                tax = Decimal('0.21')
+                tax = Decimal(tax_value)
                 taxes = (price * qty) * tax
                 amount = qty * price
                 manage_stock_product(product.id, qty, 'SALE')
