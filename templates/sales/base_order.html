@@ -278,8 +278,8 @@
 
         var total = 0;
         function calTotal(){
-            let costo_envio = $('#f-costo-envio').val();
-            var total=costo_envio*1;
+            let costo_envio = $('#f-costo-envio').val() * 1;
+            var total=0;
             var t=0;
             $('#tb-detalle tbody tr').each(function () {
                 total = total*1 + $(this).find("td").eq(6).html()*1;    
@@ -288,7 +288,8 @@
             });
             $('#sum-subtotal').text((total));
             $('#sum-tax').text(t.toFixed(2));
-            $('#sum-total').text(total+t);
+            $('#sum-shipping').text((costo_envio));
+            $('#sum-total').text(total+t+costo_envio);
 
             proceso.tax_value = $('#f-tax-value').val();
             proceso.gross_amount = total;
