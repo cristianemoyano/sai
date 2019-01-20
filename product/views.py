@@ -20,6 +20,7 @@ from django.urls import reverse_lazy
 
 from .models import (
     Product,
+    ProductStatus,
     ProductCategory,
     ProductStore,
     Price,
@@ -239,8 +240,11 @@ def save_product(row, user):
                 'name': row.get('name'),
                 'reference_code': row.get('reference_code').upper(),
                 'stock': Decimal(row.get('stock')),
+                'product_unit': ProductUnit.objects.get(code='PIECE'),
                 'min_amount': Decimal(row.get('min_amount')),
                 'product_category': product_category,
+                'product_status': ProductStatus.objects.get(code='available'),
+                'image_url': '/static/images/no-image.png'
         }
         product = Product(**product_data)
         product.save()
