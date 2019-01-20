@@ -66,13 +66,22 @@
                                 html += 'nombre: ' + data[i].first_name + '<br>';
                                 html += 'apellido: ' + data[i].last_name + '<br>';
                                 html += 'dirección: ' + data[i].street_address_1 + '<br>';
-                                html += 'teléfono: ' + data[i].mobile_number + '<br>';
+                                html += 'móvil: ' + data[i].mobile_number + '<br>';
+                                html += 'trabajo: ' + data[i].work_number + '<br>';
+                                html += 'email: ' + data[i].email + '<br>';
+                                html += 'Compañía: ' + data[i].company + '<br>';
 
                                 cliente.pk = data[i].pk;
                                 cliente.dni = data[i].identifier_number;
                                 cliente.nombre = data[i].first_name;
                                 cliente.direccion = data[i].street_address_1;
-                                cliente.telefono = data[i].mobile_number;
+                                cliente.movil = data[i].mobile_number;
+                                cliente.trabajo = data[i].work_number;
+                                cliente.email = data[i].email;
+                                cliente.company = data[i].company;
+                                cliente.direccionEnvio = data[i].country + ' - ' + data[i].region + ' - ' + data[i].city + ' - ' + data[i].street_address_1 + ' - CP ' + data[i].zip_code + ' - ' + data[i].street_address_2 + ' - ' + data[i].address_note;
+
+
                             }  
                             $("#c-seleccionar").attr("disabled", false);
                         }else{
@@ -85,13 +94,18 @@
             });
 
             $("#c-seleccionar").click(function () {
-                //console.log(cliente.numIdentificacion);
                 proceso.customer_id = cliente.pk;
                 $("#c-id").text(cliente.dni);
                 $("#c-nombre").text(cliente.nombre);
                 $("#c-direccion").text(cliente.direccion);
-                $("#c-telefono").text(cliente.telefono);
+                $("#c-telefono").text(cliente.movil);
+                $("#c-trabajo").text(cliente.trabajo);
+                $("#c-email").text(cliente.email);
+                $("#c-company").text(cliente.company);
                 $('#buscarClienteModal').modal('hide');
+            
+                $("#f-direccion-envio").text(cliente.direccionEnvio);
+                
             });
 
             $('#producto-id').on('keypress',function(e) {
@@ -221,17 +235,30 @@
 
 
         });   
+        
+        $( "#f-costo-envio" ).change(function() {
+            calTotal();
+        });
+
+
 
         function onEnviar(){
             proceso.serie = $('#p-serie').val();
             proceso.number = $('#p-num').val();
+
+            proceso.order_status = $('#f-order_status').val();
+            proceso.payment_method = $('#f-payment_method').val();
+            proceso.shipping = $('#f-costo-envio').val();
+            proceso.shipping_address = $('#f-direccion-envio').val();
+            proceso.additional_notes = $('#f-additional_notes').val();
             console.log(JSON.stringify(proceso));
            document.getElementById("proceso").value=JSON.stringify(proceso);
         }
 
         var total = 0;
         function calTotal(){
-            var total=0;
+            let costo_envio = $('#f-costo-envio').val();
+            var total=costo_envio*1;
             var t=0;
             $('#tb-detalle tbody tr').each(function () {
                 total = total*1 + $(this).find("td").eq(6).html()*1;    
@@ -240,7 +267,6 @@
             });
             $('#sum-subtotal').text((total));
             $('#sum-tax').text(t.toFixed(2));
-
             $('#sum-total').text(total+t);
 
             proceso.gross_amount = total;

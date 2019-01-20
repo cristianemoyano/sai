@@ -84,6 +84,7 @@ class Order(TimeStampedModel):
     tax = models.DecimalField(max_digits=20, decimal_places=2)
     discount = models.DecimalField(max_digits=20, decimal_places=2)
     shipping = models.DecimalField(max_digits=20, decimal_places=2)
+    shipping_address = models.TextField(blank=True, null=True)
     paid_amount = models.DecimalField(max_digits=20, decimal_places=2)
     status = models.ForeignKey(OrderStatus, on_delete=models.CASCADE)
     payment_method = models.ForeignKey(PaymentMethod, on_delete=models.CASCADE)

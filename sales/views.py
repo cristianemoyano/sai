@@ -75,6 +75,17 @@ class OrderSale(LoginRequiredMixin, CreateView):
     form_class = OrderForm
     template_name = 'sales/order_sale.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(OrderSale, self).get_context_data(**kwargs)
+        payment_methods = PaymentMethod.objects.all().values('id', 'name')
+        order_status = OrderStatus.objects.all().values('id', 'name')
+        extra_context = {
+            'payment_methods': payment_methods,
+            'order_status': order_status,
+        }
+        context.update(extra_context)
+        return context
+
     def form_valid(self, form):
         form.instance.user_id = self.request.user.id
         return super().form_valid(form)
@@ -107,6 +118,10 @@ class OrderSale(LoginRequiredMixin, CreateView):
             paid_amount = Decimal(proceso['paid_amount'])
             discount = Decimal(proceso['discount'])
             shipping = Decimal(proceso['shipping'])
+            order_status_id = int(proceso['order_status'])
+            payment_method_id = int(proceso['payment_method'])
+            additional_notes = proceso['additional_notes']
+            shipping_address = proceso['shipping_address']
 
             code = proceso['serie'] + '-' + proceso['number']
             order = Order(
@@ -117,9 +132,11 @@ class OrderSale(LoginRequiredMixin, CreateView):
                 tax=tax,
                 discount=discount,
                 shipping=shipping,
-                status=OrderStatus.objects.get(code='PAID'),
+                status=OrderStatus.objects.get(id=order_status_id),
                 currency=Currency.objects.get(code='ARS'),
-                payment_method=PaymentMethod.objects.get(code='CASH'),
+                payment_method=PaymentMethod.objects.get(id=payment_method_id),
+                additional_notes=additional_notes,
+                shipping_address=shipping_address,
                 user=request.user,
             )
             order.save()
