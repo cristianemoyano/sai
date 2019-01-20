@@ -401,5 +401,5 @@ class ProductAPIView(viewsets.ModelViewSet):
         code = self.request.query_params.get(self.lookup_url_kwarg)
         products = Product.objects.all().order_by('-created')
         if code:
-            products = Product.objects.filter(Q(reference_code__icontains=code) | Q(name__icontains=code))
+            products = Product.objects.filter(Q(reference_code__icontains=code) | Q(name__contains=code) | Q(name__icontains=code))
         return products
