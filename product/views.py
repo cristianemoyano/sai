@@ -1,5 +1,7 @@
+from decimal import Decimal
 from django.shortcuts import render
 from search_views.search import SearchListView
+from django.db import transaction
 from django.views.generic import ListView, DetailView
 from django.core import serializers
 from django.http import HttpResponse
@@ -21,6 +23,7 @@ from .models import (
     ProductCategory,
     ProductStore,
     Price,
+    Currency,
 )
 from purchases.models import (
     Provider,
@@ -38,6 +41,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from main.auth import GroupRequiredMixin
 from main.utils import get_general_stock_status, get_historical_sales_amount_by_month
+from openpyxl import load_workbook
 
 
 @login_required
@@ -120,6 +124,21 @@ class ProductDelete(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
 
 def product_import_file(request):
     success_url = 'product/product_import.html'
+    context = {}
+    if request.method == 'POST':
+        request_file = request.FILES["file"]
+        if request_file.name.endswith('.csv'):
+            context = process_csv(request_file, request.user.id)
+            return render(request, success_url, context)
+        elif request_file.name.endswith(('xlsx', 'xls')):
+            context = process_xlsx(request_file, request.user)
+            return render(request, success_url, context)
+        else:
+            context['error'] = 'Formato no permitido. Sólo se permiten .xlsx, .csv'
+            return render(request, success_url, context)
+    return render(request, success_url, context)
+
+def process_csv(request_file, user_id):
     product_fields = [
         'id',
         'created',
@@ -138,44 +157,109 @@ def product_import_file(request):
         'image_url'
     ]
     context = {}
-    if request.method == 'POST':
+    try:
+        # if file is too large, return
+        if request_file.multiple_chunks():
+            context['error'] = 'Archivo demasiado grande.'
+            return context
+        file_data = request_file.read().decode("utf-8")
+        lines = file_data.split("\r\n")
+        for line in lines:
+            fields = line.split(",")
+            data_dict = {}
+            i = 0
+            for field in product_fields:
+                if len(product_fields) == len(fields):
+                    data_dict[field] = fields[i]
+                    i += 1
+            try:
+                form = ProductCreateForm(data_dict)
+                form.instance.user_id = user_id
+                if form.is_valid():
+                    form.save()
+            except Exception as e:
+                context['error'] = 'Error inesperado: {e}'.format(e=e)
+                return context
+        context['message'] = 'Productos creados correctamente.'
+        return context
+    except Exception as e:
+        context['error'] = 'Error inesperado: {e}'.format(e=e)
+        return context
+
+def process_xlsx(request_file, user):
+    COL_NAMES = {
+        1:'reference_code',
+        2:'name',
+        3:'cost_price',
+        4:'list_price',
+        5:'price_a',
+        6:'stock',
+        7:'min_amount',
+        8:'product_category',
+    }
+    START_ROW = 2
+    START_COL = 1
+    context = {}
+    wb2 = load_workbook(request_file.file)
+    sheet_obj = wb2.active
+    max_row = sheet_obj.max_row + 1
+    max_column = sheet_obj.max_column + 1
+    data_sheet = []
+    for row in range(START_ROW, max_row):
+        data_row = {}
+        for col in range(START_COL, max_column):
+            cell_obj = sheet_obj.cell(row = row, column = col)
+            data_row[COL_NAMES.get(col)] = cell_obj.value
+        data_sheet.append(data_row)
+    save_data_from_sheet(data_sheet, user)
+    context['message'] = 'Productos creados correctamente.'
+    return context
+
+def save_data_from_sheet(data_sheet, user):
+    for row in data_sheet:
+        save_product(row, user)
+
+@transaction.atomic
+def save_product(row, user):
+    try:
+        product_category = ProductCategory.objects.get(name=row.get('product_category'))
+    except Exception:
+        product_category_data = {
+            'name': row.get('product_category'),
+            'code': row.get('product_category').upper(),
+            'description': row.get('product_category'),
+        }
+        product_category = ProductCategory(**product_category_data)
+        product_category.save()
+    sid = transaction.savepoint()
+    try:
+        
+        product_data = {
+                'user': user,
+                'name': row.get('name'),
+                'reference_code': row.get('reference_code').upper(),
+                'stock': Decimal(row.get('stock')),
+                'min_amount': Decimal(row.get('min_amount')),
+                'product_category': product_category,
+        }
+        product = Product(**product_data)
+        product.save()
+        price_data = {
+            'user': user,
+            'product': product,
+            'currency': Currency.objects.get(code='ARS'),
+            'cost_price': Decimal(row.get('cost_price').split('$')[1]),
+            'list_price': Decimal(row.get('list_price').split('$')[1]),
+            'price_a': Decimal(row.get('price_a').split('$')[1]),
+        }
+        price = Price(**price_data)
+        price.save()
+    except Exception as e:
+        print(e)
         try:
-            csv_file = request.FILES["file"]
-            if not csv_file.name.endswith('.csv'):
-                context['error'] = 'Formato no permitido. Sólo se permiten .CSV'
-                return render(request, success_url, context)
-            # if file is too large, return
-            if csv_file.multiple_chunks():
-                context['error'] = 'Archivo demasiado grande.'
-                return render(request, success_url, context)
-
-            file_data = csv_file.read().decode("utf-8")
-
-            lines = file_data.split("\r\n")
-            for line in lines:
-                fields = line.split(",")
-                data_dict = {}
-                i = 0
-                for field in product_fields:
-                    if len(product_fields) == len(fields):
-                        data_dict[field] = fields[i]
-                        i += 1
-
-                try:
-                    form = ProductForm(data_dict)
-                    form.instance.user_id = request.user.id
-                    if form.is_valid():
-                        form.save()
-                except Exception as e:
-                    context['error'] = 'Error inesperado: {e}'.format(e=e)
-                    return render(request, success_url, context)
-            context['message'] = 'Productos creados correctamente.'
-        except Exception as e:
-            context['error'] = 'Error inesperado: {e}'.format(e=e)
-            return render(request, success_url, context)
-
-    return render(request, success_url, context)
-
+            transaction.savepoint_rollback(sid)
+        except:
+            pass
 
 def product_export_csv(request):
     product_resource = ProductResource()
