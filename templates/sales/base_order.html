@@ -290,6 +290,7 @@
             $('#sum-tax').text(t.toFixed(2));
             $('#sum-total').text(total+t);
 
+            proceso.tax_value = $('#f-tax-value').val();
             proceso.gross_amount = total;
             proceso.tax = t.toFixed(2);
             proceso.paid_amount = total+t;
