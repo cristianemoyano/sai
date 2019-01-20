@@ -40,20 +40,29 @@ class ProductStatus(TimeStampedModel):
     def __str__(self):
         return self.name
 
+class ProductUnit(TimeStampedModel):
+    name = models.CharField(max_length=200)
+    code = models.CharField(max_length=200)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.name
+
 
 class Product(TimeStampedModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
-    reference_code = models.CharField(max_length=200, unique=True, blank=False, null=True)
-    import_code = models.CharField(max_length=200)
+    reference_code = models.CharField(max_length=200, unique=True)
+    import_code = models.CharField(max_length=200, blank=True, null=True)
     description = models.TextField()
-    stock = models.IntegerField()
-    min_amount = models.IntegerField()
-    product_store = models.ForeignKey(ProductStore, on_delete=models.CASCADE)
-    product_category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
-    product_type = models.ForeignKey(ProductType, on_delete=models.CASCADE)
-    product_status = models.ForeignKey(ProductStatus, on_delete=models.CASCADE)
-    image_url = models.CharField(max_length=200)
+    stock = models.DecimalField(max_digits=20, decimal_places=2)
+    product_unit = models.ForeignKey(ProductUnit, on_delete=models.CASCADE, blank=True, null=True)
+    min_amount = models.DecimalField(max_digits=20, decimal_places=2)
+    product_store = models.ForeignKey(ProductStore, on_delete=models.CASCADE, blank=True, null=True)
+    product_category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE, blank=True, null=True)
+    product_type = models.ForeignKey(ProductType, on_delete=models.CASCADE, blank=True, null=True)
+    product_status = models.ForeignKey(ProductStatus, on_delete=models.CASCADE, blank=True, null=True)
+    image_url = models.CharField(max_length=200, blank=True, null=True)
 
     def __str__(self):
         return self.name

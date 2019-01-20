@@ -114,5 +114,32 @@
       "code": "USD",
       "description": "Dólar Estadounidense"
 		}
+	},
+	{
+		"model": "product.ProductUnit",
+		"pk": 1,
+		"fields": {
+			"name": "Kg",
+			"code": "KG",
+			"description": "Unidad de masa del Sistema Internacional, de símbolo kg."
+		}
+  },
+  {
+	"model": "product.ProductUnit",
+	"pk": 2,
+	"fields": {
+		"name": "Pieza",
+		"code": "PIECE",
+		"description": "Una pieza/unidad."
 	}
+},
+{
+	"model": "product.ProductUnit",
+	"pk": 3,
+	"fields": {
+		"name": "Litro",
+		"code": "LITER",
+		"description": "Unidad de volumen del Sistema Internacional, de símbolo l o L, que equivale a 1 decímetro cúbico."
+	}
+}
 ]
