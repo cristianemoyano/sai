@@ -77,6 +77,11 @@
                 <div class="col-sm-3 invoice-col">
                     <b>Factura</b> <br/>
                     <small class="pull-right"><b>Fecha de compra:</b> {% now "d/m/Y" %}<br/><br/></small>
+                    IVA:<select id="f-tax-value" class="form-control">
+                            {% for t in tax_values %}
+                            <option value="{{ t.value }}">{{ t.label }}</option>
+                            {% endfor %}
+                    </select><br>
                     Serie:<input class="form-control" name="p-serie" id="p-serie" placeholder="Serie" type="text" required><br/>
                     Número:<input  class="form-control" name="p-num" id="p-num" placeholder="Número" type="text" required>
                     <br/>
@@ -242,7 +247,9 @@
                                 <td align="center"> <label id='sum-subtotal'>.00</label></td>
                             </tr>
                             <tr>
-                                <th>IVA(21%):</th>
+                                <th>
+                                    IVA:
+                                </th>
                                 <td align="center"><label id='sum-tax'>.00</label></td>
                             </tr>
                             <tr>

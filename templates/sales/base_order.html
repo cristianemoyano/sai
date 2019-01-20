@@ -43,6 +43,21 @@
                     $("#c-buscar").click();
                 }
         });
+    
+
+        $( "#f-tax-value" ).change(function() {
+            $('#tb-detalle tr').each(function() {
+                var new_tax_value = $('#f-tax-value').val();
+                var list_price = $(this).find("td").eq(3).html();
+                var quantity = $(this).find("td").eq(4).html();
+                var new_iva = list_price * quantity * new_tax_value * 1;
+                $(this).find("td").eq(5).html(new_iva);
+                console.log(list_price, quantity, new_tax_value, new_iva);
+
+            });
+            calTotal();
+        });
+        
 
         $(document).ready(function(){
             $("#c-buscar").click(function () {          
@@ -124,7 +139,8 @@
                     url: '/product/api/products',
                     type: 'get',
                     success: function(data){
-                        console.log(JSON.stringify(data));                    
+                        console.log(JSON.stringify(data));
+                        let taxValue = $('#f-tax-value').val();                    
                         var html = ""
                         if(data.length != 0){
                             for (var i = 0; i < data.length; i++) {
@@ -139,7 +155,7 @@
                                 fila.pk = data[i].pk;
                                 fila.nombre = data[i].name;
                                 fila.precio_venta = data[i].list_price;
-                                fila.igv = data[i].list_price * 0.21;
+                                fila.igv = data[i].list_price * taxValue;
                                 fila.cantidad = 1;
                                 fila.descuento = 0;
 
@@ -165,7 +181,6 @@
                 var rowCount = t.rows.length;
 
                 var row = t.insertRow(rowCount);
-                var rowIndex = row.rowIndex;
                 
                 var cell1 = row.insertCell(0);
                 var cell2 = row.insertCell(1);
@@ -184,7 +199,7 @@
                 cell1.innerHTML = rowCount+1;
                 cell2.innerHTML = d[d.length-1].nombre;
                 cell3.innerHTML = d[d.length-1].pk;
-                cell4.innerHTML = "$" + [round(d[d.length-1].precio_venta,2).toFixed(2)];
+                cell4.innerHTML = [round(d[d.length-1].precio_venta,2).toFixed(2)];
 
                 if($('#p-cantidad').val() == ''){
                     d[d.length-1].cantidad = 1;
@@ -210,8 +225,12 @@
                 // taxes
                 cell6.innerHTML = round(d[d.length-1].igv * d[d.length-1].cantidad * 1,2).toFixed(2);
                 // subtotal
+                var data = new Object();
+                data.product_id = d[d.length-1].pk;
+                data.qty = d[d.length-1].cantidad;
+                data.rowIndex = row.rowIndex;
                 cell7.innerHTML = round((d[d.length-1].precio_venta) * d[d.length-1].cantidad * 1,2).toFixed(2);
-                cell8.innerHTML = "<button class='btn btn-sm btn-danger no-print' onclick='removeItem("+rowIndex+")'>Remover</button>" 
+                cell8.innerHTML = "<button class='button-remove btn btn-sm btn-danger no-print' onclick='removeItem("+JSON.stringify(data)+")'>Remover</button>" 
 
                 var html = ""
                 $('#producto-resultado').html(html);
@@ -239,6 +258,8 @@
         $( "#f-costo-envio" ).change(function() {
             calTotal();
         });
+
+        
 
 
 
@@ -296,9 +317,14 @@
       return +(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp));
     }
 
-    function removeItem(rowIndex) {
+    function removeItem({product_id, qty, rowIndex}) {
+        item = {'product_id': product_id, 'quantity': qty}
+        proceso.order_items = proceso.order_items.filter(i => i.product_id !== item.product_id)
         document.getElementById("tb-detalle").deleteRow(rowIndex);
+        console.log(proceso.order_items);
+        calTotal();
     }
+
 
 </script>
 

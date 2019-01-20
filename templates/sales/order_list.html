@@ -45,6 +45,7 @@
                                   <th>Código</th>
                                   <th>Cliente</th>
                                   <th>Monto</th>
+                                  <th>Estado</th>
                                   <th>Fecha</th>
                                   <th>Acciones</th>
                                   </tr>
@@ -56,6 +57,7 @@
                                   <td>{{ order.code }}</td>
                                   <td>{{ order.customer }}</td>
                                   <td>{{ order.currency.code }}{{ order.currency.symbol }} {{ order.paid_amount }}</td>
+                                  <td>{{ order.status }}</td>
                                   <td>{{ order.created }}</td>
                                   <td>
                                       <a class="btn btn-sm btn-primary" href="{% url "order_view" order.id %}">
