@@ -32,7 +32,7 @@ from main.utils import create_order_items, manage_stock_product
 
 from django.template import RequestContext
 from django.contrib import messages
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from decimal import Decimal
 from product.models import (
     Product,
@@ -82,6 +82,20 @@ class OrderSale(LoginRequiredMixin, CreateView):
         extra_context = {
             'payment_methods': payment_methods,
             'order_status': order_status,
+            'tax_values': [
+                {'label':'0 %','value': '0'},
+                {'label':'1 %','value': '0.01'},
+                {'label':'2 %','value': '0.02'},
+                {'label':'3 %','value': '0.03'},
+                {'label':'4 %','value': '0.04'},
+                {'label':'5 %','value': '0.05'},
+                {'label':'6 %','value': '0.06'},
+                {'label':'7 %','value': '0.07'},
+                {'label':'8 %','value': '0.08'},
+                {'label':'9 %','value': '0.09'},
+                {'label':'10 %','value':'0.10'},
+                {'label':'21 %','value': '0.21'},
+            ]
         }
         context.update(extra_context)
         return context
@@ -167,7 +181,7 @@ class OrderSale(LoginRequiredMixin, CreateView):
             except:
                 pass
             messages.error(request, e)
-        return render(request, 'sales/order_sale.html', {'form': None})
+        return redirect('order_pdv')
 
 
 class OrderUpdate(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
