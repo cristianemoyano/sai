@@ -38,6 +38,12 @@
         var table = new Array();
         var cliente = new Object();
 
+        $('#cliente-id').on('keypress',function(e) {
+                if(e.which == 13) {
+                    $("#c-buscar").click();
+                }
+        });
+
         $(document).ready(function(){
             $("#c-buscar").click(function () {          
                     
@@ -86,6 +92,12 @@
                 $("#c-direccion").text(cliente.direccion);
                 $("#c-telefono").text(cliente.telefono);
                 $('#buscarClienteModal').modal('hide');
+            });
+
+            $('#producto-id').on('keypress',function(e) {
+                if(e.which == 13) {
+                    $("#p-buscar").click();
+                }
             });
 
             $("#p-buscar").click(function () {

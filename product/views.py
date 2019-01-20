@@ -2,6 +2,7 @@ from decimal import Decimal
 from django.shortcuts import render
 from search_views.search import SearchListView
 from django.db import transaction
+from django.db.models import Q
 from django.views.generic import ListView, DetailView
 from django.core import serializers
 from django.http import HttpResponse
@@ -400,5 +401,5 @@ class ProductAPIView(viewsets.ModelViewSet):
         code = self.request.query_params.get(self.lookup_url_kwarg)
         products = Product.objects.all().order_by('-created')
         if code:
-            products = Product.objects.filter(reference_code=code)
+            products = Product.objects.filter(Q(reference_code__icontains=code) | Q(name__icontains=code))
         return products
