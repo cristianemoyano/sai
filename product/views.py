@@ -21,6 +21,7 @@ from django.urls import reverse_lazy
 from .models import (
     Product,
     ProductStatus,
+    ProductUnit,
     ProductCategory,
     ProductStore,
     Price,
