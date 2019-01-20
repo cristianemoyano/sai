@@ -65,22 +65,20 @@
         <!-- Main content -->
         <section class="content invoice">                    
             <!-- title row -->
-            <div class="row">
                 <div class="col-xs-12">
                     <h2 class="page-header">
                          Uconnectme
                          <br>
-                        <small class="pull-right"><b>Fecha de compra:</b> {% now "d/m/Y" %}<br/><br/></small>
                     </h2>                            
                 </div><!-- /.col -->
-            </div>
+    
             <!-- info row -->
             <div class="row invoice-info">
-                <div class="col-sm-4 invoice-col">
+                <div class="col-sm-3 invoice-col">
                     <b>Factura</b> <br/>
-
-                    Serie:<input class="form-control" name="p-serie" id="p-serie" placeholder="Serie" type="text" required="true"><br/>
-                    Número:<input  class="form-control" name="p-num" id="p-num" placeholder="Número" type="text" required="true">
+                    <small class="pull-right"><b>Fecha de compra:</b> {% now "d/m/Y" %}<br/><br/></small>
+                    Serie:<input class="form-control" name="p-serie" id="p-serie" placeholder="Serie" type="text" required><br/>
+                    Número:<input  class="form-control" name="p-num" id="p-num" placeholder="Número" type="text" required>
                     <br/>
                     
                     
@@ -124,7 +122,7 @@
 
                 </div><!-- /.col -->
 
-                <div class="col-sm-4 invoice-col">
+                <div class="col-sm-3 invoice-col">
                     <strong>Cliente</strong>
                     <!-- Modal -->
                     <div class="modal fade" id="buscarClienteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -189,15 +187,25 @@
                     Identificación: <span id="c-id"></span><br/>                    
                     nombre: <span id="c-nombre"></span><br/>
                     direccion: <span id="c-direccion"></span><br/>
-                    telefono: <span id="c-telefono"></span><br/>
+                    Móvil: <span id="c-telefono"></span><br/>
+                    Trabajo: <span id="c-trabajo"></span><br/>
+                    Email: <span id="c-email"></span><br/>
+                    Compañía: <span id="c-company"></span><br/>
                 </div><!-- /.col -->
 
 
-                <div class="col-sm-4 invoice-col">
+                <div class="col-sm-3 invoice-col">
                     <strong>Vendedor</strong><br>
                     Apellido: {{user.last_name}}<br>
                     Nombre: {{user.first_name}}<br>
                     
+                </div><!-- /.col -->
+
+                <div class="col-sm-3 invoice-col">
+                        <strong>Envío</strong><br>
+                    Costo de envío: $<input class="form-control" type="number" placeholder="Costo de envío" value="0" id="f-costo-envio">
+                    Dirección de envío:
+                    <textarea class="form-control" id="f-direccion-envio" name="shipping-direction" placeholder="Dirección para el envío."></textarea>
                 </div><!-- /.col -->
                 
             </div><!-- /.row -->
@@ -223,14 +231,9 @@
                 </div><!-- /.col -->
             </div><!-- /.row -->
 
-            <div class="row">
-                <!-- accepted payments column -->
-                <div class="col-xs-6">
-                    <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
-                        No se realiza cambio ni devolución de dinero por los productos adquiridos, por favor verifique el estado de cada uno de los items de su compra.
-                    </p>
-                </div><!-- /.col -->
-                <div class="col-xs-6">
+            
+                
+                <div class="col-6 float-right">
                     <p class="lead">Totales de la compra</p>
                     <div class="table-responsive">
                         <table class="table">
@@ -249,20 +252,55 @@
                         </table>
                     </div>
                 </div><!-- /.col -->
-            </div><!-- /.row -->
+                <!-- accepted payments column -->
+                <div class="col-xs-6 container-fluid">
+                        <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
+                            No se realiza cambio ni devolución de dinero por los productos adquiridos, por favor verifique el estado de cada uno de los items de su compra.
+                        </p>
+                    </div><!-- /.col -->
+           
 
+            
             <!-- this row will not appear when printing -->
+            
             <div class="row no-print">
-                <div class="col-xs-12">
+                <div class="col-12">
                     <form action="/sales/pdv" method="post" onsubmit="onEnviar()">
                         {% csrf_token %}
+                        <div class="form-group">
+                            Forma de pago:
+                        <select id="f-payment_method" class="form-control">
+                                {% for p in payment_methods %}
+                                <option value="{{ p.id }}">{{ p.name }}</option>
+                                {% endfor %}
+                        </select>
+                        </div>
+                        <div class="form-group">
+                                <textarea class="form-control" id="f-additional_notes" placeholder="Observaciones"></textarea>
+                        </div>
+                        <div class="row">
+                        <div class="col-6">
+                                <select id="f-order_status" class="form-control">
+                                        {% for p in order_status %}
+                                        <option value="{{ p.id }}">{{ p.name }}</option>
+                                        {% endfor %}
+                                </select>
+                                </div>
+                            
+                        <div class="col-6">
                         <input id="proceso" name="proceso" type="hidden" />
-                        <button class="btn btn-success pull-right" id="comprar"><i class="fa fa-credit-card"></i> Procesar Venta</button>  
+                        <button class="btn btn-lg btn-danger" id="comprar"><i class="fa fa-credit-card"></i> Procesar </button>  
+                        </div>
+                        </div>
+                        
+                    
                     </form>
                     <br>
                     
                 </div>
             </div>
+
+        
 
         </form>
         </section><!-- /.content -->

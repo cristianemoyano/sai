@@ -3,9 +3,9 @@
 		"model": "sales.OrderStatus",
 		"pk": 1,
 		"fields": {
-			"name": "Pagado sin Entregar",
-			"code": "PAID",
-			"description": "Orden pagada"
+			"name": "Borrador",
+			"code": "DRAFT",
+			"description": "Orden pendiente de carga."
 		}
 	},
 	{
@@ -13,24 +13,33 @@
 		"pk": 2,
 		"fields": {
 			"name": "Cotización",
-			"code": "PENDING",
-			"description": "Orden cargada para una cotización"
+			"code": "ESTIMATE",
+			"description": "Orden cargada para una cotización/estimación/presupuesto."
 		}
 	},
 	{
 		"model": "sales.OrderStatus",
 		"pk": 3,
 		"fields": {
-			"name": "Cancelado",
+			"name": "Anulado",
 			"code": "CANCELLED",
-			"description": "Orden cancelada"
+			"description": "Orden anulada."
+		}
+	},
+	{
+		"model": "sales.OrderStatus",
+		"pk": 1,
+		"fields": {
+			"name": "Pagado sin Entregar",
+			"code": "PAID",
+			"description": "Orden pagada"
 		}
 	},
 	{
 		"model": "sales.OrderStatus",
 		"pk": 4,
 		"fields": {
-			"name": "Entregado y Pagado",
+			"name": "Pagado y Entregado",
 			"code": "DELIVERED",
 			"description": "Orden pagada y entregada. Estado final."
 		}
