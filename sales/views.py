@@ -1,6 +1,7 @@
 import json
 from django.http import HttpResponse, HttpResponseRedirect
 from search_views.search import SearchListView
+from django.db.models import Q
 from django.views.generic import ListView, DetailView
 from django.core import serializers
 from django.db import transaction
@@ -299,6 +300,11 @@ class CustomerAPIView(viewsets.ModelViewSet):
         code = self.request.query_params.get(self.lookup_url_kwarg)
         customers = Customer.objects.all().order_by('-created')
         if code:
-            customers = Customer.objects.filter(reference_code=code)
+            customers = Customer.objects.filter(
+                Q(identifier_number__icontains=code) | 
+                Q(first_name__icontains=code) | 
+                Q(last_name__icontains=code) | 
+                Q(email__icontains=code)
+            )
         return customers
 

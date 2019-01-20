@@ -47,35 +47,6 @@
     <!-- Libs JS -->
     <script src="{% static "js/jquery-1.12.4.min.js" %}"></script>
     <script src="{% static "js/bootstrap.bundle.min.js" %}"></script>
-    <script src="{% static "js/dynamic-form.js" %}"></script>
-    <script>
-        // https://www.jqueryscript.net/form/dynamic-forms-fields.html
-        // dynamicForm(selectedTarget, plusSelector, minusSelector, options)
-        var dynamic_form =  $("#dynamic_form").dynamicForm("#dynamic_form","#plus", "#minus", {
-
-        // the maximum number of form fields
-        limit: 10,
-
-        });
-    function total() { 
-        var tot = 0;
-        tot += +$("#id_gross_amount").val();
-        tot += +$("#id_tax").val();
-        tot -= +$("#id_discount").val();
-        tot += +$("#id_shipping").val();
-        
-        $("#id_paid_amount").val(tot);
-    }
-    $(document).on("change", "[origname='amount'], #id_gross_amount, #id_tax, #id_discount, #id_shipping", function() {
-    var sum = 0;
-    $("[origname='amount']").each(function(){
-        sum += +$(this).val();
-    });
-    $("#id_gross_amount").val(sum);
-    total();
-    });
-
-    </script>
 
 {% block js %}
 {% endblock js %}
