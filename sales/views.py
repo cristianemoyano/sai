@@ -43,7 +43,6 @@ from product.models import (
 
 class OrderList(LoginRequiredMixin, ListView):
     model = Order
-    ordering = ['-created']
 
 
 class OrderView(LoginRequiredMixin, DetailView):
@@ -69,6 +68,7 @@ class OrderCreate(LoginRequiredMixin, CreateView):
         form.instance.user_id = self.request.user.id
         return super().form_valid(form)
 
+
 class OrderSale(LoginRequiredMixin, CreateView):
     model = Order
     success_url = reverse_lazy('order_list')
@@ -83,18 +83,18 @@ class OrderSale(LoginRequiredMixin, CreateView):
             'payment_methods': payment_methods,
             'order_status': order_status,
             'tax_values': [
-                {'label':'0 %','value': '0'},
-                {'label':'1 %','value': '0.01'},
-                {'label':'2 %','value': '0.02'},
-                {'label':'3 %','value': '0.03'},
-                {'label':'4 %','value': '0.04'},
-                {'label':'5 %','value': '0.05'},
-                {'label':'6 %','value': '0.06'},
-                {'label':'7 %','value': '0.07'},
-                {'label':'8 %','value': '0.08'},
-                {'label':'9 %','value': '0.09'},
-                {'label':'10 %','value':'0.10'},
-                {'label':'21 %','value': '0.21'},
+                {'label': '0 %', 'value': '0'},
+                {'label': '1 %', 'value': '0.01'},
+                {'label': '2 %', 'value': '0.02'},
+                {'label': '3 %', 'value': '0.03'},
+                {'label': '4 %', 'value': '0.04'},
+                {'label': '5 %', 'value': '0.05'},
+                {'label': '6 %', 'value': '0.06'},
+                {'label': '7 %', 'value': '0.07'},
+                {'label': '8 %', 'value': '0.08'},
+                {'label': '9 %', 'value': '0.09'},
+                {'label': '10 %', 'value': '0.10'},
+                {'label': '21 %', 'value': '0.21'},
             ]
         }
         context.update(extra_context)
@@ -103,7 +103,7 @@ class OrderSale(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user_id = self.request.user.id
         return super().form_valid(form)
-    
+
     @transaction.atomic
     def post(self, request, *args, **kwargs):
         sid = transaction.savepoint()
@@ -126,7 +126,7 @@ class OrderSale(LoginRequiredMixin, CreateView):
                 msg = 'No se ha seleccionado ningun producto'
                 raise Exception(msg)
 
-            
+
 
             gross_amount = Decimal(proceso['gross_amount'])
             tax = Decimal(proceso['tax'])
@@ -334,9 +334,9 @@ class CustomerAPIView(viewsets.ModelViewSet):
         customers = Customer.objects.all().order_by('-created')
         if code:
             customers = Customer.objects.filter(
-                Q(identifier_number__icontains=code) | 
-                Q(first_name__icontains=code) | 
-                Q(last_name__icontains=code) | 
+                Q(identifier_number__icontains=code) |
+                Q(first_name__icontains=code) |
+                Q(last_name__icontains=code) |
                 Q(email__icontains=code)
             )
         return customers

@@ -8,7 +8,7 @@
       <div class="header-body">
         <div class="row align-items-end">
           <div class="col">
-            
+
             <!-- Pretitle -->
             <h6 class="header-pretitle">
                 Listado
@@ -22,8 +22,8 @@
           </div>
           <a class="btn btn-danger" href="{% url "product_price_new" %}">Agregar Precio</a>
           <div class="col-auto">
-              
-            
+
+
 
 
           </div>
@@ -41,6 +41,7 @@
                   <table id="data_table" class="table table-bordered table-sm">
                       <thead class="thead-light">
     <tr>
+    <th>ID</th>
     <th>Producto</th>
     <th>Costo</th>
     <th>Precio de lista</th>
@@ -51,6 +52,7 @@
 <tbody>
     {% for product_price in object_list %}
     <tr>
+    <td>{{ product_price.id }}</td>
     <td>{{ product_price.product.name }}</td>
     <td>{{ product_price.currency.code }}{{ product_price.currency.symbol }} {{ product_price.cost_price }}</td>
     <td>{{ product_price.currency.code }}{{ product_price.currency.symbol }} {{ product_price.list_price }}</td>
