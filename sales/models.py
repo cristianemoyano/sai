@@ -92,6 +92,9 @@ class Order(TimeStampedModel):
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
     invoice_url = models.CharField(max_length=200, blank=True, null=True)
 
+    class Meta:
+        ordering = ["created"]
+
     def __str__(self):
         return '#' + str(self.id)
 

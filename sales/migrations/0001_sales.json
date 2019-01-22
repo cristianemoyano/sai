@@ -28,7 +28,7 @@
 	},
 	{
 		"model": "sales.OrderStatus",
-		"pk": 1,
+		"pk": 4,
 		"fields": {
 			"name": "Pagado sin Entregar",
 			"code": "PAID",

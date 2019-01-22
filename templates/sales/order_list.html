@@ -8,7 +8,7 @@
       <div class="header-body">
         <div class="row align-items-end">
           <div class="col">
-            
+
             <!-- Pretitle -->
             <h6 class="header-pretitle">
                 Listado
@@ -22,8 +22,8 @@
           </div>
           <a class="btn btn-danger" href="{% url "order_pdv" %}">Punto de Venta</a>
           <div class="col-auto">
-              
-            
+
+
 
 
           </div>
@@ -68,10 +68,10 @@
                                       </a>
                                       {% if user.is_staff %}
                                       <a class="btn btn-sm btn-warning" href="{% url "order_edit" order.id %}">
-                                          <i class="fe fe-edit" title="Editar Orden"></i> 
+                                          <i class="fe fe-edit" title="Editar Orden"></i>
                                         </a>
                                       <a class="btn btn-sm btn-danger" href="{% url "order_delete" order.id %}">
-                                          <i class="fe fe-trash" title="Eliminar Orden"></i> 
+                                          <i class="fe fe-trash" title="Eliminar Orden"></i>
                                         </a>
                                         {% endif %}
                                   </td>
@@ -79,9 +79,9 @@
                                   {% endfor %}
                               </tbody>
                           </table>
-                          </div> 
-          
-                          
+                          </div>
+
+
                           <nav aria-label="Page navigation example">
                               {% if is_paginated %}
                                 <ul class="pagination">
@@ -107,6 +107,6 @@
                               </nav>
 
     </div>
-    </div> 
+    </div>
     </div>
 {% endblock %}

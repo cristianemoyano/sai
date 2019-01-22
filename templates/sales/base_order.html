@@ -4,11 +4,11 @@
 
     <!-- DataTables -->
     <link rel="stylesheet" href="/static/plugins/datatables/dataTables.bootstrap.css">
-    
+
 {% endblock css %}
  {% block js %}
 
-   
+
         <!-- DataTables -->
         <script src="/static/plugins/datatables/jquery.dataTables.min.js"></script>
         <script src="/static/plugins/datatables/dataTables.bootstrap.min.js"></script>
@@ -43,7 +43,7 @@
                     $("#c-buscar").click();
                 }
         });
-    
+
 
         $( "#f-tax-value" ).change(function() {
             $('#tb-detalle tr').each(function() {
@@ -57,11 +57,11 @@
             });
             calTotal();
         });
-        
+
 
         $(document).ready(function(){
-            $("#c-buscar").click(function () {          
-                    
+            $("#c-buscar").click(function () {
+
                 var id = $('#cliente-id').val();
                 $.ajax({
                     data: {
@@ -97,15 +97,15 @@
                                 cliente.direccionEnvio = data[i].country + ' - ' + data[i].region + ' - ' + data[i].city + ' - ' + data[i].street_address_1 + ' - CP ' + data[i].zip_code + ' - ' + data[i].street_address_2 + ' - ' + data[i].address_note;
 
 
-                            }  
+                            }
                             $("#c-seleccionar").attr("disabled", false);
                         }else{
                             html += '<strong>No existe un cliente con ese numero de identificación</strong><br><a target="_blank" href="{% url "customer_new" %}" class="btn btn-primary" style="margin-right: 5px;"> Cargar cliente</a>';
                             $("#c-seleccionar").attr("disabled", true);
                         }
-                        $('#cliente-resultado').html(html); 
+                        $('#cliente-resultado').html(html);
                     }
-                });            
+                });
             });
 
             $("#c-seleccionar").click(function () {
@@ -118,9 +118,9 @@
                 $("#c-email").text(cliente.email);
                 $("#c-company").text(cliente.company);
                 $('#buscarClienteModal').modal('hide');
-            
+
                 $("#f-direccion-envio").text(cliente.direccionEnvio);
-                
+
             });
 
             $('#producto-id').on('keypress',function(e) {
@@ -140,7 +140,7 @@
                     type: 'get',
                     success: function(data){
                         console.log(JSON.stringify(data));
-                        let taxValue = $('#f-tax-value').val();                    
+                        let taxValue = $('#f-tax-value').val();
                         var html = ""
                         if(data.length != 0){
                             for (var i = 0; i < data.length; i++) {
@@ -161,18 +161,18 @@
 
                                 table.push(fila);
                             }
-                            $('#producto-resultado').html(html); 
+                            $('#producto-resultado').html(html);
                             $("#p-seleccionar").attr("disabled", false);
                         }else{
                             html += '<strong>No existe producto con el código: "' + id + '"</strong><br>';
                             html += '<a class="btn btn-primary" target="_blank" style="margin-right: 5px;" href="{% url "product_new" %}"> Cargar Producto</a>';
-                            
+
                             $("#p-seleccionar").attr("disabled", true);
                         }
-                        $('#producto-resultado').html(html); 
+                        $('#producto-resultado').html(html);
                     }
-                });     
-            });   
+                });
+            });
 
 
             $("#p-seleccionar").click(function () {
@@ -181,7 +181,7 @@
                 var rowCount = t.rows.length;
 
                 var row = t.insertRow(rowCount);
-                
+
                 var cell1 = row.insertCell(0);
                 var cell2 = row.insertCell(1);
                 var cell3 = row.insertCell(2);
@@ -211,7 +211,7 @@
                 /*
                 $.ajax({
                     data: {'descuento': $('#p-cantidad').val()},
-                    url:"/factura/descuento",                
+                    url:"/factura/descuento",
                     type: 'get',
                     success:function(data){
                         d[d.length-1].descuento = data.descuento;
@@ -220,7 +220,7 @@
                         cell7.innerHTML = [([d[d.length-1].precio_venta + (d[d.length-1].precio_venta * (d[d.length-1].ganancia / 100))] * d[d.length-1].cantidad) - (([d[d.length-1].precio_venta + (d[d.length-1].precio_venta * (d[d.length-1].ganancia / 100))] * d[d.length-1].cantidad) * (d[d.length-1].descuento / 100))];
 
                     }
-                }); 
+                });
                 */
                 // taxes
                 cell6.innerHTML = round(d[d.length-1].igv * d[d.length-1].cantidad * 1,2).toFixed(2);
@@ -230,7 +230,7 @@
                 data.qty = d[d.length-1].cantidad;
                 data.rowIndex = row.rowIndex;
                 cell7.innerHTML = round((d[d.length-1].precio_venta) * d[d.length-1].cantidad * 1,2).toFixed(2);
-                cell8.innerHTML = "<button class='button-remove btn btn-sm btn-danger no-print' onclick='removeItem("+JSON.stringify(data)+")'>Remover</button>" 
+                cell8.innerHTML = "<button class='button-remove btn btn-sm btn-danger no-print' onclick='removeItem("+JSON.stringify(data)+")'>Remover</button>"
 
                 var html = ""
                 $('#producto-resultado').html(html);
@@ -239,27 +239,27 @@
                 $('#buscarProductoModal').modal('hide');
 
                 /*
-                $.ajax({                
+                $.ajax({
                     url:"/factura/secuencia_item",
                     success:function(data){
                         cell1.innerHTML = data.item;
                         proceso.order_items.push({'item': data.item, 'serial': d[d.length-1].pk, 'cantidad': d[d.length-1].cantidad});
-                    }   
+                    }
                 });
                 */
                 proceso.order_items.push({'product_id': d[d.length-1].pk, 'quantity': d[d.length-1].cantidad});
-                calTotal();           
+                calTotal();
             });
-               
 
 
-        });   
-        
+
+        });
+
         $( "#f-costo-envio" ).change(function() {
             calTotal();
         });
 
-        
+
 
 
 
@@ -281,20 +281,22 @@
             let costo_envio = $('#f-costo-envio').val() * 1;
             var total=0;
             var t=0;
+            var paid_amount = 0;
             $('#tb-detalle tbody tr').each(function () {
-                total = total*1 + $(this).find("td").eq(6).html()*1;    
-                t = t*1 + $(this).find("td").eq(5).html()*1; 
-                
+                total = total*1 + $(this).find("td").eq(6).html()*1;
+                t = t*1 + $(this).find("td").eq(5).html()*1;
+
             });
+            paid_amount = total+t+costo_envio*1;
             $('#sum-subtotal').text((total));
             $('#sum-tax').text(t.toFixed(2));
             $('#sum-shipping').text((costo_envio));
-            $('#sum-total').text(total+t+costo_envio);
+            $('#sum-total').text(paid_amount);
 
             proceso.tax_value = $('#f-tax-value').val();
             proceso.gross_amount = total;
             proceso.tax = t.toFixed(2);
-            proceso.paid_amount = total+t;
+            proceso.paid_amount = paid_amount;
             proceso.discount = 0;
             proceso.shipping = 0;
 
@@ -333,4 +335,4 @@
 
 
 {% endblock js %}
-    
+
